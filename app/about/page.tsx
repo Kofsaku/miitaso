@@ -1,5 +1,12 @@
+"use client"
+
+import React from "react"
 import { Header } from "@/components/header"
 import Image from "next/image"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Footer } from "@/components/footer"
+import { Building2, Users, Target, Award } from "lucide-react"
 
 export default function AboutPage() {
   return (
@@ -27,7 +34,7 @@ export default function AboutPage() {
               <div className="space-y-4">
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">私たちについて</h2>
                 <p className="text-muted-foreground md:text-xl">
-                  テックイノベーションは、革新的なプロダクト開発を専門とする会社です。私たちは最先端の技術とデザインを駆使して、クライアントのビジョンを現実のプロダクトへと変換します。
+                  miitasoは、革新的なプロダクト開発を専門とする会社です。私たちは最先端の技術とデザインを駆使して、クライアントのビジョンを現実のプロダクトへと変換します。
                 </p>
                 <p className="text-muted-foreground md:text-xl">
                   2022年の設立以来、様々な業界のクライアントと協力し、ユーザー中心の革新的なソリューションを提供してきました。私たちのチームは、経験豊富な開発者、デザイナー、プロダクトマネージャーで構成されており、クライアントのニーズに合わせた最適なソリューションを提供します。
@@ -151,4 +158,40 @@ export default function AboutPage() {
                 />
                 <div className="text-center">
                   <h3 className="text-xl font-bold">山田 太郎</h3>
-                  <p className="text-sm text-muted-foreground">CEO / \
+                  <p className="text-sm text-muted-foreground">CEO / 創業者</p>
+                </div>
+              </div>
+              <div className="flex flex-col items-center space-y-4">
+                <Image
+                  src="/placeholder.svg?height=200&width=200"
+                  width={200}
+                  height={200}
+                  alt="Team Member 2"
+                  className="rounded-full object-cover"
+                />
+                <div className="text-center">
+                  <h3 className="text-xl font-bold">佐藤 花子</h3>
+                  <p className="text-sm text-muted-foreground">CTO</p>
+                </div>
+              </div>
+              <div className="flex flex-col items-center space-y-4">
+                <Image
+                  src="/placeholder.svg?height=200&width=200"
+                  width={200}
+                  height={200}
+                  alt="Team Member 3"
+                  className="rounded-full object-cover"
+                />
+                <div className="text-center">
+                  <h3 className="text-xl font-bold">鈴木 一郎</h3>
+                  <p className="text-sm text-muted-foreground">デザインリーダー</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+      <Footer />
+    </div>
+  )
+}

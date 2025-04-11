@@ -19,7 +19,9 @@ export function Header() {
         <div className="flex gap-6 md:gap-10">
           <Link href="/" className="flex items-center space-x-2">
             <Layers className="h-6 w-6" />
-            <span className="inline-block font-bold">テックイノベーション</span>
+            <span className="hidden font-bold sm:inline-block">
+              miitaso
+            </span>
           </Link>
           <nav className="hidden md:flex gap-6">
             <Link
@@ -29,6 +31,14 @@ export function Header() {
               }`}
             >
               サービス
+            </Link>
+            <Link
+              href="/tools"
+              className={`flex items-center text-sm font-medium ${
+                isActive("/tools") ? "text-primary" : "text-muted-foreground hover:text-primary"
+              }`}
+            >
+              ツール
             </Link>
             <Link
               href="/about"
@@ -45,14 +55,6 @@ export function Header() {
               }`}
             >
               事例
-            </Link>
-            <Link
-              href="/contact"
-              className={`flex items-center text-sm font-medium ${
-                isActive("/contact") ? "text-primary" : "text-muted-foreground hover:text-primary"
-              }`}
-            >
-              お問い合わせ
             </Link>
           </nav>
         </div>

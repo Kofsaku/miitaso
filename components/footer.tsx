@@ -9,7 +9,7 @@ export function Footer() {
           <div className="space-y-4">
             <Link href="/" className="flex items-center space-x-2">
               <Layers className="h-6 w-6" />
-              <span className="font-bold">テックイノベーション</span>
+              <span className="font-bold">miitaso</span>
             </Link>
             <p className="text-sm text-muted-foreground">革新的なプロダクト開発で、あなたのビジョンを現実に。</p>
             <div className="flex space-x-4">
@@ -151,7 +151,7 @@ export function Footer() {
                   <rect width="20" height="16" x="2" y="4" rx="2"></rect>
                   <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
                 </svg>
-                <span className="text-muted-foreground">info@techinnovation.jp</span>
+                <span className="text-muted-foreground">info@miitaso.com</span>
               </li>
               <li className="flex items-start space-x-2">
                 <svg
@@ -175,7 +175,7 @@ export function Footer() {
           </div>
         </div>
         <div className="mt-8 border-t pt-8 text-center text-sm text-muted-foreground">
-          <p>© 2024 テックイノベーション株式会社. All rights reserved.</p>
+          <p>© 2024 株式会社miitaso. All rights reserved.</p>
         </div>
       </div>
     </footer>
