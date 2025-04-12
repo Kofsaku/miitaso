@@ -5,9 +5,9 @@ export const caseStudies = [
     id: 1,
     title: "AIを活用した医療診断支援システム",
     description: "医師の診断をサポートするAIシステムの開発。診断精度の向上と診断時間の短縮を実現。",
-    image: "/placeholder.svg?height=400&width=800",
+    image: "/medi.png?height=400&width=800",
     category: "ヘルスケア",
-    serviceType: "product" as ServiceType,
+    serviceType: "consulting" as ServiceType,
     date: "2023年12月",
     content: `
       <h2>プロジェクト概要</h2>
@@ -40,7 +40,7 @@ export const caseStudies = [
     id: 2,
     title: "クラウド型顧客管理システム",
     description: "企業の顧客管理を効率化するクラウドシステムの開発。顧客満足度の向上と業務効率化を実現。",
-    image: "/placeholder.svg?height=400&width=800",
+    image: "/crm2.png?height=400&width=800",
     category: "CRM",
     serviceType: "product" as ServiceType,
     date: "2023年10月",
@@ -75,7 +75,7 @@ export const caseStudies = [
     id: 3,
     title: "AI動画編集アプリケーション",
     description: "AIを活用した自動動画編集アプリの開発。編集時間の大幅短縮と高品質な動画制作を実現。",
-    image: "/placeholder.svg?height=400&width=800",
+    image: "/video_edit.png?height=400&width=800",
     category: "クリエイティブ",
     serviceType: "product" as ServiceType,
     date: "2023年8月",
@@ -108,71 +108,71 @@ export const caseStudies = [
   },
   {
     id: 4,
-    title: "ヘルスケアプラットフォーム",
-    description: "医療機関と患者をつなぐオンライン予約・遠隔診療システムの構築",
-    image: "/placeholder.svg?height=400&width=800",
-    category: "医療",
+    title: "AIコールシステム",
+    description: "AI技術を活用したインテリジェントな自動応答システムの構築",
+    image: "/ai-call.png?height=400&width=800",
+    category: "AI",
     serviceType: "mvp" as ServiceType,
     date: "2023年6月",
     content: `
       <h2>プロジェクト概要</h2>
-      <p>医療機関と患者をつなぐオンライン予約・遠隔診療システムのMVP開発を行いました。このプラットフォームは、医療アクセスの向上と効率的な診療を実現します。</p>
+      <p>顧客サポートの効率化を目的とした、AI搭載の自動応答システムのMVP開発を行いました。このシステムは、24時間体制での顧客対応と業務効率化を実現します。</p>
 
       <h2>課題</h2>
       <ul>
-        <li>医療アクセスの地域格差</li>
-        <li>予約管理の非効率性</li>
-        <li>遠隔診療の需要増加</li>
+        <li>カスタマーサポートの人員不足</li>
+        <li>問い合わせ対応の遅延</li>
+        <li>夜間・休日対応の限界</li>
       </ul>
 
       <h2>ソリューション</h2>
       <p>以下の機能を実装しました：</p>
       <ul>
-        <li>オンライン予約システム</li>
-        <li>遠隔診療機能</li>
-        <li>患者データ管理</li>
+        <li>自然言語処理による会話理解</li>
+        <li>リアルタイム音声認識・応答</li>
+        <li>顧客データに基づく個別化対応</li>
       </ul>
 
       <h2>成果</h2>
       <ul>
-        <li>予約管理時間を60%削減</li>
-        <li>患者満足度を45%向上</li>
-        <li>診療効率を35%改善</li>
+        <li>応答時間を90%短縮</li>
+        <li>顧客満足度を40%向上</li>
+        <li>サポート処理能力を200%向上</li>
       </ul>
     `
   },
   {
     id: 5,
-    title: "製造業のDX推進",
-    description: "製造業大手のデジタルトランスフォーメーション支援",
-    image: "/placeholder.svg?height=400&width=800",
-    category: "製造",
-    serviceType: "consulting" as ServiceType,
+    title: "予約管理システムのUI/UX改善",
+    description: "予約管理システムのユーザー体験向上と業務効率化の実現",
+    image: "/reservation.png?height=400&width=800",
+    category: "サービス",
+    serviceType: "mvp" as ServiceType,
     date: "2023年4月",
     content: `
       <h2>プロジェクト概要</h2>
-      <p>製造業大手のデジタルトランスフォーメーションを支援しました。生産プロセスのデジタル化と効率化を実現し、競争力の向上を図りました。</p>
+      <p>予約管理システムのユーザーインターフェースとユーザー体験の改善を行いました。直感的な操作性と効率的な予約管理を実現し、顧客満足度の向上を図りました。</p>
 
       <h2>課題</h2>
       <ul>
-        <li>生産プロセスの非効率性</li>
-        <li>データ活用の遅れ</li>
-        <li>人材不足</li>
+        <li>予約手続きの複雑さによる顧客離脱</li>
+        <li>予約状況の確認が非効率</li>
+        <li>キャンセル・変更手続きの煩雑さ</li>
       </ul>
 
       <h2>ソリューション</h2>
-      <p>以下の支援を提供しました：</p>
+      <p>以下の改善を実施しました：</p>
       <ul>
-        <li>デジタル化戦略の策定</li>
-        <li>IoT導入支援</li>
-        <li>データ分析基盤の構築</li>
+        <li>シンプルで直感的な予約フロー設計</li>
+        <li>リアルタイム予約状況の可視化</li>
+        <li>ワンクリックでの予約変更機能</li>
       </ul>
 
       <h2>成果</h2>
       <ul>
-        <li>生産効率を40%向上</li>
-        <li>年間コストを5億円削減</li>
-        <li>品質管理の精度を25%向上</li>
+        <li>予約完了率を40%向上</li>
+        <li>予約管理業務を60%効率化</li>
+        <li>顧客満足度を35%改善</li>
       </ul>
     `
   },
@@ -180,7 +180,7 @@ export const caseStudies = [
     id: 6,
     title: "教育プラットフォームのUI/UX改善",
     description: "オンライン学習プラットフォームのユーザー体験改善",
-    image: "/placeholder.svg?height=400&width=800",
+    image: "/video.png?height=400&width=800",
     category: "教育",
     serviceType: "design" as ServiceType,
     date: "2023年2月",
@@ -210,7 +210,42 @@ export const caseStudies = [
         <li>離脱率を35%削減</li>
       </ul>
     `
-  }
+  },
+  {
+    id: 7,
+    title: "ビル入場管理システムのUI/UX改善",
+    description: "ビル入場管理システムのユーザー体験向上とセキュリティ強化の実現",
+    image: "/build.png?height=400&width=800",
+    category: "セキュリティ",
+    serviceType: "design" as ServiceType,
+    date: "2023年4月",
+    content: `
+      <h2>プロジェクト概要</h2>
+      <p>ビル入場管理システムのユーザーインターフェースとユーザー体験の改善を行いました。セキュリティを維持しながら、スムーズな入場管理と効率的な業務フローを実現しました。</p>
+
+      <h2>課題</h2>
+      <ul>
+        <li>入場手続きの煩雑さによる待ち時間の発生</li>
+        <li>セキュリティチェックの非効率性</li>
+        <li>来訪者管理の手間</li>
+      </ul>
+
+      <h2>ソリューション</h2>
+      <p>以下の改善を実施しました：</p>
+      <ul>
+        <li>タッチパネル式の直感的なインターフェース設計</li>
+        <li>QRコードによるスムーズな入場手続き</li>
+        <li>セキュリティチェックの効率化</li>
+      </ul>
+
+      <h2>成果</h2>
+      <ul>
+        <li>入場手続き時間を50%短縮</li>
+        <li>セキュリティチェックの精度を30%向上</li>
+        <li>来訪者管理の効率を45%改善</li>
+      </ul>
+    `
+  },
 ]
 
 export const getCaseStudiesByServiceType = (serviceType: ServiceType) => {

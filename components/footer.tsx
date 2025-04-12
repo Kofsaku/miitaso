@@ -118,7 +118,7 @@ export function Footer() {
           <div className="space-y-4">
             <h3 className="text-lg font-semibold">お問い合わせ</h3>
             <ul className="space-y-2 text-sm">
-              <li className="flex items-start space-x-2">
+              {/* <li className="flex items-start space-x-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -134,7 +134,7 @@ export function Footer() {
                   <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
                 </svg>
                 <span className="text-muted-foreground">03-1234-5678</span>
-              </li>
+              </li> */}
               <li className="flex items-start space-x-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -169,7 +169,7 @@ export function Footer() {
                   <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
                   <circle cx="12" cy="10" r="3"></circle>
                 </svg>
-                <span className="text-muted-foreground">〒100-0001 東京都千代田区1-1-1</span>
+                <span className="text-muted-foreground">〒104-0061 東京都中央区銀座1丁目12番4号N&E BLD.6F</span>
               </li>
             </ul>
           </div>

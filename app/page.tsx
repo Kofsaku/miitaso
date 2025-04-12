@@ -395,8 +395,8 @@ export default function Home() {
               <div className="flex items-center justify-center">
                 <Image
                   src="/we.png?height=600&width=800"
-                  width={800}
-                  height={600}
+                  width={400}
+                  height={300}
                   alt="私たちについて"
                   className="rounded-lg object-cover"
                 />

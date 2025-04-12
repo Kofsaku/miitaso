@@ -42,9 +42,9 @@ export default function AboutPage() {
               </div>
               <div className="flex items-center justify-center">
                 <Image
-                  src="/placeholder.svg?height=400&width=600"
-                  width={600}
-                  height={400}
+                  src="/we.png?height=400&width=600"
+                  width={400}
+                  height={267}
                   alt="Company Office"
                   className="rounded-lg object-cover"
                 />
@@ -141,51 +141,81 @@ export default function AboutPage() {
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">チーム</h2>
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">創業者挨拶</h2>
                 <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  経験豊富な専門家チームがあなたのプロジェクトをサポートします
+                  テクノロジーの力で、より良い社会を創造する
                 </p>
               </div>
             </div>
-            <div className="mx-auto mt-12 grid max-w-5xl gap-8 md:grid-cols-3">
-              <div className="flex flex-col items-center space-y-4">
-                <Image
-                  src="/placeholder.svg?height=200&width=200"
-                  width={200}
-                  height={200}
-                  alt="Team Member 1"
-                  className="rounded-full object-cover"
-                />
-                <div className="text-center">
-                  <h3 className="text-xl font-bold">山田 太郎</h3>
-                  <p className="text-sm text-muted-foreground">CEO / 創業者</p>
+            <div className="mx-auto mt-12 max-w-5xl">
+              <div className="flex flex-col md:flex-row gap-8 items-center">
+                <div className="w-full md:w-1/3">
+                  <Image
+                    src="/tsubata.png?height=400&width=300"
+                    width={300}
+                    height={400}
+                    alt="津端晃作"
+                    className="rounded-lg object-cover"
+                  />
+                </div>
+                <div className="w-full md:w-2/3 space-y-4">
+                  <h3 className="text-2xl font-bold">代表取締役 津端晃作</h3>
+                  <p className="text-muted-foreground">
+                    私たちmiitasoは、テクノロジーの力で社会に革新をもたらすことを使命として設立されました。
+                    デジタル化が進む現代において、企業や組織が直面する課題は複雑化しています。
+                    私たちは、最新の技術と豊富な経験を活かし、お客様のビジネスを次のステージへと導きます。
+                  </p>
+                  <p className="text-muted-foreground">
+                    創業以来、多くの企業様と共に歩み、デジタル変革を実現してまいりました。
+                    これからも、お客様の成功を第一に考え、最高のサービスを提供し続けてまいります。
+                  </p>
                 </div>
               </div>
-              <div className="flex flex-col items-center space-y-4">
-                <Image
-                  src="/placeholder.svg?height=200&width=200"
-                  width={200}
-                  height={200}
-                  alt="Team Member 2"
-                  className="rounded-full object-cover"
-                />
-                <div className="text-center">
-                  <h3 className="text-xl font-bold">佐藤 花子</h3>
-                  <p className="text-sm text-muted-foreground">CTO</p>
-                </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="w-full py-12 md:py-24 lg:py-32 bg-muted">
+          <div className="container px-4 md:px-6">
+            <div className="flex flex-col items-center justify-center space-y-4 text-center">
+              <div className="space-y-2">
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">会社概要</h2>
               </div>
-              <div className="flex flex-col items-center space-y-4">
-                <Image
-                  src="/placeholder.svg?height=200&width=200"
-                  width={200}
-                  height={200}
-                  alt="Team Member 3"
-                  className="rounded-full object-cover"
-                />
-                <div className="text-center">
-                  <h3 className="text-xl font-bold">鈴木 一郎</h3>
-                  <p className="text-sm text-muted-foreground">デザインリーダー</p>
-                </div>
+            </div>
+            <div className="mx-auto mt-12 max-w-3xl">
+              <div className="overflow-x-auto">
+                <table className="w-full border-collapse">
+                  <tbody>
+                    <tr className="border-b">
+                      <th className="py-4 px-6 text-left bg-muted/50 font-semibold">会社名</th>
+                      <td className="py-4 px-6">株式会社miitaso</td>
+                    </tr>
+                    <tr className="border-b">
+                      <th className="py-4 px-6 text-left bg-muted/50 font-semibold">事業内容</th>
+                      <td className="py-4 px-6">ソフトウェア開発、新規事業コンサルティング</td>
+                    </tr>
+                    <tr className="border-b">
+                      <th className="py-4 px-6 text-left bg-muted/50 font-semibold">所在地</th>
+                      <td className="py-4 px-6">東京都中央区銀座1丁目12番4号N&E BLD.6F</td>
+                    </tr>
+                    <tr className="border-b">
+                      <th className="py-4 px-6 text-left bg-muted/50 font-semibold">設立</th>
+                      <td className="py-4 px-6">2024年12月</td>
+                    </tr>
+                    <tr className="border-b">
+                      <th className="py-4 px-6 text-left bg-muted/50 font-semibold">代表者</th>
+                      <td className="py-4 px-6">津端晃作</td>
+                    </tr>
+                    <tr className="border-b">
+                      <th className="py-4 px-6 text-left bg-muted/50 font-semibold">スタッフ数</th>
+                      <td className="py-4 px-6">10名（業務委託を含む）</td>
+                    </tr>
+                    <tr>
+                      <th className="py-4 px-6 text-left bg-muted/50 font-semibold">運営サービス</th>
+                      <td className="py-4 px-6">多数</td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
