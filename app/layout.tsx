@@ -9,6 +9,9 @@ const inter = Inter({ subsets: ["latin"] })
 export const metadata: Metadata = {
   title: "miitaso - アイデアを現実に変える",
   description: "私たちは最先端の技術とデザインで、あなたのビジョンを革新的なプロダクトへと変換します。",
+  icons: {
+    icon: "/fav.png",
+  },
 }
 
 export default function RootLayout({
