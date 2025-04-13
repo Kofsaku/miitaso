@@ -24,6 +24,16 @@ import React from "react"
 import ReactMarkdown from "react-markdown"
 import { toast } from "react-hot-toast"
 import { getCaseStudiesByServiceType } from "@/app/data/case-studies"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
+import { Toaster } from "sonner"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 type ServiceType = "product" | "mvp" | "consulting" | "design"
 
@@ -43,11 +53,74 @@ type CaseStudies = {
 export default function Home() {
   const [selectedCaseStudy, setSelectedCaseStudy] = useState<ServiceType>("product")
   const [ideaResponse, setIdeaResponse] = useState<string>("")
+  const [formData, setFormData] = useState({
+    name: "",
+    company: "",
+    email: "",
+    phone: "",
+    message: "",
+    service: "product",
+  })
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const currentCaseStudies = getCaseStudiesByServiceType(selectedCaseStudy)
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }))
+  }
+
+  const handleServiceChange = (value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      service: value
+    }))
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...formData,
+          source: "top_page",
+        }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || "送信に失敗しました")
+      }
+
+      toast.success("お問い合わせを受け付けました。担当者より3日以内にご連絡させていただきます。")
+      setFormData({
+        name: "",
+        company: "",
+        email: "",
+        phone: "",
+        message: "",
+        service: "product",
+      })
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "送信に失敗しました")
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
   return (
     <div className="flex flex-col min-h-screen">
+      <Toaster position="top-center" />
       <Header />
       <main className="flex-1">
         <section className="w-full py-8 md:py-12 lg:py-16 xl:py-20 bg-gradient-to-b from-background to-muted">
@@ -570,7 +643,7 @@ export default function Home() {
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <form className="space-y-4">
+                    <form onSubmit={handleSubmit} className="space-y-4">
                       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                         <div className="space-y-2">
                           <label
@@ -579,10 +652,13 @@ export default function Home() {
                           >
                             お名前
                           </label>
-                          <input
+                          <Input
                             id="name"
-                            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                            name="name"
+                            value={formData.name}
+                            onChange={handleChange}
                             placeholder="山田 太郎"
+                            required
                           />
                         </div>
                         <div className="space-y-2">
@@ -592,9 +668,11 @@ export default function Home() {
                           >
                             会社名
                           </label>
-                          <input
+                          <Input
                             id="company"
-                            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                            name="company"
+                            value={formData.company}
+                            onChange={handleChange}
                             placeholder="株式会社〇〇"
                           />
                         </div>
@@ -606,12 +684,50 @@ export default function Home() {
                         >
                           メールアドレス
                         </label>
-                        <input
+                        <Input
                           id="email"
+                          name="email"
                           type="email"
-                          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                          value={formData.email}
+                          onChange={handleChange}
                           placeholder="example@company.com"
+                          required
                         />
+                      </div>
+                      <div className="space-y-2">
+                        <label
+                          htmlFor="phone"
+                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                        >
+                          電話番号
+                        </label>
+                        <Input
+                          id="phone"
+                          name="phone"
+                          type="tel"
+                          value={formData.phone}
+                          onChange={handleChange}
+                          placeholder="03-1234-5678"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label
+                          htmlFor="service"
+                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                        >
+                          ご相談内容
+                        </label>
+                        <Select value={formData.service} onValueChange={handleServiceChange}>
+                          <SelectTrigger>
+                            <SelectValue placeholder="ご相談内容を選択してください" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="product">プロダクト開発</SelectItem>
+                            <SelectItem value="mvp">MVP開発</SelectItem>
+                            <SelectItem value="consulting">コンサルティング</SelectItem>
+                            <SelectItem value="design">UI/UXデザイン</SelectItem>
+                          </SelectContent>
+                        </Select>
                       </div>
                       <div className="space-y-2">
                         <label
@@ -620,14 +736,18 @@ export default function Home() {
                         >
                           お問い合わせ内容
                         </label>
-                        <textarea
+                        <Textarea
                           id="message"
-                          className="flex min-h-[120px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                          name="message"
+                          value={formData.message}
+                          onChange={handleChange}
                           placeholder="プロジェクトの詳細や目標などをお書きください"
+                          className="min-h-[120px]"
+                          required
                         />
                       </div>
-                      <Button type="submit" className="w-full">
-                        送信する
+                      <Button type="submit" className="w-full" disabled={isSubmitting}>
+                        {isSubmitting ? "送信中..." : "送信する"}
                       </Button>
                     </form>
                   </CardContent>

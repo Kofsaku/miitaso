@@ -1,12 +1,14 @@
-import type React from "react"
+import type { Metadata } from "next"
+import { Inter } from "next/font/google"
 import "@/app/globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
+import { GoogleAnalytics } from '@next/third-parties/google'
 
-export const metadata = {
-  title: "miitaso | プロダクト開発・MVP開発・コンサルティング",
-  description:
-    "最先端の技術とデザインで、あなたのビジョンを革新的なプロダクトへと変換します。プロダクト開発、MVP開発、コンサルティングサービスを提供しています。",
-    generator: 'v0.dev'
+const inter = Inter({ subsets: ["latin"] })
+
+export const metadata: Metadata = {
+  title: "miitaso - アイデアを現実に変える",
+  description: "私たちは最先端の技術とデザインで、あなたのビジョンを革新的なプロダクトへと変換します。",
 }
 
 export default function RootLayout({
@@ -16,7 +18,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ja" suppressHydrationWarning>
-      <body>
+      <body className={inter.className}>
+        <GoogleAnalytics gaId="G-ZNH7T9XEWK" />
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
           {children}
         </ThemeProvider>

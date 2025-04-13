@@ -1,13 +1,70 @@
-import React from "react"
+'use client'
+
+import React, { useState } from "react"
 import { Header } from "@/components/header"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { toast, Toaster } from "sonner"
 
 export default function ContactPage() {
+  const [formData, setFormData] = useState({
+    name: "",
+    company: "",
+    email: "",
+    phone: "",
+    service: "",
+    message: "",
+  })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }))
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || "送信に失敗しました")
+      }
+
+      toast.success("お問い合わせを受け付けました。担当者より3日以内にご連絡させていただきます。")
+      setFormData({
+        name: "",
+        company: "",
+        email: "",
+        phone: "",
+        service: "",
+        message: "",
+      })
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "送信に失敗しました")
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
   return (
     <div className="flex flex-col min-h-screen">
+      <Toaster position="top-right" />
       <Header />
       <main className="flex-1">
         {/* ヒーローセクション */}
@@ -38,31 +95,59 @@ export default function ContactPage() {
                   以下のフォームに必要事項をご記入の上、送信してください。
                   内容を確認の上、担当者よりご連絡させていただきます。
                 </p>
-                <form className="space-y-4">
+                <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="grid gap-4">
                     <div className="grid gap-2">
                       <label htmlFor="name" className="text-sm font-medium">
                         お名前
                       </label>
-                      <Input id="name" placeholder="山田 太郎" required />
+                      <Input
+                        id="name"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        placeholder="山田 太郎"
+                        required
+                      />
                     </div>
                     <div className="grid gap-2">
                       <label htmlFor="company" className="text-sm font-medium">
                         会社名
                       </label>
-                      <Input id="company" placeholder="株式会社〇〇" />
+                      <Input
+                        id="company"
+                        name="company"
+                        value={formData.company}
+                        onChange={handleChange}
+                        placeholder="株式会社〇〇"
+                      />
                     </div>
                     <div className="grid gap-2">
                       <label htmlFor="email" className="text-sm font-medium">
                         メールアドレス
                       </label>
-                      <Input id="email" type="email" placeholder="example@company.com" required />
+                      <Input
+                        id="email"
+                        name="email"
+                        type="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        placeholder="example@company.com"
+                        required
+                      />
                     </div>
                     <div className="grid gap-2">
                       <label htmlFor="phone" className="text-sm font-medium">
                         電話番号
                       </label>
-                      <Input id="phone" type="tel" placeholder="03-1234-5678" />
+                      <Input
+                        id="phone"
+                        name="phone"
+                        type="tel"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        placeholder="03-1234-5678"
+                      />
                     </div>
                     <div className="grid gap-2">
                       <label htmlFor="service" className="text-sm font-medium">
@@ -70,6 +155,9 @@ export default function ContactPage() {
                       </label>
                       <select
                         id="service"
+                        name="service"
+                        value={formData.service}
+                        onChange={handleChange}
                         className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                         required
                       >
@@ -77,6 +165,7 @@ export default function ContactPage() {
                         <option value="product">プロダクト開発</option>
                         <option value="mvp">MVP開発</option>
                         <option value="consulting">コンサルティング</option>
+                        <option value="uiux">UI/UX作成・改善</option>
                         <option value="other">その他</option>
                       </select>
                     </div>
@@ -86,13 +175,16 @@ export default function ContactPage() {
                       </label>
                       <Textarea
                         id="message"
+                        name="message"
+                        value={formData.message}
+                        onChange={handleChange}
                         placeholder="お問い合わせ内容をご記入ください"
                         className="min-h-[150px]"
                         required
                       />
                     </div>
-                    <Button type="submit" className="w-full">
-                      送信する
+                    <Button type="submit" className="w-full" disabled={isSubmitting}>
+                      {isSubmitting ? "送信中..." : "送信する"}
                     </Button>
                   </div>
                 </form>
