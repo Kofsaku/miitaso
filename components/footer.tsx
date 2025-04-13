@@ -1,4 +1,4 @@
-import { Layers } from "lucide-react"
+import Image from "next/image"
 import Link from "next/link"
 
 export function Footer() {
@@ -8,8 +8,14 @@ export function Footer() {
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
           <div className="space-y-4">
             <Link href="/" className="flex items-center space-x-2">
-              <Layers className="h-6 w-6" />
-              <span className="font-bold">miitaso</span>
+              <Image
+                src="/logo.png"
+                width={60}
+                height={40}
+                alt="miitaso logo"
+                className="h-10 w-auto"
+              />
+              <span className="font-bold"></span>
             </Link>
             <p className="text-sm text-muted-foreground">革新的なプロダクト開発で、あなたのビジョンを現実に。</p>
             <div className="flex space-x-4">

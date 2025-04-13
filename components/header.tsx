@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { Layers } from "lucide-react"
+import Image from "next/image"
 import Link from "next/link"
 import { ModeToggle } from "./mode-toggle"
 import { usePathname } from "next/navigation"
@@ -18,9 +18,14 @@ export function Header() {
       <div className="container flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0">
         <div className="flex gap-6 md:gap-10">
           <Link href="/" className="flex items-center space-x-2">
-            <Layers className="h-6 w-6" />
+            <Image
+              src="/logo.png"
+              width={60}
+              height={40}
+              alt="miitaso logo"
+              className="h-10 w-auto"
+            />
             <span className="hidden font-bold sm:inline-block">
-              miitaso
             </span>
           </Link>
           <nav className="hidden md:flex gap-6">
