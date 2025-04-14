@@ -118,7 +118,6 @@ URL: https://miitaso.com
     <p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
     <p>株式会社miitaso</p>
     <p>〒104-0061 東京都中央区銀座1丁目12番4号N&E BLD.6F</p>
-    <p>TEL: 03-1234-5678</p>
     <p>Email: info@miitaso.com</p>
     <p>URL: https://miitaso.com</p>
     <p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
