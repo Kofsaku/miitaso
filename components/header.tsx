@@ -61,6 +61,14 @@ export function Header() {
             >
               事例
             </Link>
+            <Link
+              href="/blog"
+              className={`flex items-center text-sm font-medium ${
+                isActive("/blog") ? "text-foreground" : "text-muted-foreground"
+              } hover:text-foreground`}
+            >
+              ブログ
+            </Link>
           </nav>
         </div>
         <div className="flex flex-1 items-center justify-end space-x-4">

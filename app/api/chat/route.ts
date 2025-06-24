@@ -95,6 +95,31 @@ export async function POST(req: Request) {
     console.error("Error details:", error)
     if (error instanceof Error) {
       console.error("Error stack:", error.stack)
+      
+      // OpenAI APIのエラー処理
+      if (error.message.includes('insufficient_quota') || error.message.includes('429')) {
+        return NextResponse.json(
+          { error: "申し訳ありません。現在APIの利用制限に達しています。しばらく時間をおいて再度お試しください。" },
+          { status: 429 }
+        )
+      }
+      
+      // APIキー関連のエラー
+      if (error.message.includes('401') || error.message.includes('invalid_api_key')) {
+        return NextResponse.json(
+          { error: "APIキーが無効です。管理者にお問い合わせください。" },
+          { status: 401 }
+        )
+      }
+      
+      // その他のOpenAI APIエラー
+      if (error.message.includes('openai')) {
+        return NextResponse.json(
+          { error: "AIサービスでエラーが発生しました。しばらく時間をおいて再度お試しください。" },
+          { status: 500 }
+        )
+      }
+      
       return NextResponse.json(
         { error: error.message },
         { status: 500 }
