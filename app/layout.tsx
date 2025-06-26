@@ -3,6 +3,7 @@ import { Inter } from "next/font/google"
 import "@/app/globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { GoogleAnalytics } from '@next/third-parties/google'
+import { Toaster } from "react-hot-toast"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -25,6 +26,7 @@ export default function RootLayout({
         <GoogleAnalytics gaId="G-ZNH7T9XEWK" />
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
           {children}
+          <Toaster position="top-right" />
         </ThemeProvider>
       </body>
     </html>

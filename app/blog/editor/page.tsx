@@ -14,7 +14,7 @@ import { ArrowLeft, Save, Eye, Edit, Loader2 } from 'lucide-react'
 import Link from 'next/link'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { toast } from 'sonner'
+import { toast } from 'react-hot-toast'
 
 const defaultContent = `# ブログ記事のタイトル
 
@@ -199,7 +199,13 @@ function BlogEditorComponent() {
                 ) : (
                   <Save className="h-4 w-4 mr-2" />
                 )}
-                {saving ? (isEditing ? '更新中...' : '保存中...') : (isEditing ? '更新' : '保存')}
+{saving 
+                  ? (isEditing ? '更新中...' : '保存中...') 
+                  : (isEditing 
+                    ? '更新' 
+                    : (status === 'PUBLISHED' ? '公開' : '下書き保存')
+                  )
+                }
               </Button>
             </div>
           </div>
@@ -248,6 +254,18 @@ function BlogEditorComponent() {
                 />
               </div>
               <div>
+                <Label htmlFor="status">公開ステータス</Label>
+                <Select value={status} onValueChange={setStatus}>
+                  <SelectTrigger id="status">
+                    <SelectValue placeholder="ステータスを選択" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="PUBLISHED">公開</SelectItem>
+                    <SelectItem value="DRAFT">下書き</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
                 <Label htmlFor="excerpt">記事の概要</Label>
                 <Textarea
                   id="excerpt"
@@ -282,32 +300,36 @@ function BlogEditorComponent() {
         </Card>
 
         {/* Desktop Layout */}
-        <div className="hidden md:block h-[calc(100vh-300px)]">
-          <ResizablePanelGroup direction="horizontal" className="h-full border rounded-lg">
+        <div className="hidden md:block mb-8">
+          <ResizablePanelGroup direction="horizontal" className="border rounded-lg h-[calc(100vh-500px)] min-h-[500px]">
             <ResizablePanel defaultSize={50} minSize={30}>
-              <div className="h-full p-4">
+              <div className="h-full p-4 flex flex-col">
                 <h3 className="text-lg font-medium mb-4 flex items-center">
                   <Edit className="h-4 w-4 mr-2" />
                   エディタ
                 </h3>
-                <MDXEditor value={content} onChange={setContent} />
+                <div className="flex-1 min-h-0">
+                  <MDXEditor value={content} onChange={setContent} />
+                </div>
               </div>
             </ResizablePanel>
             <ResizableHandle withHandle />
             <ResizablePanel defaultSize={50} minSize={30}>
-              <div className="h-full p-4">
+              <div className="h-full p-4 flex flex-col">
                 <h3 className="text-lg font-medium mb-4 flex items-center">
                   <Eye className="h-4 w-4 mr-2" />
                   プレビュー
                 </h3>
-                <MDXPreview content={content} />
+                <div className="flex-1 min-h-0">
+                  <MDXPreview content={content} />
+                </div>
               </div>
             </ResizablePanel>
           </ResizablePanelGroup>
         </div>
 
         {/* Mobile Layout */}
-        <div className="md:hidden">
+        <div className="md:hidden mb-8">
           <Tabs value={activeTab} onValueChange={setActiveTab}>
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="editor" className="flex items-center">
@@ -319,10 +341,10 @@ function BlogEditorComponent() {
                 プレビュー
               </TabsTrigger>
             </TabsList>
-            <TabsContent value="editor" className="h-[calc(100vh-400px)]">
+            <TabsContent value="editor" className="min-h-[400px]">
               <MDXEditor value={content} onChange={setContent} />
             </TabsContent>
-            <TabsContent value="preview" className="h-[calc(100vh-400px)]">
+            <TabsContent value="preview" className="min-h-[400px] overflow-auto">
               <MDXPreview content={content} />
             </TabsContent>
           </Tabs>

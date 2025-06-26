@@ -149,6 +149,13 @@ export async function PUT(
       },
     });
 
+    // ステータスが下書きから公開に変更された場合、publishedAtを設定
+    if (updateData.status === 'PUBLISHED') {
+      updateData.publishedAt = new Date().toISOString();
+    } else if (updateData.status === 'DRAFT') {
+      updateData.publishedAt = null;
+    }
+
     const updatedPost = await prisma.blogPost.update({
       where: { id: params.id },
       data: {

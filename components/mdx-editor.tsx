@@ -103,7 +103,7 @@ export function MDXEditor({ value, onChange, placeholder }: MDXEditorProps) {
   }
 
   return (
-    <div className="h-full w-full border rounded-md">
+    <div className="h-full w-full border rounded-md flex flex-col">
       {/* ツールバー */}
       <div className="border-b p-2 flex items-center gap-2">
         <Button
@@ -134,16 +134,17 @@ export function MDXEditor({ value, onChange, placeholder }: MDXEditorProps) {
       />
       
       {/* エディタ */}
-      <Textarea
-        ref={textareaRef}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        onDrop={handleDrop}
-        onDragOver={handleDragOver}
-        placeholder={placeholder || 'ここにMarkdownを入力してください...\n\n画像を挿入するには「画像を挿入」ボタンをクリックするか、画像ファイルをここにドラッグ&ドロップしてください。'}
-        className="h-full w-full border-0 resize-none focus:ring-0 font-mono text-sm"
-        style={{ minHeight: '350px' }}
-      />
+      <div className="flex-1 overflow-hidden">
+        <Textarea
+          ref={textareaRef}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          onDrop={handleDrop}
+          onDragOver={handleDragOver}
+          placeholder={placeholder || 'ここにMarkdownを入力してください...\n\n画像を挿入するには「画像を挿入」ボタンをクリックするか、画像ファイルをここにドラッグ&ドロップしてください。'}
+          className="w-full h-full border-0 resize-none focus:ring-0 font-mono text-sm"
+        />
+      </div>
     </div>
   )
 }

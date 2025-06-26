@@ -24,6 +24,7 @@ export async function GET(request: NextRequest) {
     const limit = parseInt(searchParams.get('limit') || '10');
     const status = searchParams.get('status') as 'DRAFT' | 'REVIEW' | 'PUBLISHED' | 'ARCHIVED' | null;
     const categoryId = searchParams.get('categoryId');
+    const categoryName = searchParams.get('categoryName');
     const tagId = searchParams.get('tagId');
     const authorId = searchParams.get('authorId');
     const search = searchParams.get('search');
@@ -42,6 +43,16 @@ export async function GET(request: NextRequest) {
       where.categories = {
         some: {
           categoryId,
+        },
+      };
+    }
+
+    if (categoryName) {
+      where.categories = {
+        some: {
+          category: {
+            name: categoryName,
+          },
         },
       };
     }
@@ -192,10 +203,10 @@ export async function POST(request: NextRequest) {
         content: postData.content,
         excerpt,
         slug: finalSlug,
-        status: postData.status || 'PUBLISHED',
+        status: postData.status || 'DRAFT',
         readingTime,
         authorId: defaultUser.id,
-        publishedAt: postData.status === 'PUBLISHED' ? new Date() : null,
+        publishedAt: (postData.status || 'DRAFT') === 'PUBLISHED' ? new Date() : null,
         ...(category && {
           categories: {
             create: [{

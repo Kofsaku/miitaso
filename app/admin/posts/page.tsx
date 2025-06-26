@@ -7,7 +7,14 @@ import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import Link from "next/link"
-import { Plus, Search, Filter, Edit, Eye, Trash2 } from "lucide-react"
+import { Plus, Search, Filter, Edit, Eye, Trash2, MoreVertical } from "lucide-react"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { toast } from "react-hot-toast"
 
 // ダミーデータ
 const allPosts = [
@@ -81,22 +88,63 @@ export default function PostsManagement() {
   const [statusFilter, setStatusFilter] = useState("all")
   const [categoryFilter, setCategoryFilter] = useState("all")
 
-  useEffect(() => {
-    async function fetchPosts() {
-      try {
-        const response = await fetch('/api/blog/posts')
-        if (response.ok) {
-          const data = await response.json()
-          setPosts(data.posts || [])
-        }
-      } catch (error) {
-        console.error('記事の取得に失敗しました:', error)
-      } finally {
-        setLoading(false)
+  const fetchPosts = async () => {
+    try {
+      const response = await fetch('/api/blog/posts')
+      if (response.ok) {
+        const data = await response.json()
+        setPosts(data.posts || [])
       }
+    } catch (error) {
+      console.error('記事の取得に失敗しました:', error)
     }
-    
-    fetchPosts()
+  }
+
+  const handleStatusChange = async (postId: string, newStatus: string) => {
+    try {
+      const response = await fetch(`/api/blog/posts/${postId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ status: newStatus }),
+      })
+
+      if (response.ok) {
+        toast.success(`記事を${newStatus === 'PUBLISHED' ? '公開' : '下書きに'}しました`)
+        fetchPosts()
+      } else {
+        toast.error('ステータス変更に失敗しました')
+      }
+    } catch (error) {
+      toast.error('ステータス変更に失敗しました')
+    }
+  }
+
+  const handleDelete = async (postId: string, title: string) => {
+    if (!confirm(`「${title}」を削除しますか？この操作は取り消せません。`)) {
+      return
+    }
+
+    try {
+      const response = await fetch(`/api/blog/posts/${postId}`, {
+        method: 'DELETE',
+      })
+
+      if (response.ok) {
+        toast.success('記事を削除しました')
+        fetchPosts()
+      } else {
+        toast.error('記事の削除に失敗しました')
+      }
+    } catch (error) {
+      toast.error('記事の削除に失敗しました')
+    }
+  }
+
+  useEffect(() => {
+    setLoading(true)
+    fetchPosts().finally(() => setLoading(false))
   }, [])
 
   const filteredPosts = posts.filter(post => {
@@ -261,6 +309,30 @@ export default function PostsManagement() {
                           <Edit className="h-4 w-4" />
                         </Link>
                       </Button>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" size="sm">
+                            <MoreVertical className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem
+                            onClick={() => handleStatusChange(
+                              post.id, 
+                              post.status === 'PUBLISHED' ? 'DRAFT' : 'PUBLISHED'
+                            )}
+                          >
+                            {post.status === 'PUBLISHED' ? '下書きにする' : '公開する'}
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            className="text-red-600"
+                            onClick={() => handleDelete(post.id, post.title)}
+                          >
+                            <Trash2 className="mr-2 h-4 w-4" />
+                            削除
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
                     </div>
                   </div>
                 </div>

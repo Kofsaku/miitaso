@@ -8,7 +8,8 @@ import { CommentSection } from "@/components/comment-section"
 import { LikeBookmarkButton } from "@/components/like-bookmark-button"
 import { TableOfContents } from "@/components/table-of-contents"
 import Link from "next/link"
-import { ArrowLeft, Calendar, Clock } from "lucide-react"
+import { ArrowLeft, Calendar, Clock, Edit } from "lucide-react"
+import { useSession, SessionProvider } from "next-auth/react"
 import { MDXRemote } from "next-mdx-remote"
 import { serialize } from "next-mdx-remote/serialize"
 
@@ -28,10 +29,13 @@ interface BlogPostPageProps {
   }
 }
 
-export default function BlogPostPage({ params }: BlogPostPageProps) {
+function BlogPostContent({ params }: BlogPostPageProps) {
+  const { data: session } = useSession()
   const [post, setPost] = useState<BlogPost | null>(null)
   const [mdxSource, setMdxSource] = useState<any>(null)
   const [loading, setLoading] = useState(true)
+  
+  const isAdmin = session?.user?.role === 'ADMIN' || session?.user?.role === 'EDITOR'
 
   useEffect(() => {
     async function fetchPost() {
@@ -115,20 +119,40 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
     <div className="flex min-h-screen flex-col">
       <Header />
       <main className="flex-1">
-        <article className="container py-12 md:py-24 lg:py-32">
-          <div className="mx-auto max-w-7xl">
+        <div className="container mx-auto px-4 py-6 md:py-12 lg:py-16 max-w-7xl">
+          <div className="flex justify-between items-center mb-8">
             <Link href="/blog">
-              <Button variant="ghost" className="mb-8">
+              <Button variant="ghost">
                 <ArrowLeft className="mr-2 h-4 w-4" />
                 ブログ一覧に戻る
               </Button>
             </Link>
             
-            <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-              {/* メインコンテンツ */}
-              <div className="lg:col-span-3">
+            {isAdmin && (
+              <Button asChild>
+                <Link href={`/blog/editor?id=${post.id}`}>
+                  <Edit className="mr-2 h-4 w-4" />
+                  記事を編集
+                </Link>
+              </Button>
+            )}
+          </div>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-8">
+            {/* 左サイドバー（目次） - デスクトップのみ */}
+            <div className="hidden lg:block lg:order-1">
+              <TableOfContents content={post.content} />
+            </div>
+            
+            {/* メインコンテンツ */}
+            <div className="lg:order-2">
+              <article className="max-w-4xl mx-auto">
+                {/* モバイル用目次 */}
+                <div className="lg:hidden mb-8">
+                  <TableOfContents content={post.content} />
+                </div>
                 <div className="mb-8">
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
                     {post.categories.length > 0 && (
                       <span className="rounded-full bg-primary/10 px-2 py-1 text-xs font-medium text-primary">
                         {post.categories[0].name}
@@ -143,30 +167,28 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                       <span>{post.readingTime}分</span>
                     </div>
                   </div>
-                  <h1 className="mt-4 text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
+                  <h1 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl lg:text-6xl">
                     {post.title}
                   </h1>
                 </div>
                 
-                {/* モバイル用目次 */}
-                <div className="lg:hidden mb-8">
-                  <TableOfContents content={post.content} />
-                </div>
-                
-                <div className="prose prose-gray max-w-none dark:prose-invert">
+                <div className="prose prose-gray max-w-none dark:prose-invert lg:prose-lg prose-h1:hidden">
                   {mdxSource && <MDXRemote {...mdxSource} />}
                 </div>
-              </div>
-              
-              {/* サイドバー（デスクトップ用目次） */}
-              <div className="hidden lg:block lg:col-span-1">
-                <TableOfContents content={post.content} />
-              </div>
+              </article>
             </div>
           </div>
-        </article>
+        </div>
       </main>
       <Footer />
     </div>
   )
-} 
+}
+
+export default function BlogPostPage({ params }: BlogPostPageProps) {
+  return (
+    <SessionProvider>
+      <BlogPostContent params={params} />
+    </SessionProvider>
+  )
+}

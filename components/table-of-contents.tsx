@@ -32,9 +32,9 @@ export function TableOfContents({ content }: TableOfContentsProps) {
         const text = match[2].trim()
         const id = text
           .toLowerCase()
-          .replace(/[^a-z0-9\s-]/g, '')
+          .replace(/[^a-z0-9\u3040-\u309f\u30a0-\u30ff\u4e00-\u9faf\s-]/g, '')
           .replace(/\s+/g, '-')
-          .substring(0, 50)
+          .trim()
 
         extractedHeadings.push({
           id,
@@ -86,7 +86,8 @@ export function TableOfContents({ content }: TableOfContentsProps) {
       headings.forEach((heading) => {
         const elements = document.querySelectorAll('h1, h2, h3, h4, h5, h6')
         elements.forEach((element) => {
-          if (element.textContent?.trim() === heading.text) {
+          const elementText = element.textContent?.trim()
+          if (elementText === heading.text) {
             element.id = heading.id
             element.classList.add('scroll-mt-24')
           }
@@ -94,18 +95,47 @@ export function TableOfContents({ content }: TableOfContentsProps) {
       })
     }
 
-    // DOM要素が準備されるまで少し待つ
-    const timeout = setTimeout(addIdsToHeadings, 100)
-    return () => clearTimeout(timeout)
+    // DOM要素が準備されるまで長めに待つ
+    const timeout = setTimeout(addIdsToHeadings, 1000)
+    
+    // 複数回試行する
+    const intervals = [1500, 2000, 2500].map(delay => 
+      setTimeout(addIdsToHeadings, delay)
+    )
+    
+    return () => {
+      clearTimeout(timeout)
+      intervals.forEach(clearTimeout)
+    }
   }, [headings])
 
   const scrollToHeading = (id: string) => {
+    console.log('Scrolling to:', id)
     const element = document.getElementById(id)
+    console.log('Found element:', element)
+    
     if (element) {
-      element.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
+      const yOffset = -100 // ヘッダーの高さ分のオフセット
+      const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset
+      console.log('Scrolling to position:', y)
+      window.scrollTo({
+        top: y,
+        behavior: 'smooth'
       })
+    } else {
+      // 要素が見つからない場合は再試行
+      console.log('Element not found, retrying...')
+      setTimeout(() => {
+        const retryElement = document.getElementById(id)
+        if (retryElement) {
+          const yOffset = -100
+          const y = retryElement.getBoundingClientRect().top + window.pageYOffset + yOffset
+          window.scrollTo({
+            top: y,
+            behavior: 'smooth'
+          })
+        }
+      }, 500)
     }
     setIsOpen(false)
   }
@@ -167,7 +197,7 @@ export function TableOfContents({ content }: TableOfContentsProps) {
                   key={heading.id}
                   onClick={() => scrollToHeading(heading.id)}
                   className={`block w-full text-left py-1 px-2 rounded text-sm hover:bg-muted transition-colors ${
-                    activeId === heading.id ? 'bg-muted font-medium text-primary' : 'text-muted-foreground'
+                    activeId === heading.id ? 'bg-muted font-medium text-primary' : 'text-foreground'
                   }`}
                   style={{ paddingLeft: `${(heading.level - 1) * 12 + 8}px` }}
                 >
