@@ -27,8 +27,8 @@ export async function GET(request: NextRequest) {
     const tagId = searchParams.get('tagId');
     const authorId = searchParams.get('authorId');
     const search = searchParams.get('search');
-    const sortBy = searchParams.get('sortBy') || 'publishedAt';
-    const sortOrder = searchParams.get('sortOrder') || 'desc';
+    const orderBy = searchParams.get('orderBy') || 'publishedAt';
+    const order = searchParams.get('order') || 'desc';
 
     const where: any = {};
 
@@ -72,7 +72,7 @@ export async function GET(request: NextRequest) {
         skip: (page - 1) * limit,
         take: limit,
         orderBy: {
-          [sortBy]: sortOrder,
+          [orderBy]: order,
         },
         select: {
           id: true,
@@ -82,6 +82,7 @@ export async function GET(request: NextRequest) {
           publishedAt: true,
           readingTime: true,
           status: true,
+          viewCount: true,
           categories: {
             select: {
               category: {

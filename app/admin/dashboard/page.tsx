@@ -23,7 +23,8 @@ interface Stats {
 interface Post {
   id: string
   title: string
-  views: number
+  slug: string
+  viewCount: number
   publishedAt: string
   status: string
 }
@@ -172,7 +173,7 @@ export default function AdminDashboard() {
                       <span>{new Date(post.publishedAt).toLocaleDateString('ja-JP')}</span>
                       <span className="flex items-center gap-1">
                         <Eye className="h-3 w-3" />
-                        {post.views} views
+                        {post.viewCount} views
                       </span>
                       <span className={`capitalize rounded-full px-2 py-0.5 text-xs ${
                         post.status === 'PUBLISHED' 

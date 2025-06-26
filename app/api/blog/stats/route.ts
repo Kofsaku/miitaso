@@ -15,7 +15,7 @@ export async function GET() {
     // 総閲覧数の取得
     const totalViewsResult = await prisma.blogPost.aggregate({
       _sum: {
-        views: true
+        viewCount: true
       }
     })
 
@@ -23,7 +23,7 @@ export async function GET() {
       totalPosts,
       publishedPosts,
       draftPosts,
-      totalViews: totalViewsResult._sum.views || 0,
+      totalViews: totalViewsResult._sum.viewCount || 0,
     }
 
     return NextResponse.json(stats)
