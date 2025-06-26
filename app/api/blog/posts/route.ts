@@ -152,14 +152,27 @@ export async function POST(request: NextRequest) {
     let category = null;
     if (categoryName || categoryIds?.length) {
       const catName = categoryName || '未分類';
-      category = await prisma.category.upsert({
-        where: { name: catName },
-        update: {},
-        create: {
-          name: catName,
-          slug: catName.toLowerCase().replace(/\s+/g, '-'),
-        },
+      const catSlug = catName.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-');
+      
+      // 既存のカテゴリを名前またはスラッグで検索
+      category = await prisma.category.findFirst({
+        where: {
+          OR: [
+            { name: catName },
+            { slug: catSlug }
+          ]
+        }
       });
+      
+      // 見つからない場合は新規作成
+      if (!category) {
+        category = await prisma.category.create({
+          data: {
+            name: catName,
+            slug: catSlug,
+          },
+        });
+      }
     }
 
     // デフォルトユーザーを作成または取得
