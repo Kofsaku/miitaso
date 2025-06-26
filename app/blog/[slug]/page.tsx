@@ -1,27 +1,13 @@
-"use client"
-
-import { useState, useEffect } from "react"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Button } from "@/components/ui/button"
-import { CommentSection } from "@/components/comment-section"
-import { LikeBookmarkButton } from "@/components/like-bookmark-button"
 import { TableOfContents } from "@/components/table-of-contents"
 import Link from "next/link"
 import { ArrowLeft, Calendar, Clock, Edit } from "lucide-react"
-import { useSession, SessionProvider } from "next-auth/react"
-import { MDXRemote } from "next-mdx-remote"
-import { serialize } from "next-mdx-remote/serialize"
-
-interface BlogPost {
-  id: string
-  title: string
-  content: string
-  publishedAt: string
-  readingTime: number
-  categories: { name: string }[]
-  mdxSource?: any
-}
+import { getServerSession } from "next-auth/next"
+import { authOptions } from "@/lib/auth"
+import { MDXRemote } from "next-mdx-remote/rsc"
+import { notFound } from "next/navigation"
 
 interface BlogPostPageProps {
   params: {
@@ -29,91 +15,54 @@ interface BlogPostPageProps {
   }
 }
 
-function BlogPostContent({ params }: BlogPostPageProps) {
-  const { data: session } = useSession()
-  const [post, setPost] = useState<BlogPost | null>(null)
-  const [mdxSource, setMdxSource] = useState<any>(null)
-  const [loading, setLoading] = useState(true)
-  
-  const isAdmin = session?.user?.role === 'ADMIN' || session?.user?.role === 'EDITOR'
-
-  useEffect(() => {
-    async function fetchPost() {
-      try {
-        const response = await fetch(`/api/blog/posts/slug/${params.slug}`)
-        if (response.ok) {
-          const data = await response.json()
-          setPost(data)
-          
-          // サーバーサイドでシリアライズされたMDXソースを使用
-          if (data.mdxSource) {
-            setMdxSource(data.mdxSource)
-          } else {
-            // フォールバック: クライアントサイドでシリアライズ
-            const mdxSource = await serialize(data.content || '')
-            setMdxSource(mdxSource)
-          }
-        } else if (response.status === 404) {
-          setPost(null)
-        }
-      } catch (error) {
-        console.error('記事の取得に失敗しました:', error)
-        setPost(null)
-      } finally {
-        setLoading(false)
-      }
+async function getBlogPost(slug: string) {
+  try {
+    const response = await fetch(`${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/api/blog/posts/slug/${slug}`, {
+      cache: 'force-cache',
+      next: { revalidate: 3600 } // 1時間キャッシュ
+    })
+    
+    if (!response.ok) {
+      return null
     }
-
-    fetchPost()
-  }, [params.slug])
-
-  if (loading) {
-    return (
-      <div className="flex min-h-screen flex-col">
-        <Header />
-        <main className="flex-1">
-          <article className="container py-12 md:py-24 lg:py-32">
-            <div className="mx-auto max-w-3xl">
-              <div className="animate-pulse">
-                <div className="h-8 bg-gray-200 rounded w-1/4 mb-8"></div>
-                <div className="mb-8">
-                  <div className="flex items-center gap-2 mb-4">
-                    <div className="h-6 bg-gray-200 rounded w-16"></div>
-                    <div className="h-4 bg-gray-200 rounded w-24"></div>
-                    <div className="h-4 bg-gray-200 rounded w-16"></div>
-                  </div>
-                  <div className="h-12 bg-gray-200 rounded w-3/4 mb-4"></div>
-                </div>
-                <div className="space-y-4">
-                  <div className="h-4 bg-gray-200 rounded"></div>
-                  <div className="h-4 bg-gray-200 rounded w-5/6"></div>
-                  <div className="h-4 bg-gray-200 rounded w-4/5"></div>
-                </div>
-              </div>
-            </div>
-          </article>
-        </main>
-        <Footer />
-      </div>
-    )
+    
+    return await response.json()
+  } catch (error) {
+    console.error('Failed to fetch blog post:', error)
+    return null
   }
+}
 
+export async function generateMetadata({ params }: BlogPostPageProps) {
+  const post = await getBlogPost(params.slug)
+  
   if (!post) {
-    return (
-      <div className="flex min-h-screen flex-col">
-        <Header />
-        <main className="flex-1">
-          <div className="container flex flex-col items-center justify-center py-12">
-            <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">記事が見つかりません</h1>
-            <Link href="/blog" className="mt-4">
-              <Button variant="outline">ブログ一覧に戻る</Button>
-            </Link>
-          </div>
-        </main>
-        <Footer />
-      </div>
-    )
+    return {
+      title: '記事が見つかりません',
+    }
   }
+
+  return {
+    title: post.title,
+    description: post.excerpt,
+    openGraph: {
+      title: post.title,
+      description: post.excerpt,
+      type: 'article',
+      publishedTime: post.publishedAt,
+    },
+  }
+}
+
+export default async function BlogPostPage({ params }: BlogPostPageProps) {
+  const post = await getBlogPost(params.slug)
+  const session = await getServerSession(authOptions)
+  
+  if (!post) {
+    notFound()
+  }
+
+  const isAdmin = session?.user?.role === 'ADMIN' || session?.user?.role === 'EDITOR'
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -153,7 +102,7 @@ function BlogPostContent({ params }: BlogPostPageProps) {
                 </div>
                 <div className="mb-8">
                   <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
-                    {post.categories.length > 0 && (
+                    {post.categories?.length > 0 && (
                       <span className="rounded-full bg-primary/10 px-2 py-1 text-xs font-medium text-primary">
                         {post.categories[0].name}
                       </span>
@@ -173,7 +122,7 @@ function BlogPostContent({ params }: BlogPostPageProps) {
                 </div>
                 
                 <div className="prose prose-gray max-w-none dark:prose-invert lg:prose-lg prose-h1:hidden">
-                  {mdxSource && <MDXRemote {...mdxSource} />}
+                  <MDXRemote source={post.content} />
                 </div>
               </article>
             </div>
@@ -182,13 +131,5 @@ function BlogPostContent({ params }: BlogPostPageProps) {
       </main>
       <Footer />
     </div>
-  )
-}
-
-export default function BlogPostPage({ params }: BlogPostPageProps) {
-  return (
-    <SessionProvider>
-      <BlogPostContent params={params} />
-    </SessionProvider>
   )
 }

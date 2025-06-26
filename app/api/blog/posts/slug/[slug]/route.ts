@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { serialize } from 'next-mdx-remote/serialize';
 
 export async function GET(
   request: NextRequest,
@@ -47,21 +46,22 @@ export async function GET(
       );
     }
 
-    // ビュー数を増やす
-    await prisma.blogPost.update({
+    // ビュー数を増やす（非同期で実行、レスポンスをブロックしない）
+    prisma.blogPost.update({
       where: { id: post.id },
       data: { viewCount: { increment: 1 } },
-    });
+    }).catch(console.error);
 
-    // MDXコンテンツをサーバーサイドでシリアライズ
-    const mdxSource = await serialize(post.content || '');
-
-    return NextResponse.json({
+    const response = NextResponse.json({
       ...post,
       categories: post.categories.map(pc => pc.category),
       tags: post.tags.map(pt => pt.tag),
-      mdxSource,
     });
+
+    // キャッシュヘッダーを設定
+    response.headers.set('Cache-Control', 'public, s-maxage=3600, stale-while-revalidate=86400');
+    
+    return response;
   } catch (error) {
     console.error('Error fetching post by slug:', error);
     return NextResponse.json(

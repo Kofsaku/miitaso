@@ -95,11 +95,12 @@ export function TableOfContents({ content }: TableOfContentsProps) {
       })
     }
 
-    // DOM要素が準備されるまで長めに待つ
-    const timeout = setTimeout(addIdsToHeadings, 1000)
+    // 初回実行を早めに
+    addIdsToHeadings()
     
-    // 複数回試行する
-    const intervals = [1500, 2000, 2500].map(delay => 
+    // DOM要素が準備されるまで複数回試行
+    const timeout = setTimeout(addIdsToHeadings, 100)
+    const intervals = [300, 500].map(delay => 
       setTimeout(addIdsToHeadings, delay)
     )
     
