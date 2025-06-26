@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { serialize } from 'next-mdx-remote/serialize';
 
 export async function GET(
   request: NextRequest,
@@ -49,13 +50,17 @@ export async function GET(
     // ビュー数を増やす
     await prisma.blogPost.update({
       where: { id: post.id },
-      data: { views: { increment: 1 } },
+      data: { viewCount: { increment: 1 } },
     });
+
+    // MDXコンテンツをサーバーサイドでシリアライズ
+    const mdxSource = await serialize(post.content || '');
 
     return NextResponse.json({
       ...post,
       categories: post.categories.map(pc => pc.category),
       tags: post.tags.map(pt => pt.tag),
+      mdxSource,
     });
   } catch (error) {
     console.error('Error fetching post by slug:', error);

@@ -49,6 +49,11 @@ const sidebarNavItems = [
     ],
   },
   {
+    title: "デプロイ・同期",
+    href: "/admin/deploy",
+    icon: Settings,
+  },
+  {
     title: "カテゴリ管理",
     href: "/admin/categories",
     icon: Tag,
@@ -195,7 +200,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                           <SidebarContent />
                         </SheetContent>
                       </Sheet>
-                      <h1 className="text-xl font-semibold text-gray-900">ブログ管理システム</h1>
+                      <h1 className="text-xl font-semibold tracking-tight text-gray-900">ブログ管理システム</h1>
                     </div>
                     <Button variant="ghost" size="sm" onClick={handleLogout}>
                       <LogOut className="h-4 w-4 mr-2" />

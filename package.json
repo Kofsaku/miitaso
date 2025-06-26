@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "deploy:content": "node scripts/deploy-content.js",
+    "sync:from-production": "node scripts/sync-from-production.js",
+    "backup:local": "node scripts/backup-local.js"
   },
   "dependencies": {
     "@codemirror/lang-markdown": "^6.3.3",

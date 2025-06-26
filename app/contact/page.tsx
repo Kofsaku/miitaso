@@ -86,9 +86,9 @@ export default function ContactPage() {
         {/* コンタクトフォームセクション */}
         <section className="w-full py-12 md:py-24 lg:py-32 bg-background">
           <div className="container px-4 md:px-6">
-            <div className="grid gap-8 md:grid-cols-2">
+            <div className="grid gap-8 grid-cols-1 lg:grid-cols-2">
               <div className="space-y-4">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
                   お問い合わせフォーム
                 </h2>
                 <p className="text-muted-foreground">
@@ -184,7 +184,7 @@ export default function ContactPage() {
                       />
                     </div>
                     <Button type="submit" className="w-full" disabled={isSubmitting}>
-                      {isSubmitting ? "送信中..." : "送信する"}
+                      {isSubmitting ? "送信中..." : "無料相談を申し込む"}
                     </Button>
                   </div>
                 </form>
@@ -218,7 +218,7 @@ export default function ContactPage() {
                         </svg>
                       </div>
                       <div>
-                        <h3 className="font-medium">電話番号</h3>
+                        <h3 className="text-base font-medium">電話番号</h3>
                         <p className="text-muted-foreground">03-1234-5678</p>
                       </div>
                     </div>
@@ -241,7 +241,7 @@ export default function ContactPage() {
                         </svg>
                       </div>
                       <div>
-                        <h3 className="font-medium">メールアドレス</h3>
+                        <h3 className="text-base font-medium">メールアドレス</h3>
                         <p className="text-muted-foreground">info@miitaso.com</p>
                       </div>
                     </div>
@@ -264,11 +264,11 @@ export default function ContactPage() {
                         </svg>
                       </div>
                       <div>
-                        <h3 className="font-medium">所在地</h3>
+                        <h3 className="text-base font-medium">所在地</h3>
                         <p className="text-muted-foreground">
-                          東京都渋谷区渋谷1-1-1
+                          〒104-0061 東京都中央区銀座1丁目12番4号
                           <br />
-                          渋谷スクエアビル 5F
+                          N&E BLD.6F
                         </p>
                       </div>
                     </div>

@@ -18,6 +18,7 @@ interface BlogPost {
   publishedAt: string
   readingTime: number
   categories: { name: string }[]
+  mdxSource?: any
 }
 
 interface BlogPostPageProps {
@@ -39,9 +40,14 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
           const data = await response.json()
           setPost(data)
           
-          // MDXコンテンツをシリアライズ
-          const mdxSource = await serialize(data.content || '')
-          setMdxSource(mdxSource)
+          // サーバーサイドでシリアライズされたMDXソースを使用
+          if (data.mdxSource) {
+            setMdxSource(data.mdxSource)
+          } else {
+            // フォールバック: クライアントサイドでシリアライズ
+            const mdxSource = await serialize(data.content || '')
+            setMdxSource(mdxSource)
+          }
         } else if (response.status === 404) {
           setPost(null)
         }
@@ -60,8 +66,27 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
     return (
       <div className="flex min-h-screen flex-col">
         <Header />
-        <main className="flex-1 flex items-center justify-center">
-          <div>読み込み中...</div>
+        <main className="flex-1">
+          <article className="container py-12 md:py-24 lg:py-32">
+            <div className="mx-auto max-w-3xl">
+              <div className="animate-pulse">
+                <div className="h-8 bg-gray-200 rounded w-1/4 mb-8"></div>
+                <div className="mb-8">
+                  <div className="flex items-center gap-2 mb-4">
+                    <div className="h-6 bg-gray-200 rounded w-16"></div>
+                    <div className="h-4 bg-gray-200 rounded w-24"></div>
+                    <div className="h-4 bg-gray-200 rounded w-16"></div>
+                  </div>
+                  <div className="h-12 bg-gray-200 rounded w-3/4 mb-4"></div>
+                </div>
+                <div className="space-y-4">
+                  <div className="h-4 bg-gray-200 rounded"></div>
+                  <div className="h-4 bg-gray-200 rounded w-5/6"></div>
+                  <div className="h-4 bg-gray-200 rounded w-4/5"></div>
+                </div>
+              </div>
+            </div>
+          </article>
         </main>
         <Footer />
       </div>
@@ -74,7 +99,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
         <Header />
         <main className="flex-1">
           <div className="container flex flex-col items-center justify-center py-12">
-            <h1 className="text-2xl font-bold">記事が見つかりません</h1>
+            <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">記事が見つかりません</h1>
             <Link href="/blog" className="mt-4">
               <Button variant="outline">ブログ一覧に戻る</Button>
             </Link>
@@ -113,7 +138,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                   <span>{post.readingTime}分</span>
                 </div>
               </div>
-              <h1 className="mt-4 text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+              <h1 className="mt-4 text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
                 {post.title}
               </h1>
             </div>

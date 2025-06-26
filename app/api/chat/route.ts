@@ -11,19 +11,39 @@ export async function POST(req: Request) {
     let body
     try {
       body = await req.json()
+      console.log("Received request body:", JSON.stringify(body, null, 2))
     } catch (error) {
+      console.error("JSON parse error:", error)
       return NextResponse.json(
         { error: '無効なJSON形式です' },
         { status: 400 }
       )
     }
 
-    const { type, prompt } = body
+    const { toolType, formData, prompt, testQuotaLimit } = body
+
+    // テスト用: 429エラーを強制発生させる
+    if (testQuotaLimit === true) {
+      return NextResponse.json(
+        { 
+          error: "多くの方にご利用いただき、今月のAI利用枠の上限に達してしまいました。\n\nお問い合わせいただければ、AIよりも優れた専門チームが直接ご提案いたします。",
+          showContactButton: true
+        },
+        { status: 429 }
+      )
+    }
 
     // 必須パラメータの検証
-    if (!type || typeof type !== 'string') {
+    if (!toolType || typeof toolType !== 'string') {
       return NextResponse.json(
-        { error: 'タイプは必須で、文字列である必要があります' },
+        { error: 'ツールタイプは必須で、文字列である必要があります' },
+        { status: 400 }
+      )
+    }
+
+    if (!formData || typeof formData !== 'object') {
+      return NextResponse.json(
+        { error: 'フォームデータは必須で、オブジェクトである必要があります' },
         { status: 400 }
       )
     }
@@ -44,20 +64,34 @@ export async function POST(req: Request) {
       )
     }
 
-    // システムプロンプトの設定
-    let systemPrompt = ''
-    switch (type) {
+    // フォームデータを構造化されたプロンプトに変換
+    let userPrompt = ''
+    switch (toolType) {
       case 'ideaGeneration':
-        systemPrompt = `以下のキーワードや業界に関する新しいビジネスアイデアを1つ提案してください。
-以下の点を含めて簡潔に説明してください：
-- アイデアの概要
-- ターゲット顧客
-- 解決する課題
-- 主な特徴や利点
-- 収益モデル
-- 実現可能性
-
-キーワード：${prompt}`
+        userPrompt = `
+業界/分野：${formData.industry || ''}
+ターゲットユーザー：${formData.targetUser || ''}
+解決したい課題：${formData.problem || ''}
+既存の競合サービス：${formData.competitors || ''}
+予算規模：${formData.budget || ''}
+`
+        break
+      case 'ideaRefinement':
+        userPrompt = `
+現在のアイデア概要：${formData.idea || ''}
+想定される課題：${formData.challenges || ''}
+想定されるユーザー：${formData.users || ''}
+既存の類似サービス：${formData.similarServices || ''}
+`
+        break
+      case 'requirementDraft':
+        userPrompt = `
+プロジェクト概要：${formData.projectOverview || ''}
+主要なユーザーストーリー：${formData.userStories || ''}
+必須機能：${formData.requiredFeatures || ''}
+技術スタック：${formData.techStack || ''}
+予算と期間：${formData.budgetAndTimeline || ''}
+`
         break
       default:
         return NextResponse.json(
@@ -68,16 +102,23 @@ export async function POST(req: Request) {
 
     // OpenAI APIリクエスト
     console.log("Sending request to OpenAI...")
+    console.log("System prompt:", prompt)
+    console.log("User prompt:", userPrompt)
+    
     const completion = await openai.chat.completions.create({
       model: "gpt-3.5-turbo-0125",
       messages: [
         {
           role: "system",
-          content: systemPrompt
+          content: prompt
+        },
+        {
+          role: "user",
+          content: userPrompt
         }
       ],
       temperature: 0.7,
-      max_tokens: 500,
+      max_tokens: 1500,
     })
 
     // レスポンスの検証
@@ -99,7 +140,10 @@ export async function POST(req: Request) {
       // OpenAI APIのエラー処理
       if (error.message.includes('insufficient_quota') || error.message.includes('429')) {
         return NextResponse.json(
-          { error: "申し訳ありません。現在APIの利用制限に達しています。しばらく時間をおいて再度お試しください。" },
+          { 
+            error: "多くの方にご利用いただき、今月のAI利用枠の上限に達してしまいました。\n\nお問い合わせいただければ、AIよりも優れた専門チームが直接ご提案いたします。",
+            showContactButton: true
+          },
           { status: 429 }
         )
       }

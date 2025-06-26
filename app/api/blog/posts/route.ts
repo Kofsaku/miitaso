@@ -74,29 +74,21 @@ export async function GET(request: NextRequest) {
         orderBy: {
           [sortBy]: sortOrder,
         },
-        include: {
-          author: {
-            select: {
-              id: true,
-              name: true,
-              email: true,
-              avatar: true,
-            },
-          },
+        select: {
+          id: true,
+          title: true,
+          excerpt: true,
+          slug: true,
+          publishedAt: true,
+          readingTime: true,
+          status: true,
           categories: {
-            include: {
-              category: true,
-            },
-          },
-          tags: {
-            include: {
-              tag: true,
-            },
-          },
-          _count: {
             select: {
-              comments: true,
-              likes: true,
+              category: {
+                select: {
+                  name: true,
+                },
+              },
             },
           },
         },
@@ -104,8 +96,13 @@ export async function GET(request: NextRequest) {
       prisma.blogPost.count({ where }),
     ]);
 
+    const transformedPosts = posts.map(post => ({
+      ...post,
+      categories: post.categories.map(pc => pc.category),
+    }));
+
     return NextResponse.json({
-      posts,
+      posts: transformedPosts,
       pagination: {
         page,
         limit,
