@@ -6,7 +6,7 @@ import { z } from 'zod';
 
 const createCategorySchema = z.object({
   name: z.string().min(1).max(100),
-  slug: z.string().min(1).regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
+  slug: z.string().min(1).regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/).optional(),
   description: z.string().optional(),
   parentId: z.string().optional(),
 });
@@ -50,7 +50,7 @@ export async function GET(request: NextRequest) {
       },
     });
 
-    return NextResponse.json(categories);
+    return NextResponse.json({ categories });
   } catch (error) {
     console.error('Error fetching categories:', error);
     return NextResponse.json(
@@ -86,11 +86,18 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const validatedData = createCategorySchema.parse(body);
 
+    // slugを自動生成（未提供の場合）
+    const slug = validatedData.slug || validatedData.name
+      .toLowerCase()
+      .replace(/[^a-z0-9\s-]/g, '')
+      .replace(/\s+/g, '-')
+      .substring(0, 50);
+
     const existingCategory = await prisma.category.findFirst({
       where: {
         OR: [
           { name: validatedData.name },
-          { slug: validatedData.slug },
+          { slug: slug },
         ],
       },
     });
@@ -116,7 +123,10 @@ export async function POST(request: NextRequest) {
     }
 
     const category = await prisma.category.create({
-      data: validatedData,
+      data: {
+        ...validatedData,
+        slug,
+      },
       include: {
         parent: true,
         children: true,

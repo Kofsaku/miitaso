@@ -257,6 +257,26 @@ function BlogEditorComponent() {
                   rows={3}
                 />
               </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 bg-muted/50 rounded-lg">
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-primary">
+                    {content.length.toLocaleString()}
+                  </div>
+                  <div className="text-sm text-muted-foreground">総文字数</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-blue-600">
+                    {content.replace(/\s+/g, '').length.toLocaleString()}
+                  </div>
+                  <div className="text-sm text-muted-foreground">文字数（空白除く）</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-green-600">
+                    {Math.ceil(content.replace(/\s+/g, '').length / 400)}
+                  </div>
+                  <div className="text-sm text-muted-foreground">読了時間（分）</div>
+                </div>
+              </div>
             </div>
           </CardContent>
         </Card>
