@@ -830,9 +830,9 @@ export default function Home() {
                         <Users className="h-8 w-8 text-primary" />
                       </div>
                       <div>
-                        <h3 className="text-lg font-semibold">田中 雅彦</h3>
-                        <p className="text-sm text-muted-foreground">システム開発部長</p>
-                        <p className="text-sm text-muted-foreground">株式会社テクノロジーソリューションズ</p>
+                        <h3 className="text-lg font-semibold">K.T様</h3>
+                        <p className="text-sm text-muted-foreground">防犯システム開発会社様</p>
+                        {/* <p className="text-sm text-muted-foreground">株式会社テクノロジーソリューションズ</p> */}
                       </div>
                     </div>
                   </CardHeader>
@@ -859,9 +859,9 @@ export default function Home() {
                         <Users className="h-8 w-8 text-primary" />
                       </div>
                       <div>
-                        <h3 className="text-lg font-semibold">佐藤 美穂</h3>
-                        <p className="text-sm text-muted-foreground">プロダクトマネージャー</p>
-                        <p className="text-sm text-muted-foreground">株式会社イノベーションラボ</p>
+                        <h3 className="text-lg font-semibold">H.I様</h3>
+                        <p className="text-sm text-muted-foreground">ウェブシステム開発会社様</p>
+                        {/* <p className="text-sm text-muted-foreground">株式会社イノベーションラボ</p> */}
                       </div>
                     </div>
                   </CardHeader>
@@ -888,9 +888,9 @@ export default function Home() {
                         <Users className="h-8 w-8 text-primary" />
                       </div>
                       <div>
-                        <h3 className="text-lg font-semibold">山田 健司</h3>
-                        <p className="text-sm text-muted-foreground">代表取締役CEO</p>
-                        <p className="text-sm text-muted-foreground">クリエイティブスタジオ株式会社</p>
+                        <h3 className="text-lg font-semibold">Y.K様</h3>
+                        <p className="text-sm text-muted-foreground">フリーランス</p>
+                        {/* <p className="text-sm text-muted-foreground">クリエイティブスタジオ株式会社</p> */}
                       </div>
                     </div>
                   </CardHeader>
@@ -918,17 +918,17 @@ export default function Home() {
                         <Users className="h-8 w-8 text-primary" />
                       </div>
                       <div>
-                        <h3 className="text-lg font-semibold">鈴木 亮太</h3>
-                        <p className="text-sm text-muted-foreground">取締役CTO</p>
-                        <p className="text-sm text-muted-foreground">フィンテック株式会社</p>
+                        <h3 className="text-lg font-semibold">S.T様</h3>
+                        <p className="text-sm text-muted-foreground">子供向け教育関連企業様</p>
+                        {/* <p className="text-sm text-muted-foreground">フィンテック株式会社</p> */}
                       </div>
                     </div>
                   </CardHeader>
                   <CardContent>
                     <p className="text-sm">
-                      「金融系アプリケーションの開発で、セキュリティと利便性を両立したシステムを構築いただきました。
+                      「子供たちの夢を応援するプラットフォーム開発で、安全性と利便性を両立したシステムを構築いただきました。
                       要件定義段階での深いビジネス理解により、規制対応も含めて完璧なソリューションが実現。
-                      ユーザー数が前年比200%増加し、社内からも高い評価を得ています。」
+                      ユーザー数が前年比200%増加し、関係者からも高い評価を得ています。」
                     </p>
                     <div className="mt-4 flex items-center">
                       {[...Array(5)].map((_, i) => (
@@ -947,17 +947,17 @@ export default function Home() {
                         <Users className="h-8 w-8 text-primary" />
                       </div>
                       <div>
-                        <h3 className="text-lg font-semibold">高橋 由美</h3>
-                        <p className="text-sm text-muted-foreground">事業部長</p>
-                        <p className="text-sm text-muted-foreground">ヘルスケア株式会社</p>
+                        <h3 className="text-lg font-semibold">M.S様</h3>
+                        <p className="text-sm text-muted-foreground">予防アプリ事業者様</p>
+                        {/* <p className="text-sm text-muted-foreground">ヘルスケア株式会社</p> */}
                       </div>
                     </div>
                   </CardHeader>
                   <CardContent>
                     <p className="text-sm">
-                      「医療従事者向けのワークフローシステム開発で、複雑な業務フローを完璧に理解していただけました。
-                      コンサルティングから始まり、現場の声を反映した使いやすいシステムが完成。
-                      作業効率が50%向上し、医療ミスも大幅に減少しました。」
+                      「予防アプリの開発で、安全性と利便性を両立したシステムを構築いただきました。
+                      とにかくユーザービリティを考慮した設計にしてくえれたおかげで、リリース以降大きな改修もせずに運営できています。
+                      非常に高いコストパフォーマンスに感謝です。」
                     </p>
                     <div className="mt-4 flex items-center">
                       {[...Array(5)].map((_, i) => (
@@ -976,17 +976,17 @@ export default function Home() {
                         <Users className="h-8 w-8 text-primary" />
                       </div>
                       <div>
-                        <h3 className="text-lg font-semibold">伊藤 誠</h3>
-                        <p className="text-sm text-muted-foreground">マーケティング部長</p>
-                        <p className="text-sm text-muted-foreground">Eコマース株式会社</p>
+                        <h3 className="text-lg font-semibold">R.M様</h3>
+                        <p className="text-sm text-muted-foreground">マーケティング関連企業様</p>
+                        {/* <p className="text-sm text-muted-foreground">Eコマース株式会社</p> */}
                       </div>
                     </div>
                   </CardHeader>
                   <CardContent>
                     <p className="text-sm">
-                      「ECサイトのリニューアルで、売上が150%アップしました。
+                      「弊社クライアントのECサイトのリニューアルでサポート頂きました。
                       UI/UXから決済システムまで、顧客体験を総合的に改善していただき、
-                      コンバージョン率も2.5倍に向上。保守サポートも迅速で安心してお任せできます。」
+                      コンバージョン率も2.5倍に向上。保守サポートも迅速で安心してお任せできます。クライアント様から弊社への評価も上がり今後も継続的にご依頼します。」
                     </p>
                     <div className="mt-4 flex items-center">
                       {[...Array(5)].map((_, i) => (
