@@ -34,10 +34,22 @@ export default function SignInPage() {
       if (result?.error) {
         setError("メールアドレスまたはパスワードが間違っています")
       } else {
+        // callbackUrlがある場合はそこにリダイレクト
+        const urlParams = new URLSearchParams(window.location.search)
+        const callbackUrl = urlParams.get('callbackUrl') || '/'
+        
         const session = await getSession()
-        if (session?.user?.role === "ADMIN") {
+        if (callbackUrl.startsWith('/admin') && session?.user?.role !== "ADMIN" && session?.user?.role !== "EDITOR") {
+          // 管理画面へのアクセスで権限がない場合
+          router.push("/")
+        } else if (callbackUrl) {
+          // callbackUrlがある場合はそこへ
+          router.push(callbackUrl)
+        } else if (session?.user?.role === "ADMIN" || session?.user?.role === "EDITOR") {
+          // 管理者の場合はダッシュボードへ
           router.push("/admin/dashboard")
         } else {
+          // 一般ユーザーはブログへ
           router.push("/blog")
         }
       }

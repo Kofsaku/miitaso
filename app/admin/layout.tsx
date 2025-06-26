@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { AdminAuth } from "@/components/admin-auth"
+import { SessionProvider, signOut } from "next-auth/react"
 import { ThemeProvider } from "@/components/theme-provider"
 import "@/app/globals.css"
 import {
@@ -75,9 +76,8 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [expandedItems, setExpandedItems] = useState<string[]>(['記事管理'])
 
-  const handleLogout = () => {
-    localStorage.removeItem("admin_authenticated")
-    window.location.reload()
+  const handleLogout = async () => {
+    await signOut({ callbackUrl: "/" })
   }
 
   const toggleExpanded = (title: string) => {
@@ -177,8 +177,9 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     <html lang="ja" suppressHydrationWarning>
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
-          <AdminAuth>
-            <div className="flex h-screen bg-gray-100">
+          <SessionProvider>
+            <AdminAuth>
+              <div className="flex h-screen bg-gray-100">
               {/* サイドバー */}
               <div className="hidden w-64 md:block">
                 <SidebarContent />
@@ -215,7 +216,8 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                 </main>
               </div>
             </div>
-          </AdminAuth>
+            </AdminAuth>
+          </SessionProvider>
         </ThemeProvider>
       </body>
     </html>

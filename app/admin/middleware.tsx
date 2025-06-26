@@ -4,11 +4,7 @@ import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
 
-interface AdminAuthProps {
-  children: React.ReactNode
-}
-
-export function AdminAuth({ children }: AdminAuthProps) {
+export function AuthGuard({ children }: { children: React.ReactNode }) {
   const { data: session, status } = useSession()
   const router = useRouter()
 
@@ -24,13 +20,13 @@ export function AdminAuth({ children }: AdminAuthProps) {
 
   if (status === "loading") {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div>読み込み中...</div>
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-lg">読み込み中...</div>
       </div>
     )
   }
 
-  if (!session || (session.user.role !== "ADMIN" && session.user.role !== "EDITOR")) {
+  if (!session) {
     return null
   }
 
