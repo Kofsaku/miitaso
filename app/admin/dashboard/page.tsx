@@ -163,7 +163,7 @@ export default function AdminDashboard() {
                 >
                   <div className="space-y-1">
                     <Link
-                      href={`/blog/${post.id}`}
+                      href={`/blog/${post.slug}`}
                       className="font-medium hover:underline"
                     >
                       {post.title}
@@ -185,7 +185,7 @@ export default function AdminDashboard() {
                   </div>
                   <div className="flex gap-2">
                     <Button variant="ghost" size="sm" asChild>
-                      <Link href={`/blog/${post.id}`}>
+                      <Link href={`/blog/${post.slug}`}>
                         <Eye className="h-4 w-4" />
                       </Link>
                     </Button>

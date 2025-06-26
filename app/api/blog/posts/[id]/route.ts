@@ -91,7 +91,7 @@ export async function PUT(
 
     const post = await prisma.blogPost.findUnique({
       where: { id: params.id },
-      select: { authorId: true, content: true },
+      select: { authorId: true, content: true, slug: true, title: true, excerpt: true },
     });
 
     if (!post) {

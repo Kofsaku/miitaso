@@ -58,12 +58,10 @@ export async function POST(request: NextRequest) {
           where: { name: tagData.name },
           update: {
             slug: tagData.slug,
-            description: tagData.description,
           },
           create: {
             name: tagData.name,
             slug: tagData.slug || tagData.name.toLowerCase().replace(/\s+/g, '-'),
-            description: tagData.description,
           },
         })
         tagMap.set(tagData.name, tag.id)
@@ -113,7 +111,7 @@ export async function POST(request: NextRequest) {
             for (const categoryName of postData.categories) {
               const categoryId = categoryMap.get(categoryName)
               if (categoryId) {
-                await prisma.postCategory.create({
+                await prisma.blogPostCategory.create({
                   data: {
                     postId: post.id,
                     categoryId: categoryId,
@@ -128,7 +126,7 @@ export async function POST(request: NextRequest) {
             for (const tagName of postData.tags) {
               const tagId = tagMap.get(tagName)
               if (tagId) {
-                await prisma.postTag.create({
+                await prisma.blogPostTag.create({
                   data: {
                     postId: post.id,
                     tagId: tagId,

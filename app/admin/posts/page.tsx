@@ -232,7 +232,7 @@ export default function PostsManagement() {
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-2">
                         <Link
-                          href={`/blog/${post.id}`}
+                          href={`/blog/${post.slug}`}
                           className="text-lg font-semibold hover:underline"
                         >
                           {post.title}
@@ -252,7 +252,7 @@ export default function PostsManagement() {
                     </div>
                     <div className="flex gap-2">
                       <Button variant="ghost" size="sm" asChild>
-                        <Link href={`/blog/${post.id}`}>
+                        <Link href={`/blog/${post.slug}`}>
                           <Eye className="h-4 w-4" />
                         </Link>
                       </Button>

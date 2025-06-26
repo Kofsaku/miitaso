@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useState, useEffect, Suspense } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from '@/components/ui/resizable'
 import { MDXEditor } from '@/components/mdx-editor'
 import { MDXPreview } from '@/components/mdx-preview'
@@ -51,8 +51,10 @@ function hello() {
 MDXエディタの使用例でした。左側で編集して、右側でプレビューを確認できます。
 `
 
-export default function BlogEditor() {
+function BlogEditorComponent() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const postId = searchParams.get('id')
   const [content, setContent] = useState(defaultContent)
   const [title, setTitle] = useState('新しいブログ記事')
   const [slug, setSlug] = useState('')
@@ -62,6 +64,8 @@ export default function BlogEditor() {
   const [isMobile, setIsMobile] = useState(false)
   const [activeTab, setActiveTab] = useState('editor')
   const [saving, setSaving] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const isEditing = !!postId
 
   // タイトルからスラッグを自動生成する関数
   const generateSlug = (title: string) => {
@@ -75,53 +79,101 @@ export default function BlogEditor() {
   // タイトルが変更されたときにスラッグを自動生成
   const handleTitleChange = (newTitle: string) => {
     setTitle(newTitle)
-    if (!slug) {
+    if (!slug || (!isEditing && !slug)) {
       setSlug(generateSlug(newTitle))
     }
   }
 
+  // 既存の投稿データを読み込む
+  useEffect(() => {
+    if (postId) {
+      setLoading(true)
+      fetch(`/api/blog/posts/${postId}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.error) {
+            toast.error('投稿の読み込みに失敗しました')
+            router.push('/blog/editor')
+            return
+          }
+          setTitle(data.title || '')
+          setSlug(data.slug || '')
+          setContent(data.content || '')
+          setExcerpt(data.excerpt || '')
+          setStatus(data.status || 'DRAFT')
+          // カテゴリ名を取得（最初のカテゴリを使用）
+          const categoryName = data.categories?.[0]?.category?.name || ''
+          setCategory(categoryName)
+        })
+        .catch(error => {
+          console.error('Error loading post:', error)
+          toast.error('投稿の読み込みに失敗しました')
+          router.push('/blog/editor')
+        })
+        .finally(() => {
+          setLoading(false)
+        })
+    }
+  }, [postId, router])
+
   const handleSave = async () => {
     if (!title.trim() || !content.trim()) {
-      alert('タイトルと内容を入力してください')
+      toast.error('タイトルと内容を入力してください')
       return
     }
     
     if (!slug.trim()) {
-      alert('URLスラッグを入力してください')
+      toast.error('URLスラッグを入力してください')
       return
     }
 
     setSaving(true)
     try {
-      const response = await fetch('/api/blog/posts', {
-        method: 'POST',
+      const url = isEditing ? `/api/blog/posts/${postId}` : '/api/blog/posts'
+      const method = isEditing ? 'PUT' : 'POST'
+      
+      const requestData = {
+        title,
+        slug,
+        content,
+        excerpt: excerpt || content.slice(0, 200) + '...',
+        status: status || 'PUBLISHED',
+        ...(category && { categoryName: category }),
+      }
+
+      const response = await fetch(url, {
+        method,
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          title,
-          slug,
-          content,
-          excerpt: excerpt || content.slice(0, 200) + '...',
-          status: 'PUBLISHED',
-          categoryName: category || '未分類',
-        }),
+        body: JSON.stringify(requestData),
       })
 
       if (response.ok) {
         const data = await response.json()
-        alert('記事を保存しました')
+        toast.success(isEditing ? '記事を更新しました' : '記事を保存しました')
         router.push(`/blog/${data.slug}`)
       } else {
         const error = await response.json()
-        alert(error.message || '保存に失敗しました')
+        toast.error(error.message || '保存に失敗しました')
       }
     } catch (error) {
       console.error('保存エラー:', error)
-      alert('保存に失敗しました')
+      toast.error('保存に失敗しました')
     } finally {
       setSaving(false)
     }
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="flex items-center space-x-2">
+          <Loader2 className="h-6 w-6 animate-spin" />
+          <span>記事データを読み込み中...</span>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -136,16 +188,18 @@ export default function BlogEditor() {
                   ブログ一覧に戻る
                 </Link>
               </Button>
-              <h1 className="text-xl font-semibold">MDXエディタ</h1>
+              <h1 className="text-xl font-semibold">
+                {isEditing ? 'ブログ記事編集' : 'ブログ記事作成'} - MDXエディタ
+              </h1>
             </div>
             <div className="flex items-center space-x-2">
-              <Button variant="outline" size="sm" onClick={handleSave} disabled={saving}>
+              <Button variant="outline" size="sm" onClick={handleSave} disabled={saving || loading}>
                 {saving ? (
                   <Loader2 className="h-4 w-4 mr-2 animate-spin" />
                 ) : (
                   <Save className="h-4 w-4 mr-2" />
                 )}
-                {saving ? '保存中...' : '保存'}
+                {saving ? (isEditing ? '更新中...' : '保存中...') : (isEditing ? '更新' : '保存')}
               </Button>
             </div>
           </div>
@@ -255,5 +309,20 @@ export default function BlogEditor() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function BlogEditor() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="flex items-center space-x-2">
+          <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-gray-900"></div>
+          <span>読み込み中...</span>
+        </div>
+      </div>
+    }>
+      <BlogEditorComponent />
+    </Suspense>
   )
 }
