@@ -84,13 +84,14 @@ async function exportData() {
   }
 }
 
-async function deployToStaging(data) {
-  console.log('🚢 ステージング環境にデプロイ中...')
+async function deployToProduction(data) {
+  console.log('🚢 本番環境にデプロイ中...')
   
   try {
     const fetch = (await import('node-fetch')).default
+    const productionUrl = process.env.PRODUCTION_URL || 'https://www.miitaso.com'
     
-    const response = await fetch('https://miitaso-71ge-pusaq2u1g-kofsakus-projects.vercel.app/api/blog/import', {
+    const response = await fetch(`${productionUrl}/api/blog/import`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -126,8 +127,8 @@ async function deployToStaging(data) {
 async function main() {
   try {
     const data = await exportData()
-    await deployToStaging(data)
-    console.log('🎉 ステージングデプロイが正常に完了しました!')
+    await deployToProduction(data)
+    console.log('🎉 本番デプロイが正常に完了しました!')
   } catch (error) {
     console.error('❌ 処理に失敗しました:', error.message)
     process.exit(1)
@@ -138,4 +139,4 @@ if (require.main === module) {
   main()
 }
 
-module.exports = { exportData, deployToStaging }
+module.exports = { exportData, deployToProduction }

@@ -38,7 +38,7 @@ export default function DeployPage() {
   const [exporting, setExporting] = useState(false)
   const [importing, setImporting] = useState(false)
   const [lastResult, setLastResult] = useState<DeployResult | null>(null)
-  const [productionUrl, setProductionUrl] = useState(process.env.NEXT_PUBLIC_PRODUCTION_URL || "")
+  const [productionUrl, setProductionUrl] = useState(process.env.NEXT_PUBLIC_PRODUCTION_URL || "https://www.miitaso.com")
 
   const handleExport = async () => {
     setExporting(true)

@@ -8,7 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Eye, EyeOff, Lock } from "lucide-react"
 
-const ADMIN_PASSWORD = "admin123" // 本番環境では環境変数を使用
+const ADMIN_PASSWORD = "Iamkohu0207" // 本番環境では環境変数を使用
 
 interface AdminAuthProps {
   children: React.ReactNode
@@ -108,7 +108,7 @@ export function AdminAuth({ children }: AdminAuthProps) {
               </Button>
             </form>
             <div className="mt-6 text-center text-sm text-muted-foreground">
-              <p>デモ用パスワード: admin123</p>
+              {/* <p>デモ用パスワード: admin123</p> */}
             </div>
           </CardContent>
         </Card>
