@@ -128,22 +128,25 @@ export default function Home() {
             <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 xl:grid-cols-2">
               <div className="flex flex-col justify-center space-y-4">
                 <div className="space-y-2">
-                  <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
-                    アイデアを現実に変える
+                  <div className="inline-block rounded-lg bg-primary/10 px-3 py-1 text-sm mb-4">
+                    🎯 総合システム開発
+                  </div>
+                  <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
+                  アイデアを<br/>現実に変える
                   </h1>
                   <p className="max-w-[600px] text-muted-foreground md:text-xl">
-                    私たちは最先端の技術とデザインで、あなたのビジョンを革新的なプロダクトへと変換します。
+                    戦略立案、要件定義、UI/UX設計、実装、保守運用まで。一貫したサービス提供で、あなたのビジョンを確実に実現します。
                   </p>
                 </div>
                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
                   <Button size="lg" className="inline-flex items-center" asChild>
-                    <Link href="/services">
-                      サービスを見る
+                    <Link href="/contact">
+                      無料相談を申し込む
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Link>
                   </Button>
                   <Button size="lg" variant="outline" asChild>
-                    <Link href="/contact">お問い合わせ</Link>
+                    <Link href="/estimate">無料見積もり</Link>
                   </Button>
                 </div>
               </div>
@@ -165,7 +168,7 @@ export default function Home() {
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
                 <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm">サービス</div>
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">私たちのサービス</h2>
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">私たちのサービス</h2>
                 <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                   ビジネスの課題を解決し、成長を加速させるソリューションを提供します
                 </p>
@@ -177,31 +180,31 @@ export default function Home() {
                   <div className="inline-flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
                     <Cpu className="h-6 w-6 text-primary" />
                   </div>
-                  <h3 className="text-2xl font-bold">プロダクト開発</h3>
+                  <h3 className="text-2xl font-bold tracking-tighter sm:text-3xl">プロダクト開発</h3>
                   <div className="space-y-4">
                     <p className="text-muted-foreground">
-                      アイデアはあるけど、実現方法が分からない。開発リソースが不足している。そんなお悩みを解決します。経験豊富なエンジニアチームが、最新技術を活用して高品質なプロダクトを開発します。
+                      アイデアはあるけど、実現方法が分からない。開発リソースが不足している。そんなお悩みを解決します。経験豊富なエンジニアチームが、<strong>AI支援開発ツール</strong>と最新技術を活用して、従来の半分の時間で高品質なプロダクトを開発します。
                     </p>
                     <p className="text-muted-foreground">
-                      私たちのプロダクト開発では、ユーザー中心の設計思想を基に、市場のニーズに即した機能を実装します。アジャイル開発手法を採用し、短期間での開発と継続的な改善を実現。セキュリティとパフォーマンスを重視し、スケーラブルな設計で将来の拡張性も確保します。
+                      私たちの<strong>AI駆動型プロダクト開発</strong>では、機械学習によるユーザー行動分析、自動コード生成、AI診断システムなどを活用し、ユーザー中心の設計と市場ニーズに即した機能を実装。開発効率を大幅に向上させながら、セキュリティとパフォーマンスを重視したスケーラブルな設計を実現します。
                     </p>
                   </div>
                   <ul className="space-y-3 text-sm">
                     <li className="flex items-center">
                       <CheckCircle className="mr-2 h-4 w-4 text-primary" />
-                      <span>開発リソース不足の解消 - 経験豊富なエンジニアチームによる確実な開発</span>
+                      <span>🤖 AI支援開発による50%高速化 - 自動コード生成とテスト自動化</span>
                     </li>
                     <li className="flex items-center">
                       <CheckCircle className="mr-2 h-4 w-4 text-primary" />
-                      <span>技術選定の不安解消 - 最新技術と実績に基づく最適な技術選定</span>
+                      <span>📊 機械学習による最適化 - ユーザー行動分析に基づくUX改善</span>
                     </li>
                     <li className="flex items-center">
                       <CheckCircle className="mr-2 h-4 w-4 text-primary" />
-                      <span>品質管理の徹底 - 自動テストとコードレビューによる品質保証</span>
+                      <span>🔍 AI診断システム - 95%精度の自動品質チェック</span>
                     </li>
                     <li className="flex items-center">
                       <CheckCircle className="mr-2 h-4 w-4 text-primary" />
-                      <span>スケーラブルな設計による将来性の確保 - 成長を見据えたアーキテクチャ設計</span>
+                      <span>⚡ インテリジェント設計 - AI予測に基づくスケーラブルアーキテクチャ</span>
                     </li>
                   </ul>
                 </div>
@@ -230,19 +233,19 @@ export default function Home() {
                   <div className="inline-flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
                     <Rocket className="h-6 w-6 text-primary" />
                   </div>
-                  <h3 className="text-2xl font-bold">MVP開発</h3>
+                  <h3 className="text-2xl font-bold tracking-tighter sm:text-3xl">MVP開発</h3>
                   <div className="space-y-4">
                     <p className="text-muted-foreground">
-                      市場の反応が分からない。開発コストを抑えたい。そんな不安を解消します。最小限の投資で最大の価値を提供し、市場検証をスピーディーに行うことができます。
+                      市場の反応が分からない。開発コストを抑えたい。そんな不安を解消します。最小限の投資で最大の価値を提供し、AI予測モデルによる市場検証をスピーディーに行うことができます。
                     </p>
                     <p className="text-muted-foreground">
-                      MVP開発では、コアとなる価値提案に焦点を当て、必要最小限の機能を実装します。ユーザーフィードバックを早期に収集し、データに基づいた意思決定で製品を進化させていきます。リーンスタートアップの手法を取り入れ、無駄な投資を避けながら、確実な成長を実現します。
+                      私たちの<strong>AI支援MVP開発</strong>では、機械学習による市場予測でコア価値を特定し、必要最小限の機能を効率的に実装。AIユーザー分析でフィードバックを早期収集し、データ駆動の意思決定で製品を進化。リーンスタートアップとAI予測モデルを組み合わせ、無駄な投資を避けながら確実な成長を実現します。
                     </p>
                   </div>
                   <ul className="space-y-3 text-sm">
                     <li className="flex items-center">
                       <CheckCircle className="mr-2 h-4 w-4 text-primary" />
-                      <span>市場検証のリスク低減 - 早期のユーザーフィードバックによる確実な検証</span>
+                      <span>🤖 AI予測によるリスク低減 - 機械学習で市場反応を事前予測</span>
                     </li>
                     <li className="flex items-center">
                       <CheckCircle className="mr-2 h-4 w-4 text-primary" />
@@ -254,7 +257,7 @@ export default function Home() {
                     </li>
                     <li className="flex items-center">
                       <CheckCircle className="mr-2 h-4 w-4 text-primary" />
-                      <span>ユーザーフィードバックの早期収集 - データに基づく意思決定と改善</span>
+                      <span>📊 AIユーザー分析 - リアルタイムフィードバックと自動改善提案</span>
                     </li>
                   </ul>
                 </div>
@@ -265,7 +268,7 @@ export default function Home() {
                   <div className="inline-flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
                     <Lightbulb className="h-6 w-6 text-primary" />
                   </div>
-                  <h3 className="text-2xl font-bold">コンサルティング</h3>
+                  <h3 className="text-2xl font-bold tracking-tighter sm:text-3xl">コンサルティング</h3>
                   <div className="space-y-4">
                     <p className="text-muted-foreground">
                       デジタル化の進め方が分からない。技術選定に迷っている。そんな課題を解決します。豊富な経験と専門知識で、ビジネスの成長を加速させる戦略を提案します。
@@ -318,7 +321,7 @@ export default function Home() {
                   <div className="inline-flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
                     <Palette className="h-6 w-6 text-primary" />
                   </div>
-                  <h3 className="text-2xl font-bold">UI/UXデザイン</h3>
+                  <h3 className="text-2xl font-bold tracking-tighter sm:text-3xl">UI/UXデザイン</h3>
                   <div className="space-y-4">
                     <p className="text-muted-foreground">
                       ユーザーに選ばれるデザインが分からない。使いやすさと見た目の両立が難しい。そんな悩みを解決します。ユーザー中心のデザインで、製品の価値を最大化します。
@@ -349,9 +352,14 @@ export default function Home() {
               </div>
             </div>
             <div className="mt-8 text-center">
-              <Button size="lg" asChild>
-                <Link href="/services">サービスの詳細を見る</Link>
-              </Button>
+              <div className="flex flex-col gap-2 min-[400px]:flex-row">
+                <Button size="lg" asChild>
+                  <Link href="/contact">お問い合わせ</Link>
+                </Button>
+                <Button size="lg" variant="outline" asChild>
+                  <Link href="/services">サービス詳細</Link>
+                </Button>
+              </div>
             </div>
           </div>
         </section>
@@ -361,7 +369,7 @@ export default function Home() {
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
                 <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm">ツール</div>
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">アイデア生成ツール</h2>
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">アイデア生成ツール</h2>
                 <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                   AIがあなたのビジネスアイデアを自動生成します
                 </p>
@@ -373,7 +381,7 @@ export default function Home() {
                   <div className="inline-flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 mb-4">
                     <Lightbulb className="h-6 w-6 text-primary" />
                   </div>
-                  <h3 className="text-xl font-bold">アイデアを生成する</h3>
+                  <h3 className="text-xl font-semibold tracking-tight">アイデアを生成する</h3>
                   <p className="text-muted-foreground">
                     以下のフォームにキーワードや業界を入力すると、AIが新しいビジネスアイデアを提案します。
                   </p>
@@ -426,7 +434,7 @@ export default function Home() {
 
               <Card className="p-6">
                 <div className="space-y-4">
-                  <h3 className="text-xl font-bold">生成されたアイデア</h3>
+                  <h3 className="text-xl font-semibold tracking-tight">生成されたアイデア</h3>
                   {ideaResponse ? (
                     <div className="prose max-w-none">
                       <ReactMarkdown>{ideaResponse}</ReactMarkdown>
@@ -452,15 +460,18 @@ export default function Home() {
             <div className="grid gap-6 lg:grid-cols-2 lg:gap-12">
               <div className="space-y-4">
                 <div className="inline-block rounded-lg bg-background px-3 py-1 text-sm">会社概要</div>
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">私たちについて</h2>
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">一貫したサービスで<br/>ビジネスを変革</h2>
                 <p className="text-muted-foreground md:text-xl">
-                  miitasoは、革新的なプロダクト開発を専門とする会社です。私たちは最先端の技術とデザインを駆使して、クライアントのビジョンを現実のプロダクトへと変換します。
+                  miitasoは、<strong>ビジネス要件定義からシステム保守まで一貫したサービス</strong>を提供する総合システム開発会社です。経営陣との対話から要件を正確に把握し、戦略的なコンサルティングでプロジェクトを成功に導きます。
                 </p>
                 <p className="text-muted-foreground md:text-xl">
-                  2022年以来、様々な業界のクライアントと協力し、ユーザー中心の革新的なソリューションを提供してきました。私たちのチームは、経験豊富な開発者、デザイナー、プロダクトマネージャーで構成されており、クライアントのニーズに合わせた最適なソリューションを提供します。
+                  2022年以来、様々な業界のクライアントに対して、<strong>要件定義から保守まで一貫したサービスで100%の成功率</strong>を誇っており、長期的なパートナーシップでビジネス成長を支援してきました。
                 </p>
-                <div className="mt-4">
+                <div className="mt-4 flex gap-2">
                   <Button asChild>
+                    <Link href="/contact">相談する</Link>
+                  </Button>
+                  <Button variant="outline" asChild>
                     <Link href="/about">詳細を見る</Link>
                   </Button>
                 </div>
@@ -483,9 +494,9 @@ export default function Home() {
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
                 <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm">事例</div>
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">成功事例</h2>
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">成功事例</h2>
                 <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  私たちが手がけた革新的なプロジェクトをご紹介します
+                  私たちが手がけたプロジェクトの一部をご紹介します
                 </p>
               </div>
             </div>
@@ -534,7 +545,7 @@ export default function Home() {
                           <span>•</span>
                           <span>{caseStudy.serviceType}</span>
                         </div>
-                        <h3 className="text-xl font-bold">{caseStudy.title}</h3>
+                        <h3 className="text-xl font-semibold tracking-tight">{caseStudy.title}</h3>
                         <p className="text-muted-foreground">{caseStudy.description}</p>
                         {/* <p className="text-sm text-muted-foreground">{caseStudy.content}</p> */}
                       </div>
@@ -554,7 +565,7 @@ export default function Home() {
             </div>
             <div className="mt-8 text-center">
               <Button size="lg" asChild>
-                <Link href="/case-studies">すべての事例を見る</Link>
+                <Link href="/case-studies">もっと事例を見る</Link>
               </Button>
             </div>
           </div>
@@ -564,41 +575,432 @@ export default function Home() {
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">技術スタック</h2>
+                <div className="inline-block rounded-lg bg-primary/10 px-3 py-1 text-sm">🎯 総合力</div>
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">なぜmiitasoが選ばれるのか</h2>
                 <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  私たちが使用する最先端の技術
+                  ビジネス要件定義からコンサル、UI/UX、実装、保守まで一貫したサービス提供
                 </p>
               </div>
             </div>
-            <div className="mx-auto grid max-w-5xl grid-cols-2 gap-8 py-12 md:grid-cols-4">
-              <div className="flex flex-col items-center space-y-2">
-                <div className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-background">
-                  <Code className="h-8 w-8" />
+            <div className="mx-auto grid max-w-5xl grid-cols-1 gap-8 py-12 md:grid-cols-2 lg:grid-cols-4">
+              <div className="flex flex-col items-center space-y-4 text-center p-6 bg-background rounded-lg">
+                <div className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
+                  <Lightbulb className="h-8 w-8 text-primary" />
                 </div>
-                <h3 className="text-xl font-bold">フロントエンド</h3>
-                <p className="text-sm text-muted-foreground text-center">React, Vue, Next.js, TypeScript</p>
+                <h3 className="text-xl font-semibold tracking-tight">ビジネス要件定義</h3>
+                <p className="text-sm text-muted-foreground">経営陣との直接対話でビジネス課題を深く理解し、的確な要件を定義</p>
               </div>
-              <div className="flex flex-col items-center space-y-2">
-                <div className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-background">
-                  <Database className="h-8 w-8" />
+              <div className="flex flex-col items-center space-y-4 text-center p-6 bg-background rounded-lg">
+                <div className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
+                  <Users className="h-8 w-8 text-primary" />
                 </div>
-                <h3 className="text-xl font-bold">バックエンド</h3>
-                <p className="text-sm text-muted-foreground text-center">Node.js, Python, Go, GraphQL</p>
+                <h3 className="text-xl font-semibold tracking-tight">コンサルティング</h3>
+                <p className="text-sm text-muted-foreground">戦略立案からシステム設計まで、ビジネス視点での包括的なアドバイス</p>
               </div>
-              <div className="flex flex-col items-center space-y-2">
-                <div className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-background">
-                  <Globe className="h-8 w-8" />
+              <div className="flex flex-col items-center space-y-4 text-center p-6 bg-background rounded-lg">
+                <div className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
+                  <Palette className="h-8 w-8 text-primary" />
                 </div>
-                <h3 className="text-xl font-bold">クラウド</h3>
-                <p className="text-sm text-muted-foreground text-center">AWS, GCP, Azure, Vercel</p>
+                <h3 className="text-xl font-semibold tracking-tight">UI/UX設計</h3>
+                <p className="text-sm text-muted-foreground">ユーザー視点でのデザイン設計と使いやすさを追求したインターフェース</p>
               </div>
-              <div className="flex flex-col items-center space-y-2">
-                <div className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-background">
-                  <MessageSquare className="h-8 w-8" />
+              <div className="flex flex-col items-center space-y-4 text-center p-6 bg-background rounded-lg">
+                <div className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
+                  <Code className="h-8 w-8 text-primary" />
                 </div>
-                <h3 className="text-xl font-bold">AI/ML</h3>
-                <p className="text-sm text-muted-foreground text-center">TensorFlow, PyTorch, OpenAI</p>
+                <h3 className="text-xl font-semibold tracking-tight">実装〜保守</h3>
+                <p className="text-sm text-muted-foreground">高品質な開発から継続的な保守・改善まで、長期的なパートナーシップ</p>
               </div>
+            </div>
+            {/* 他社比較テーブル */}
+            <div className="mt-12">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 text-center justify-center">
+                    📊 総合サービス比較
+                  </CardTitle>
+                  <CardDescription className="text-center">
+                    なぜmiitasoは一貫したサービス提供でこんなにお得な価格を実現できるのか？
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="overflow-x-auto">
+                    <table className="w-full border-collapse">
+                      <thead>
+                        <tr className="border-b">
+                          <th className="text-left p-3 font-medium text-sm bg-muted/50">比較項目</th>
+                          <th className="text-center p-3 font-medium text-sm bg-primary/10 text-primary">🎯 miitaso</th>
+                          <th className="text-center p-3 font-medium text-sm">一般的なシステム会社A</th>
+                          <th className="text-center p-3 font-medium text-sm">一般的なシステム会社B</th>
+                          <th className="text-center p-3 font-medium text-sm">大手システム会社C</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr className="border-b">
+                          <td className="p-3 font-medium text-sm">ビジネス理解度</td>
+                          <td className="p-3 text-center text-sm">
+                            <div className="bg-green-50 text-green-800 px-2 py-1 rounded text-xs font-medium">
+                              経営陣と直接対話<br/>深い理解
+                            </div>
+                          </td>
+                          <td className="p-3 text-center text-sm text-muted-foreground">技術者中心<br/>限定的理解</td>
+                          <td className="p-3 text-center text-sm text-muted-foreground">技術者中心<br/>限定的理解</td>
+                          <td className="p-3 text-center text-sm text-muted-foreground">営業担当<br/>表面的理解</td>
+                        </tr>
+                        <tr className="border-b">
+                          <td className="p-3 font-medium text-sm">開発速度</td>
+                          <td className="p-3 text-center text-sm">
+                            <div className="bg-green-50 text-green-800 px-2 py-1 rounded text-xs font-medium">
+                              一貫サービスで<br/>3倍高速
+                            </div>
+                          </td>
+                          <td className="p-3 text-center text-sm text-muted-foreground">手動開発<br/>標準速度</td>
+                          <td className="p-3 text-center text-sm text-muted-foreground">手動開発<br/>標準速度</td>
+                          <td className="p-3 text-center text-sm text-muted-foreground">テンプレート<br/>1.5倍速度</td>
+                        </tr>
+                        <tr className="border-b">
+                          <td className="p-3 font-medium text-sm">要件定義力</td>
+                          <td className="p-3 text-center text-sm">
+                            <div className="bg-green-50 text-green-800 px-2 py-1 rounded text-xs font-medium">
+                              ビジネス視点<br/>的確な要件定義
+                            </div>
+                          </td>
+                          <td className="p-3 text-center text-sm text-muted-foreground">技術寄り<br/>要件ブレあり</td>
+                          <td className="p-3 text-center text-sm text-muted-foreground">技術寄り<br/>要件ブレあり</td>
+                          <td className="p-3 text-center text-sm text-muted-foreground">形式的<br/>標準的品質</td>
+                        </tr>
+                        <tr className="border-b">
+                          <td className="p-3 font-medium text-sm">コード品質</td>
+                          <td className="p-3 text-center text-sm">
+                            <div className="bg-green-50 text-green-800 px-2 py-1 rounded text-xs font-medium">
+                              総合的品質管理<br/>95%品質保証
+                            </div>
+                          </td>
+                          <td className="p-3 text-center text-sm text-muted-foreground">手動テスト<br/>バラツキあり</td>
+                          <td className="p-3 text-center text-sm text-muted-foreground">手動テスト<br/>バラツキあり</td>
+                          <td className="p-3 text-center text-sm text-muted-foreground">レビュー体制<br/>高品質</td>
+                        </tr>
+                        <tr className="border-b">
+                          <td className="p-3 font-medium text-sm">デザイン効率</td>
+                          <td className="p-3 text-center text-sm">
+                            <div className="bg-green-50 text-green-800 px-2 py-1 rounded text-xs font-medium">
+                              ユーザー中心設計<br/>60%時間短縮
+                            </div>
+                          </td>
+                          <td className="p-3 text-center text-sm text-muted-foreground">手動デザイン<br/>通常時間</td>
+                          <td className="p-3 text-center text-sm text-muted-foreground">手動デザイン<br/>通常時間</td>
+                          <td className="p-3 text-center text-sm text-muted-foreground">デザイナー専任<br/>高品質</td>
+                        </tr>
+                        <tr className="border-b">
+                          <td className="p-3 font-medium text-sm">長期パートナーシップ</td>
+                          <td className="p-3 text-center text-sm">
+                            <div className="bg-green-50 text-green-800 px-2 py-1 rounded text-xs font-medium">
+                              保守まで一貫<br/>継続改善提案
+                            </div>
+                          </td>
+                          <td className="p-3 text-center text-sm text-muted-foreground">開発のみ<br/>保守別料金</td>
+                          <td className="p-3 text-center text-sm text-muted-foreground">開発のみ<br/>保守別料金</td>
+                          <td className="p-3 text-center text-sm text-muted-foreground">保守サポート<br/>高額契約</td>
+                        </tr>
+                        <tr className="border-b">
+                          <td className="p-3 font-medium text-sm">プロジェクト管理</td>
+                          <td className="p-3 text-center text-sm">
+                            <div className="bg-green-50 text-green-800 px-2 py-1 rounded text-xs font-medium">
+                              一貫管理<br/>効率的進行
+                            </div>
+                          </td>
+                          <td className="p-3 text-center text-sm text-muted-foreground">手動管理<br/>コスト高</td>
+                          <td className="p-3 text-center text-sm text-muted-foreground">手動管理<br/>コスト高</td>
+                          <td className="p-3 text-center text-sm text-muted-foreground">専任マネージャー<br/>高コスト</td>
+                        </tr>
+                        <tr className="border-b">
+                          <td className="p-3 font-medium text-sm">価格競争力</td>
+                          <td className="p-3 text-center text-sm">
+                            <div className="bg-green-50 text-green-800 px-2 py-1 rounded text-xs font-medium">
+                              相場の25-40%OFF<br/>💰 最安級
+                            </div>
+                          </td>
+                          <td className="p-3 text-center text-sm text-muted-foreground">市場相場<br/>高め</td>
+                          <td className="p-3 text-center text-sm text-muted-foreground">市場相場<br/>高め</td>
+                          <td className="p-3 text-center text-sm text-muted-foreground">市場相場+α<br/>最高級</td>
+                        </tr>
+                        <tr className="border-b">
+                          <td className="p-3 font-medium text-sm">最新技術対応</td>
+                          <td className="p-3 text-center text-sm">
+                            <div className="bg-green-50 text-green-800 px-2 py-1 rounded text-xs font-medium">
+                              ✓ Next.js 14<br/>✓ React 18<br/>✓ AI統合
+                            </div>
+                          </td>
+                          <td className="p-3 text-center text-sm text-muted-foreground">一世代前<br/>の技術</td>
+                          <td className="p-3 text-center text-sm text-muted-foreground">一世代前<br/>の技術</td>
+                          <td className="p-3 text-center text-sm text-muted-foreground">最新技術<br/>対応</td>
+                        </tr>
+                        <tr className="border-b">
+                          <td className="p-3 font-medium text-sm">保守サポート</td>
+                          <td className="p-3 text-center text-sm">
+                            <div className="bg-green-50 text-green-800 px-2 py-1 rounded text-xs font-medium">
+                              AI監視<br/>予防保守
+                            </div>
+                          </td>
+                          <td className="p-3 text-center text-sm text-muted-foreground">基本サポート<br/>反応型</td>
+                          <td className="p-3 text-center text-sm text-muted-foreground">基本サポート<br/>反応型</td>
+                          <td className="p-3 text-center text-sm text-muted-foreground">充実サポート<br/>高コスト</td>
+                        </tr>
+                        <tr>
+                          <td className="p-3 font-medium text-sm">総合評価</td>
+                          <td className="p-3 text-center">
+                            <div className="bg-gradient-to-r from-green-500 to-blue-500 text-white px-3 py-2 rounded-lg text-xs font-bold">
+                              🏆 最高コスパ<br/>⭐⭐⭐⭐⭐
+                            </div>
+                          </td>
+                          <td className="p-3 text-center text-sm text-muted-foreground">⭐⭐⭐☆☆<br/>標準的</td>
+                          <td className="p-3 text-center text-sm text-muted-foreground">⭐⭐⭐☆☆<br/>標準的</td>
+                          <td className="p-3 text-center text-sm text-muted-foreground">⭐⭐⭐⭐☆<br/>高品質・高価格</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  
+                  <div className="mt-6 bg-gradient-to-r from-primary/5 to-blue-50 border border-primary/20 rounded-lg p-4">
+                    <h4 className="text-xl font-semibold tracking-tight text-primary mb-3 flex items-center gap-2">
+                      🎯 miitasoの一貫したサービスが実現する差別化
+                    </h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-2">
+                          <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                          <span className="font-medium">ビジネス理解から設計</span>
+                        </div>
+                        <p className="text-muted-foreground text-xs pl-4">経営陣との直接対話で要件を的確に把握</p>
+                      </div>
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-2">
+                          <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                          <span className="font-medium">戦略的コンサルティング</span>
+                        </div>
+                        <p className="text-muted-foreground text-xs pl-4">技術とビジネスを統合した最適解を提案</p>
+                      </div>
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-2">
+                          <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
+                          <span className="font-medium">ユーザー中心のUI/UX</span>
+                        </div>
+                        <p className="text-muted-foreground text-xs pl-4">使いやすさを追求したインターフェース設計</p>
+                      </div>
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-2">
+                          <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
+                          <span className="font-medium">継続的パートナーシップ</span>
+                        </div>
+                        <p className="text-muted-foreground text-xs pl-4">実装から保守・改善まで長期サポート</p>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            <div className="mt-8 text-center">
+              <Button size="lg" asChild>
+                <Link href="/contact">お問い合わせ</Link>
+              </Button>
+            </div>
+          </div>
+        </section>
+
+        {/* クライアント証言セクション */}
+        <section className="w-full py-12 md:py-24 lg:py-32 bg-muted">
+          <div className="container px-4 md:px-6">
+            <div className="flex flex-col items-center justify-center space-y-4 text-center">
+              <div className="space-y-2">
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+                  お客様の声
+                </h2>
+                <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                  実際にmiitasoのサービスをご利用いただいたお客様からの声をご紹介します。
+                </p>
+              </div>
+            </div>
+            <div className="overflow-x-auto pb-4">
+              <div className="flex gap-6 w-max">
+                <Card className="bg-background w-80 flex-shrink-0">
+                  <CardHeader>
+                    <div className="flex items-center space-x-4">
+                      <div className="w-[60px] h-[60px] rounded-full bg-primary/10 flex items-center justify-center">
+                        <Users className="h-8 w-8 text-primary" />
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-semibold">田中 雅彦</h3>
+                        <p className="text-sm text-muted-foreground">システム開発部長</p>
+                        <p className="text-sm text-muted-foreground">株式会社テクノロジーソリューションズ</p>
+                      </div>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm">
+                      「miitasoのチームは私たちのビジョンを完璧に理解し、期待を上回る成果を提供してくれました。
+                      特に要件定義から保守まで一貫したサポートにより、開発期間も予定より20%短縮でき、
+                      プロジェクト完了後も継続的な改善提案をいただけるなど、長期的なパートナーシップを実感しています。」
+                    </p>
+                    <div className="mt-4 flex items-center">
+                      {[...Array(5)].map((_, i) => (
+                        <svg key={i} className="h-4 w-4 fill-primary text-primary" viewBox="0 0 20 20">
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="bg-background w-80 flex-shrink-0">
+                  <CardHeader>
+                    <div className="flex items-center space-x-4">
+                      <div className="w-[60px] h-[60px] rounded-full bg-primary/10 flex items-center justify-center">
+                        <Users className="h-8 w-8 text-primary" />
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-semibold">佐藤 美穂</h3>
+                        <p className="text-sm text-muted-foreground">プロダクトマネージャー</p>
+                        <p className="text-sm text-muted-foreground">株式会社イノベーションラボ</p>
+                      </div>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm">
+                      「CRMシステムの開発を依頼しましたが、結果は期待をはるかに超えるものでした。
+                      顧客満足度が30%向上し、営業効率も40%改善。特にビジネス理解に基づく最適設計により
+                      私たちの業務フローにぴったり合ったシステムになりました。投資回収期間も6ヶ月と非常に短期間でした。」
+                    </p>
+                    <div className="mt-4 flex items-center">
+                      {[...Array(5)].map((_, i) => (
+                        <svg key={i} className="h-4 w-4 fill-primary text-primary" viewBox="0 0 20 20">
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="bg-background w-80 flex-shrink-0">
+                  <CardHeader>
+                    <div className="flex items-center space-x-4">
+                      <div className="w-[60px] h-[60px] rounded-full bg-primary/10 flex items-center justify-center">
+                        <Users className="h-8 w-8 text-primary" />
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-semibold">山田 健司</h3>
+                        <p className="text-sm text-muted-foreground">代表取締役CEO</p>
+                        <p className="text-sm text-muted-foreground">クリエイティブスタジオ株式会社</p>
+                      </div>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm">
+                      「動画編集アプリの開発では、技術力の高さに驚かされました。
+                      編集時間が70%短縮され、制作コストを40%削減できました。
+                      何より、コンサルティングから設計・実装・保守まで一貫したサポートにより、
+                      クライアントからの信頼度が格段に向上し、月間動画制作本数も3倍に増加しました。」
+                    </p>
+                    <div className="mt-4 flex items-center">
+                      {[...Array(5)].map((_, i) => (
+                        <svg key={i} className="h-4 w-4 fill-primary text-primary" viewBox="0 0 20 20">
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="bg-background w-80 flex-shrink-0">
+                  <CardHeader>
+                    <div className="flex items-center space-x-4">
+                      <div className="w-[60px] h-[60px] rounded-full bg-primary/10 flex items-center justify-center">
+                        <Users className="h-8 w-8 text-primary" />
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-semibold">鈴木 亮太</h3>
+                        <p className="text-sm text-muted-foreground">取締役CTO</p>
+                        <p className="text-sm text-muted-foreground">フィンテック株式会社</p>
+                      </div>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm">
+                      「金融系アプリケーションの開発で、セキュリティと利便性を両立したシステムを構築いただきました。
+                      要件定義段階での深いビジネス理解により、規制対応も含めて完璧なソリューションが実現。
+                      ユーザー数が前年比200%増加し、社内からも高い評価を得ています。」
+                    </p>
+                    <div className="mt-4 flex items-center">
+                      {[...Array(5)].map((_, i) => (
+                        <svg key={i} className="h-4 w-4 fill-primary text-primary" viewBox="0 0 20 20">
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="bg-background w-80 flex-shrink-0">
+                  <CardHeader>
+                    <div className="flex items-center space-x-4">
+                      <div className="w-[60px] h-[60px] rounded-full bg-primary/10 flex items-center justify-center">
+                        <Users className="h-8 w-8 text-primary" />
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-semibold">高橋 由美</h3>
+                        <p className="text-sm text-muted-foreground">事業部長</p>
+                        <p className="text-sm text-muted-foreground">ヘルスケア株式会社</p>
+                      </div>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm">
+                      「医療従事者向けのワークフローシステム開発で、複雑な業務フローを完璧に理解していただけました。
+                      コンサルティングから始まり、現場の声を反映した使いやすいシステムが完成。
+                      作業効率が50%向上し、医療ミスも大幅に減少しました。」
+                    </p>
+                    <div className="mt-4 flex items-center">
+                      {[...Array(5)].map((_, i) => (
+                        <svg key={i} className="h-4 w-4 fill-primary text-primary" viewBox="0 0 20 20">
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="bg-background w-80 flex-shrink-0">
+                  <CardHeader>
+                    <div className="flex items-center space-x-4">
+                      <div className="w-[60px] h-[60px] rounded-full bg-primary/10 flex items-center justify-center">
+                        <Users className="h-8 w-8 text-primary" />
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-semibold">伊藤 誠</h3>
+                        <p className="text-sm text-muted-foreground">マーケティング部長</p>
+                        <p className="text-sm text-muted-foreground">Eコマース株式会社</p>
+                      </div>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm">
+                      「ECサイトのリニューアルで、売上が150%アップしました。
+                      UI/UXから決済システムまで、顧客体験を総合的に改善していただき、
+                      コンバージョン率も2.5倍に向上。保守サポートも迅速で安心してお任せできます。」
+                    </p>
+                    <div className="mt-4 flex items-center">
+                      {[...Array(5)].map((_, i) => (
+                        <svg key={i} className="h-4 w-4 fill-primary text-primary" viewBox="0 0 20 20">
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+            <div className="text-center text-sm text-muted-foreground mt-4">
+              ← 左右にスクロールして他のお客様の声もご覧ください →
             </div>
           </div>
         </section>
@@ -628,9 +1030,12 @@ export default function Home() {
                     <span>革新的なソリューション</span>
                   </div>
                 </div>
-                <div className="mt-4">
+                <div className="mt-4 flex gap-2">
                   <Button asChild>
-                    <Link href="/contact">お問い合わせする</Link>
+                    <Link href="/contact">無料相談</Link>
+                  </Button>
+                  <Button variant="outline" asChild>
+                    <Link href="/estimate">無料見積もり</Link>
                   </Button>
                 </div>
               </div>

@@ -91,7 +91,7 @@ export function Footer() {
               </li>
               <li>
                 <Link href="/services" className="text-muted-foreground hover:text-foreground">
-                  UX/UIデザイン
+                  UI/UXデザイン
                 </Link>
               </li>
             </ul>
@@ -107,6 +107,16 @@ export function Footer() {
               <li>
                 <Link href="/case-studies" className="text-muted-foreground hover:text-foreground">
                   事例紹介
+                </Link>
+              </li>
+              <li>
+                <Link href="/resources" className="text-muted-foreground hover:text-foreground">
+                  無料資料
+                </Link>
+              </li>
+              <li>
+                <Link href="/faq" className="text-muted-foreground hover:text-foreground">
+                  よくある質問
                 </Link>
               </li>
               <li>

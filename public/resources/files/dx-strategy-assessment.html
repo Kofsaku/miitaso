@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DX戦略診断書 | 貴社のデジタル変革への道筋</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.7;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .document {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.15);
+            overflow: hidden;
+            margin-bottom: 40px;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+        
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header .subtitle {
+            font-size: 1.3rem;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+        
+        .diagnosis-id {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .content {
+            padding: 50px 40px;
+        }
+        
+        .section {
+            margin-bottom: 50px;
+            position: relative;
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        .section-icon {
+            font-size: 2.5rem;
+            margin-right: 15px;
+        }
+        
+        .section h2 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+        
+        .summary-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            border-left: 5px solid #667eea;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .summary-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .summary-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .summary-label {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #495057;
+        }
+        
+        .maturity-model {
+            background: linear-gradient(135deg, #f8f9ff 0%, #e3f2fd 100%);
+            padding: 40px;
+            border-radius: 20px;
+            margin: 30px 0;
+            position: relative;
+        }
+        
+        .maturity-levels {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin: 30px 0;
+            position: relative;
+        }
+        
+        .maturity-level {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            margin: 0 5px;
+        }
+        
+        .level-bar {
+            background: linear-gradient(to top, #667eea, #764ba2);
+            border-radius: 10px 10px 0 0;
+            margin-bottom: 15px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .level-1 .level-bar { height: 60px; }
+        .level-2 .level-bar { height: 120px; }
+        .level-3 .level-bar { height: 180px; background: linear-gradient(to top, #28a745, #20c997); }
+        .level-4 .level-bar { height: 240px; }
+        .level-5 .level-bar { height: 300px; }
+        
+        .level-number {
+            color: white;
+            font-weight: bold;
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .level-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #2c3e50;
+        }
+        
+        .level-description {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+        
+        .current-position {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ff6b6b;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+        
+        .level-3 {
+            position: relative;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        
+        .comparison-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .comparison-table td {
+            padding: 18px 20px;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .comparison-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .score-high { color: #28a745; font-weight: bold; }
+        .score-medium { color: #ffc107; font-weight: bold; }
+        .score-low { color: #dc3545; font-weight: bold; }
+        
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+        
+        .action-card {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .action-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+        
+        .action-card:hover {
+            border-color: #667eea;
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .action-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        
+        .action-description {
+            color: #6c757d;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .action-metrics {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .metric {
+            text-align: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+        
+        .metric-label {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+        
+        .roadmap {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            padding: 40px;
+            border-radius: 20px;
+            margin: 30px 0;
+        }
+        
+        .roadmap-timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+        
+        .roadmap-timeline::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, #667eea, #764ba2);
+            border-radius: 2px;
+        }
+        
+        .roadmap-item {
+            position: relative;
+            margin-bottom: 40px;
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .roadmap-item::before {
+            content: '';
+            position: absolute;
+            left: -35px;
+            top: 25px;
+            width: 15px;
+            height: 15px;
+            background: #667eea;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .roadmap-phase {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .roadmap-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        
+        .roadmap-tasks {
+            list-style: none;
+            margin: 15px 0;
+        }
+        
+        .roadmap-tasks li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            color: #495057;
+        }
+        
+        .roadmap-tasks li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .roi-calculator {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            padding: 40px;
+            border-radius: 20px;
+            margin: 30px 0;
+        }
+        
+        .roi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+        
+        .roi-item {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .roi-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #28a745;
+            margin-bottom: 10px;
+        }
+        
+        .roi-label {
+            color: #495057;
+            font-weight: 500;
+        }
+        
+        .cta-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 50px 40px;
+            text-align: center;
+            border-radius: 20px;
+            margin-top: 50px;
+        }
+        
+        .cta-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .cta-description {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.95;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .cta-button {
+            background: white;
+            color: #667eea;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            color: #667eea;
+        }
+        
+        .cta-button.secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+        
+        .cta-button.secondary:hover {
+            background: white;
+            color: #667eea;
+        }
+        
+        .footer-info {
+            text-align: center;
+            padding: 30px;
+            color: #6c757d;
+            border-top: 1px solid #e9ecef;
+            background: #f8f9fa;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header {
+                padding: 40px 20px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .content {
+                padding: 30px 20px;
+            }
+            
+            .maturity-levels {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .maturity-level {
+                margin-bottom: 20px;
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .level-bar {
+                height: 60px !important;
+            }
+            
+            .summary-grid,
+            .action-grid,
+            .roi-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+        
+        .highlight {
+            background: linear-gradient(120deg, #a8e6cf 0%, #dcedc1 100%);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        
+        .warning {
+            background: linear-gradient(120deg, #ffb3ba 0%, #ffdfba 100%);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="document">
+            <div class="header">
+                <div class="diagnosis-id">診断ID: DX-2024-001</div>
+                <div class="header-content">
+                    <h1>DX戦略診断書</h1>
+                    <p class="subtitle">8分で理解できる、貴社のデジタル変革への道筋</p>
+                </div>
+            </div>
+            
+            <div class="content">
+                <!-- エグゼクティブサマリー -->
+                <div class="section">
+                    <div class="section-header">
+                        <div class="section-icon">📊</div>
+                        <h2>エグゼクティブサマリー</h2>
+                    </div>
+                    
+                    <div class="summary-grid">
+                        <div class="summary-card">
+                            <div class="summary-number">2.3</div>
+                            <div class="summary-label">DX成熟度スコア<br><small>業界平均: 2.8</small></div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="summary-number">3</div>
+                            <div class="summary-label">緊急対応項目</div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="summary-number">5</div>
+                            <div class="summary-label">Quick Win機会</div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="summary-number">1.5年</div>
+                            <div class="summary-label">投資回収期間</div>
+                        </div>
+                    </div>
+                    
+                    <div style="background: #fff3cd; padding: 25px; border-radius: 15px; border-left: 5px solid #ffc107;">
+                        <h3 style="color: #856404; margin-bottom: 15px;">🚨 今すぐ着手すべき3つのアクション</h3>
+                        <ol style="color: #856404;">
+                            <li style="margin-bottom: 10px;"><strong>データ統合基盤の構築</strong> - 分散したデータの統合によるリアルタイム分析実現</li>
+                            <li style="margin-bottom: 10px;"><strong>クラウド移行計画の策定</strong> - レガシーシステムの段階的モダナイゼーション</li>
+                            <li style="margin-bottom: 10px;"><strong>DX推進体制の整備</strong> - 経営層主導の変革推進組織の設立</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- DX成熟度診断結果 -->
+                <div class="section">
+                    <div class="section-header">
+                        <div class="section-icon">📈</div>
+                        <h2>DX成熟度診断結果</h2>
+                    </div>
+                    
+                    <div class="maturity-model">
+                        <h3 style="text-align: center; margin-bottom: 30px; color: #2c3e50;">5段階成熟度モデル</h3>
+                        <div class="maturity-levels">
+                            <div class="maturity-level level-1">
+                                <div class="level-bar">
+                                    <div class="level-number">1</div>
+                                </div>
+                                <div class="level-title">アナログ段階</div>
+                                <div class="level-description">紙・手作業中心</div>
+                            </div>
+                            <div class="maturity-level level-2">
+                                <div class="level-bar">
+                                    <div class="level-number">2</div>
+                                </div>
+                                <div class="level-title">デジタル化段階</div>
+                                <div class="level-description">部分的IT活用</div>
+                            </div>
+                            <div class="maturity-level level-3">
+                                <div class="current-position">現在位置 (2.3)</div>
+                                <div class="level-bar">
+                                    <div class="level-number">3</div>
+                                </div>
+                                <div class="level-title">デジタル統合段階</div>
+                                <div class="level-description">システム連携</div>
+                            </div>
+                            <div class="maturity-level level-4">
+                                <div class="level-bar">
+                                    <div class="level-number">4</div>
+                                </div>
+                                <div class="level-title">DX推進段階</div>
+                                <div class="level-description">データ駆動経営</div>
+                            </div>
+                            <div class="maturity-level level-5">
+                                <div class="level-bar">
+                                    <div class="level-number">5</div>
+                                </div>
+                                <div class="level-title">DX革新段階</div>
+                                <div class="level-description">ビジネスモデル変革</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h3 style="margin: 30px 0 20px 0;">6領域詳細評価</h3>
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>領域</th>
+                                <th>現在スコア</th>
+                                <th>業界平均</th>
+                                <th>ギャップ</th>
+                                <th>優先度</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>戦略・ビジョン</strong></td>
+                                <td class="score-medium">2.1</td>
+                                <td>2.5</td>
+                                <td class="score-low">-0.4</td>
+                                <td><span class="warning">高</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>組織・文化</strong></td>
+                                <td class="score-low">1.8</td>
+                                <td>2.3</td>
+                                <td class="score-low">-0.5</td>
+                                <td><span class="warning">高</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>プロセス・業務</strong></td>
+                                <td class="score-medium">2.5</td>
+                                <td>2.9</td>
+                                <td class="score-medium">-0.4</td>
+                                <td><span style="background: #fff3cd; padding: 2px 8px; border-radius: 4px;">中</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>技術・インフラ</strong></td>
+                                <td class="score-medium">2.8</td>
+                                <td>3.1</td>
+                                <td class="score-medium">-0.3</td>
+                                <td><span style="background: #fff3cd; padding: 2px 8px; border-radius: 4px;">中</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>データ・分析</strong></td>
+                                <td class="score-low">1.9</td>
+                                <td>2.7</td>
+                                <td class="score-low">-0.8</td>
+                                <td><span class="warning">高</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>顧客体験</strong></td>
+                                <td class="score-medium">2.2</td>
+                                <td>2.8</td>
+                                <td class="score-medium">-0.6</td>
+                                <td><span class="warning">高</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Quick Win アクション -->
+                <div class="section">
+                    <div class="section-header">
+                        <div class="section-icon">⚡</div>
+                        <h2>Quick Win アクション</h2>
+                    </div>
+                    
+                    <div class="action-grid">
+                        <div class="action-card">
+                            <div class="action-title">🤖 RPA導入</div>
+                            <div class="action-description">定型業務の自動化により、すぐに効果を実感できる改善を実現</div>
+                            <div class="action-metrics">
+                                <div class="metric">
+                                    <div class="metric-value">400h</div>
+                                    <div class="metric-label">年間削減時間</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-value">350%</div>
+                                    <div class="metric-label">ROI</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="action-card">
+                            <div class="action-title">☁️ クラウドストレージ</div>
+                            <div class="action-description">ファイル共有の効率化とセキュリティ向上を同時に実現</div>
+                            <div class="action-metrics">
+                                <div class="metric">
+                                    <div class="metric-value">2倍</div>
+                                    <div class="metric-label">情報共有速度</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-value">200%</div>
+                                    <div class="metric-label">ROI</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="action-card">
+                            <div class="action-title">📊 BI툴導入</div>
+                            <div class="action-description">データの可視化により意思決定の速度と精度を向上</div>
+                            <div class="action-metrics">
+                                <div class="metric">
+                                    <div class="metric-value">50%</div>
+                                    <div class="metric-label">意思決定高速化</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-value">180%</div>
+                                    <div class="metric-label">ROI</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ROI予測 -->
+                <div class="section">
+                    <div class="section-header">
+                        <div class="section-icon">💰</div>
+                        <h2>ROI予測・投資効果分析</h2>
+                    </div>
+                    
+                    <div class="roi-calculator">
+                        <h3 style="text-align: center; margin-bottom: 25px; color: #2c3e50;">投資回収シミュレーション</h3>
+                        <div class="roi-grid">
+                            <div class="roi-item">
+                                <div class="roi-value">3,000万円</div>
+                                <div class="roi-label">初期投資額</div>
+                            </div>
+                            <div class="roi-item">
+                                <div class="roi-value">2,400万円</div>
+                                <div class="roi-label">年間削減効果</div>
+                            </div>
+                            <div class="roi-item">
+                                <div class="roi-value">1,800万円</div>
+                                <div class="roi-label">年間収益向上</div>
+                            </div>
+                            <div class="roi-item">
+                                <div class="roi-value">1.5年</div>
+                                <div class="roi-label">投資回収期間</div>
+                            </div>
+                            <div class="roi-item">
+                                <div class="roi-value">280%</div>
+                                <div class="roi-label">3年間ROI</div>
+                            </div>
+                            <div class="roi-item">
+                                <div class="roi-value">65%</div>
+                                <div class="roi-label">IRR</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 実装ロードマップ -->
+                <div class="section">
+                    <div class="section-header">
+                        <div class="section-icon">🗺️</div>
+                        <h2>実装ロードマップ</h2>
+                    </div>
+                    
+                    <div class="roadmap">
+                        <div class="roadmap-timeline">
+                            <div class="roadmap-item">
+                                <div class="roadmap-phase">Phase 1: 基盤整備</div>
+                                <div class="roadmap-title">0-3ヶ月</div>
+                                <ul class="roadmap-tasks">
+                                    <li>DX推進室設置（専任3名）</li>
+                                    <li>ステアリングコミッティ設立</li>
+                                    <li>現行システム棚卸し</li>
+                                    <li>RPA導入（1業務）</li>
+                                    <li>全社DXリテラシー研修</li>
+                                </ul>
+                                <div style="background: #d4edda; padding: 15px; border-radius: 10px; margin-top: 15px;">
+                                    <strong>成功基準:</strong> 推進体制確立、Quick Win 1件実現
+                                </div>
+                            </div>
+                            
+                            <div class="roadmap-item">
+                                <div class="roadmap-phase">Phase 2: パイロット展開</div>
+                                <div class="roadmap-title">3-6ヶ月</div>
+                                <ul class="roadmap-tasks">
+                                    <li>営業部門でのCRM統合</li>
+                                    <li>製造部門でのIoT導入</li>
+                                    <li>データレイク構築開始</li>
+                                    <li>BI基盤導入</li>
+                                    <li>専門人材採用（2名）</li>
+                                </ul>
+                                <div style="background: #d4edda; padding: 15px; border-radius: 10px; margin-top: 15px;">
+                                    <strong>成功基準:</strong> PoC成功率70%以上、ROI計測可能
+                                </div>
+                            </div>
+                            
+                            <div class="roadmap-item">
+                                <div class="roadmap-phase">Phase 3: 全社展開</div>
+                                <div class="roadmap-title">6-12ヶ月</div>
+                                <ul class="roadmap-tasks">
+                                    <li>成功事例の横展開</li>
+                                    <li>プラットフォーム統合完了</li>
+                                    <li>AI/ML本格運用開始</li>
+                                    <li>新サービス開発着手</li>
+                                    <li>次期戦略策定</li>
+                                </ul>
+                                <div style="background: #d4edda; padding: 15px; border-radius: 10px; margin-top: 15px;">
+                                    <strong>成功基準:</strong> ROI 20%達成、次期計画承認
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 重要な推奨事項 -->
+                <div class="section">
+                    <div class="section-header">
+                        <div class="section-icon">💡</div>
+                        <h2>重要な推奨事項</h2>
+                    </div>
+                    
+                    <div style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); padding: 30px; border-radius: 15px;">
+                        <h3 style="color: #1565c0; margin-bottom: 20px;">📍 成功の鍵となる3つのポイント</h3>
+                        <div style="margin-bottom: 20px;">
+                            <h4 style="color: #1976d2; margin-bottom: 10px;">1. 経営層のコミットメント</h4>
+                            <p>DXは技術導入ではなく、ビジネスモデル変革です。CEO主導での推進が必須です。</p>
+                        </div>
+                        <div style="margin-bottom: 20px;">
+                            <h4 style="color: #1976d2; margin-bottom: 10px;">2. 小さく始めて大きく育てる</h4>
+                            <p>Quick Winで成功体験を積み重ね、組織全体の変革への機運を高めましょう。</p>
+                        </div>
+                        <div>
+                            <h4 style="color: #1976d2; margin-bottom: 10px;">3. 人材とカルチャーの変革</h4>
+                            <p>技術導入と並行して、組織文化と人材スキルの変革に投資することが重要です。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="cta-section">
+                <h2 class="cta-title">次のステップ</h2>
+                <p class="cta-description">
+                    この診断書をもとに、具体的な実装計画を一緒に策定しませんか？<br>
+                    専門チームが貴社の成功をサポートいたします。
+                </p>
+                <div class="cta-buttons">
+                    <a href="/contact" class="cta-button">無料相談を申し込む</a>
+                    <a href="/case-studies" class="cta-button secondary">成功事例を見る</a>
+                </div>
+            </div>
+            
+            <div class="footer-info">
+                <p><strong>作成日:</strong> 2024年6月25日 | <strong>診断ID:</strong> DX-2024-001 | <strong>有効期限:</strong> 3ヶ月間</p>
+                <p style="margin-top: 10px; font-size: 0.9rem;">
+                    本診断書は貴社の現状をもとに作成された個別レポートです。<br>
+                    より詳細な分析や実装支援については、お気軽にお問い合わせください。
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

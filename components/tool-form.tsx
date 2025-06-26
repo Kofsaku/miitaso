@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
+import { Spinner } from "@/components/ui/spinner"
 import { useState } from "react"
 import { toast } from "sonner"
 
@@ -97,8 +98,15 @@ export function ToolForm({ toolType, onSubmit, loading, initialData = {} }: Tool
           )}
         </div>
       ))}
-      <Button type="submit" disabled={loading}>
-        {loading ? "分析中..." : "AIに分析を依頼"}
+      <Button type="submit" disabled={loading} className="w-full">
+        {loading ? (
+          <div className="flex items-center gap-2">
+            <Spinner size="sm" />
+            分析中...
+          </div>
+        ) : (
+          "AIに分析を依頼"
+        )}
       </Button>
     </form>
   )

@@ -5,7 +5,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Footer } from "@/components/footer"
 import { Header } from "@/components/header"
 import { ToolForm } from "@/components/tool-form"
-import { Brain, Sparkles, ClipboardList } from "lucide-react"
+import { Spinner } from "@/components/ui/spinner"
+import { Skeleton } from "@/components/ui/skeleton"
+import { Brain, Sparkles, ClipboardList, MessageCircle } from "lucide-react"
+import Link from "next/link"
 import { useState } from "react"
 import { toast } from "sonner"
 import ReactMarkdown from "react-markdown"
@@ -83,14 +86,16 @@ export default function ToolsPage() {
   const [aiResponse, setAiResponse] = useState<string>("")
   const [loading, setLoading] = useState<boolean>(false)
   const [formData, setFormData] = useState<Record<string, string>>({})
+  const [showContactButton, setShowContactButton] = useState<boolean>(false)
 
   const handleToolChange = (tool: ToolType) => {
     setSelectedTool(tool)
     setFormData({})
     setAiResponse("")
+    setShowContactButton(false)
   }
 
-  const handleSubmit = async (formData: Record<string, string>) => {
+  const handleSubmit = async (formData: Record<string, string>, testMode: boolean = false) => {
     try {
       setLoading(true)
       console.log("Submitting form data:", formData)
@@ -104,6 +109,7 @@ export default function ToolsPage() {
           toolType: selectedTool,
           formData,
           prompt: tools[selectedTool].prompt,
+          ...(testMode && { testQuotaLimit: true }),
         }),
       }).catch(error => {
         console.error("Fetch error:", error)
@@ -118,6 +124,10 @@ export default function ToolsPage() {
       console.log("API Response data:", data)
 
       if (!response.ok) {
+        // API制限エラーの場合、お問い合わせボタンを表示
+        if (data.showContactButton) {
+          setShowContactButton(true)
+        }
         throw new Error(data.error || "APIリクエストに失敗しました")
       }
 
@@ -126,6 +136,7 @@ export default function ToolsPage() {
       }
 
       setAiResponse(data.response)
+      setShowContactButton(false)
       toast.success("分析が完了しました")
     } catch (error) {
       console.error("Error in handleSubmit:", error)
@@ -138,11 +149,47 @@ export default function ToolsPage() {
   const currentTool = tools[selectedTool]
 
   const renderResponse = () => {
+    if (loading) {
+      return (
+        <div className="space-y-4">
+          <div className="flex items-center gap-2 text-primary">
+            <Spinner size="sm" />
+            <span className="text-sm font-medium">AIが分析中です...</span>
+          </div>
+          <div className="space-y-3">
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-3/4" />
+            <Skeleton className="h-4 w-5/6" />
+            <Skeleton className="h-4 w-2/3" />
+            <Skeleton className="h-4 w-4/5" />
+            <Skeleton className="h-4 w-1/2" />
+          </div>
+        </div>
+      )
+    }
+
     if (!aiResponse) {
       return (
-        <p className="text-muted-foreground text-center py-8">
-          フォームに入力して「AIに分析を依頼」ボタンをクリックしてください
-        </p>
+        <div className="text-center py-8">
+          <p className="text-muted-foreground mb-4">
+            フォームに入力して「AIに分析を依頼」ボタンをクリックしてください
+          </p>
+          {showContactButton && (
+            <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+              <p className="text-blue-800 mb-4 text-sm leading-relaxed">
+                多くの方にご利用いただき、今月のAI利用枠の上限に達してしまいました。
+                <br />
+                お問い合わせいただければ、AIよりも優れた専門チームが直接ご提案いたします。
+              </p>
+              <Button asChild size="sm" className="bg-blue-600 hover:bg-blue-700">
+                <Link href="/contact" className="flex items-center gap-2">
+                  <MessageCircle className="h-4 w-4" />
+                  無料相談を申し込む
+                </Link>
+              </Button>
+            </div>
+          )}
+        </div>
       )
     }
 
@@ -161,9 +208,9 @@ export default function ToolsPage() {
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
-                <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl">ツール</h1>
+                <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">ツール</h1>
                 <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  AIを活用したビジネスツール
+                  AIを活用したビジネスツールをご利用いただけます。
                 </p>
               </div>
             </div>
@@ -173,7 +220,7 @@ export default function ToolsPage() {
         <section className="w-full py-12 md:py-24 lg:py-32 bg-background">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col space-y-8">
-              <div className="flex flex-col md:flex-row gap-4 justify-center">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 {Object.entries(tools).map(([key, tool]) => (
                   <Button
                     key={key}
@@ -187,7 +234,7 @@ export default function ToolsPage() {
                 ))}
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <Card className="relative overflow-hidden">
                   <CardHeader className="pb-0">
                     <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
