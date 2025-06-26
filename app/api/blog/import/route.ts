@@ -1,6 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 
+// CORS headers
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+}
+
+export async function OPTIONS() {
+  return new Response(null, {
+    status: 200,
+    headers: corsHeaders,
+  })
+}
+
 export async function POST(request: NextRequest) {
   try {
     const importData = await request.json()
@@ -8,7 +22,7 @@ export async function POST(request: NextRequest) {
     if (!importData.version || !importData.posts) {
       return NextResponse.json(
         { error: 'Invalid import data format' },
-        { status: 400 }
+        { status: 400, headers: corsHeaders }
       )
     }
 
@@ -148,12 +162,14 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       results,
+    }, {
+      headers: corsHeaders,
     })
   } catch (error) {
     console.error('Import error:', error)
     return NextResponse.json(
       { error: 'Failed to import data' },
-      { status: 500 }
+      { status: 500, headers: corsHeaders }
     )
   }
 }
