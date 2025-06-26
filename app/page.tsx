@@ -821,94 +821,186 @@ export default function Home() {
                 </p>
               </div>
             </div>
-            <div className="mx-auto mt-12 grid max-w-6xl gap-8 md:grid-cols-2 lg:grid-cols-3">
-              <Card className="bg-background">
-                <CardHeader>
-                  <div className="flex items-center space-x-4">
-                    <div className="w-[60px] h-[60px] rounded-full bg-primary/10 flex items-center justify-center">
-                      <Users className="h-8 w-8 text-primary" />
+            <div className="overflow-x-auto pb-4">
+              <div className="flex gap-6 w-max">
+                <Card className="bg-background w-80 flex-shrink-0">
+                  <CardHeader>
+                    <div className="flex items-center space-x-4">
+                      <div className="w-[60px] h-[60px] rounded-full bg-primary/10 flex items-center justify-center">
+                        <Users className="h-8 w-8 text-primary" />
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-semibold">田中 雅彦</h3>
+                        <p className="text-sm text-muted-foreground">システム開発部長</p>
+                        <p className="text-sm text-muted-foreground">株式会社テクノロジーソリューションズ</p>
+                      </div>
                     </div>
-                    <div>
-                      <h3 className="text-lg font-semibold">田中 雅彦</h3>
-                      <p className="text-sm text-muted-foreground">システム開発部長</p>
-                      <p className="text-sm text-muted-foreground">株式会社テクノロジーソリューションズ</p>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm">
+                      「miitasoのチームは私たちのビジョンを完璧に理解し、期待を上回る成果を提供してくれました。
+                      特に要件定義から保守まで一貫したサポートにより、開発期間も予定より20%短縮でき、
+                      プロジェクト完了後も継続的な改善提案をいただけるなど、長期的なパートナーシップを実感しています。」
+                    </p>
+                    <div className="mt-4 flex items-center">
+                      {[...Array(5)].map((_, i) => (
+                        <svg key={i} className="h-4 w-4 fill-primary text-primary" viewBox="0 0 20 20">
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
                     </div>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm">
-                    「miitasoのチームは私たちのビジョンを完璧に理解し、期待を上回る成果を提供してくれました。
-                    特に要件定義から保守まで一貫したサポートにより、開発期間も予定より20%短縮でき、
-                    プロジェクト完了後も継続的な改善提案をいただけるなど、長期的なパートナーシップを実感しています。」
-                  </p>
-                  <div className="mt-4 flex items-center">
-                    {[...Array(5)].map((_, i) => (
-                      <svg key={i} className="h-4 w-4 fill-primary text-primary" viewBox="0 0 20 20">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                      </svg>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
 
-              <Card className="bg-background">
-                <CardHeader>
-                  <div className="flex items-center space-x-4">
-                    <div className="w-[60px] h-[60px] rounded-full bg-primary/10 flex items-center justify-center">
-                      <Users className="h-8 w-8 text-primary" />
+                <Card className="bg-background w-80 flex-shrink-0">
+                  <CardHeader>
+                    <div className="flex items-center space-x-4">
+                      <div className="w-[60px] h-[60px] rounded-full bg-primary/10 flex items-center justify-center">
+                        <Users className="h-8 w-8 text-primary" />
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-semibold">佐藤 美穂</h3>
+                        <p className="text-sm text-muted-foreground">プロダクトマネージャー</p>
+                        <p className="text-sm text-muted-foreground">株式会社イノベーションラボ</p>
+                      </div>
                     </div>
-                    <div>
-                      <h3 className="text-lg font-semibold">佐藤 美穂</h3>
-                      <p className="text-sm text-muted-foreground">プロダクトマネージャー</p>
-                      <p className="text-sm text-muted-foreground">株式会社イノベーションラボ</p>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm">
+                      「CRMシステムの開発を依頼しましたが、結果は期待をはるかに超えるものでした。
+                      顧客満足度が30%向上し、営業効率も40%改善。特にビジネス理解に基づく最適設計により
+                      私たちの業務フローにぴったり合ったシステムになりました。投資回収期間も6ヶ月と非常に短期間でした。」
+                    </p>
+                    <div className="mt-4 flex items-center">
+                      {[...Array(5)].map((_, i) => (
+                        <svg key={i} className="h-4 w-4 fill-primary text-primary" viewBox="0 0 20 20">
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
                     </div>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm">
-                    「CRMシステムの開発を依頼しましたが、結果は期待をはるかに超えるものでした。
-                    顧客満足度が30%向上し、営業効率も40%改善。特にビジネス理解に基づく最適設計により
-                    私たちの業務フローにぴったり合ったシステムになりました。投資回収期間も6ヶ月と非常に短期間でした。」
-                  </p>
-                  <div className="mt-4 flex items-center">
-                    {[...Array(5)].map((_, i) => (
-                      <svg key={i} className="h-4 w-4 fill-primary text-primary" viewBox="0 0 20 20">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                      </svg>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
 
-              <Card className="bg-background">
-                <CardHeader>
-                  <div className="flex items-center space-x-4">
-                    <div className="w-[60px] h-[60px] rounded-full bg-primary/10 flex items-center justify-center">
-                      <Users className="h-8 w-8 text-primary" />
+                <Card className="bg-background w-80 flex-shrink-0">
+                  <CardHeader>
+                    <div className="flex items-center space-x-4">
+                      <div className="w-[60px] h-[60px] rounded-full bg-primary/10 flex items-center justify-center">
+                        <Users className="h-8 w-8 text-primary" />
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-semibold">山田 健司</h3>
+                        <p className="text-sm text-muted-foreground">代表取締役CEO</p>
+                        <p className="text-sm text-muted-foreground">クリエイティブスタジオ株式会社</p>
+                      </div>
                     </div>
-                    <div>
-                      <h3 className="text-lg font-semibold">山田 健司</h3>
-                      <p className="text-sm text-muted-foreground">代表取締役CEO</p>
-                      <p className="text-sm text-muted-foreground">クリエイティブスタジオ株式会社</p>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm">
+                      「動画編集アプリの開発では、技術力の高さに驚かされました。
+                      編集時間が70%短縮され、制作コストを40%削減できました。
+                      何より、コンサルティングから設計・実装・保守まで一貫したサポートにより、
+                      クライアントからの信頼度が格段に向上し、月間動画制作本数も3倍に増加しました。」
+                    </p>
+                    <div className="mt-4 flex items-center">
+                      {[...Array(5)].map((_, i) => (
+                        <svg key={i} className="h-4 w-4 fill-primary text-primary" viewBox="0 0 20 20">
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
                     </div>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm">
-                    「動画編集アプリの開発では、技術力の高さに驚かされました。
-                    編集時間が70%短縮され、制作コストを40%削減できました。
-                    何より、コンサルティングから設計・実装・保守まで一貫したサポートにより、
-                    クライアントからの信頼度が格段に向上し、月間動画制作本数も3倍に増加しました。」
-                  </p>
-                  <div className="mt-4 flex items-center">
-                    {[...Array(5)].map((_, i) => (
-                      <svg key={i} className="h-4 w-4 fill-primary text-primary" viewBox="0 0 20 20">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                      </svg>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
+
+                <Card className="bg-background w-80 flex-shrink-0">
+                  <CardHeader>
+                    <div className="flex items-center space-x-4">
+                      <div className="w-[60px] h-[60px] rounded-full bg-primary/10 flex items-center justify-center">
+                        <Users className="h-8 w-8 text-primary" />
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-semibold">鈴木 亮太</h3>
+                        <p className="text-sm text-muted-foreground">取締役CTO</p>
+                        <p className="text-sm text-muted-foreground">フィンテック株式会社</p>
+                      </div>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm">
+                      「金融系アプリケーションの開発で、セキュリティと利便性を両立したシステムを構築いただきました。
+                      要件定義段階での深いビジネス理解により、規制対応も含めて完璧なソリューションが実現。
+                      ユーザー数が前年比200%増加し、社内からも高い評価を得ています。」
+                    </p>
+                    <div className="mt-4 flex items-center">
+                      {[...Array(5)].map((_, i) => (
+                        <svg key={i} className="h-4 w-4 fill-primary text-primary" viewBox="0 0 20 20">
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="bg-background w-80 flex-shrink-0">
+                  <CardHeader>
+                    <div className="flex items-center space-x-4">
+                      <div className="w-[60px] h-[60px] rounded-full bg-primary/10 flex items-center justify-center">
+                        <Users className="h-8 w-8 text-primary" />
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-semibold">高橋 由美</h3>
+                        <p className="text-sm text-muted-foreground">事業部長</p>
+                        <p className="text-sm text-muted-foreground">ヘルスケア株式会社</p>
+                      </div>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm">
+                      「医療従事者向けのワークフローシステム開発で、複雑な業務フローを完璧に理解していただけました。
+                      コンサルティングから始まり、現場の声を反映した使いやすいシステムが完成。
+                      作業効率が50%向上し、医療ミスも大幅に減少しました。」
+                    </p>
+                    <div className="mt-4 flex items-center">
+                      {[...Array(5)].map((_, i) => (
+                        <svg key={i} className="h-4 w-4 fill-primary text-primary" viewBox="0 0 20 20">
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="bg-background w-80 flex-shrink-0">
+                  <CardHeader>
+                    <div className="flex items-center space-x-4">
+                      <div className="w-[60px] h-[60px] rounded-full bg-primary/10 flex items-center justify-center">
+                        <Users className="h-8 w-8 text-primary" />
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-semibold">伊藤 誠</h3>
+                        <p className="text-sm text-muted-foreground">マーケティング部長</p>
+                        <p className="text-sm text-muted-foreground">Eコマース株式会社</p>
+                      </div>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm">
+                      「ECサイトのリニューアルで、売上が150%アップしました。
+                      UI/UXから決済システムまで、顧客体験を総合的に改善していただき、
+                      コンバージョン率も2.5倍に向上。保守サポートも迅速で安心してお任せできます。」
+                    </p>
+                    <div className="mt-4 flex items-center">
+                      {[...Array(5)].map((_, i) => (
+                        <svg key={i} className="h-4 w-4 fill-primary text-primary" viewBox="0 0 20 20">
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+            <div className="text-center text-sm text-muted-foreground mt-4">
+              ← 左右にスクロールして他のお客様の声もご覧ください →
             </div>
           </div>
         </section>
