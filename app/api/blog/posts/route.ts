@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@/lib/auth';
+import { calculateReadingTime } from '@/lib/utils';
 import { z } from 'zod';
 
 const createPostSchema = z.object({
@@ -150,7 +151,7 @@ export async function POST(request: NextRequest) {
       .replace(/[#*`]/g, '')
       .substring(0, 200) + '...';
 
-    const readingTime = Math.ceil(postData.content.split(' ').length / 200);
+    const readingTime = calculateReadingTime(postData.content);
 
     // 重複スラッグのチェック
     const existingPost = await prisma.blogPost.findUnique({

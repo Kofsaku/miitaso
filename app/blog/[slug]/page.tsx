@@ -8,6 +8,7 @@ import { getServerSession } from "next-auth/next"
 import { authOptions } from "@/lib/auth"
 import { MDXRemote } from "next-mdx-remote/rsc"
 import { notFound } from "next/navigation"
+import { DiagramRenderer, ProcessedMDXContent } from "@/components/diagram-renderer"
 
 interface BlogPostPageProps {
   params: {
@@ -18,8 +19,7 @@ interface BlogPostPageProps {
 async function getBlogPost(slug: string) {
   try {
     const response = await fetch(`${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/api/blog/posts/slug/${slug}`, {
-      cache: 'force-cache',
-      next: { revalidate: 3600 } // 1時間キャッシュ
+      cache: 'no-store' // キャッシュを無効化
     })
     
     if (!response.ok) {
@@ -45,11 +45,24 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
   return {
     title: post.title,
     description: post.excerpt,
+    keywords: post.categories?.map((cat: any) => cat.name).join(', '),
+    authors: [{ name: 'miitaso' }],
     openGraph: {
       title: post.title,
       description: post.excerpt,
       type: 'article',
       publishedTime: post.publishedAt,
+      authors: ['miitaso'],
+      siteName: 'miitaso',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description: post.excerpt,
+      creator: '@miitaso',
+    },
+    alternates: {
+      canonical: `https://miitaso.com/blog/${params.slug}`,
     },
   }
 }
@@ -64,8 +77,39 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
   const isAdmin = session?.user?.role === 'ADMIN' || session?.user?.role === 'EDITOR'
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: post.title,
+    description: post.excerpt,
+    author: {
+      '@type': 'Organization',
+      name: 'miitaso',
+      url: 'https://miitaso.com',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'miitaso',
+      url: 'https://miitaso.com',
+    },
+    datePublished: post.publishedAt,
+    dateModified: post.updatedAt || post.publishedAt,
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `https://miitaso.com/blog/${params.slug}`,
+    },
+    articleSection: post.categories?.[0]?.name || '未分類',
+    keywords: post.categories?.map((cat: any) => cat.name).join(', '),
+    wordCount: post.content?.split(' ').length || 0,
+    timeRequired: `PT${post.readingTime || 1}M`,
+  }
+
   return (
     <div className="flex min-h-screen flex-col">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Header />
       <main className="flex-1">
         <div className="container mx-auto px-4 py-6 md:py-12 lg:py-16 max-w-7xl">
@@ -121,9 +165,12 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                   </h1>
                 </div>
                 
-                <div className="prose prose-gray max-w-none dark:prose-invert lg:prose-lg prose-h1:hidden">
-                  <MDXRemote source={post.content} />
-                </div>
+                <ProcessedMDXContent content={post.content}>
+                  <div className="prose prose-gray max-w-none dark:prose-invert lg:prose-lg prose-h1:hidden">
+                    <MDXRemote source={post.content} />
+                  </div>
+                </ProcessedMDXContent>
+                <DiagramRenderer content={post.content} />
               </article>
             </div>
           </div>

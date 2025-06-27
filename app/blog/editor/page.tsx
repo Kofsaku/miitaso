@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, Suspense } from 'react'
+import { useState, useEffect, Suspense, useMemo, useCallback } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from '@/components/ui/resizable'
 import { MDXEditor } from '@/components/mdx-editor'
@@ -51,6 +51,44 @@ function hello() {
 MDXエディタの使用例でした。左側で編集して、右側でプレビューを確認できます。
 `
 
+// 文字数統計コンポーネントを最適化
+const ContentStats = ({ content }: { content: string }) => {
+  const stats = useMemo(() => {
+    const totalLength = content.length
+    const withoutSpaces = content.replace(/\s+/g, '').length
+    const readingTime = Math.ceil(withoutSpaces / 400)
+    
+    return {
+      totalLength: totalLength.toLocaleString(),
+      withoutSpaces: withoutSpaces.toLocaleString(),
+      readingTime
+    }
+  }, [content])
+
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 bg-muted/50 rounded-lg">
+      <div className="text-center">
+        <div className="text-2xl font-bold text-primary">
+          {stats.totalLength}
+        </div>
+        <div className="text-sm text-muted-foreground">総文字数</div>
+      </div>
+      <div className="text-center">
+        <div className="text-2xl font-bold text-blue-600">
+          {stats.withoutSpaces}
+        </div>
+        <div className="text-sm text-muted-foreground">文字数（空白除く）</div>
+      </div>
+      <div className="text-center">
+        <div className="text-2xl font-bold text-green-600">
+          {stats.readingTime}
+        </div>
+        <div className="text-sm text-muted-foreground">読了時間（分）</div>
+      </div>
+    </div>
+  )
+}
+
 function BlogEditorComponent() {
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -77,12 +115,12 @@ function BlogEditorComponent() {
   }
 
   // タイトルが変更されたときにスラッグを自動生成
-  const handleTitleChange = (newTitle: string) => {
+  const handleTitleChange = useCallback((newTitle: string) => {
     setTitle(newTitle)
     if (!slug || (!isEditing && !slug)) {
       setSlug(generateSlug(newTitle))
     }
-  }
+  }, [slug, isEditing])
 
   // 既存の投稿データを読み込む
   useEffect(() => {
@@ -116,7 +154,7 @@ function BlogEditorComponent() {
     }
   }, [postId, router])
 
-  const handleSave = async () => {
+  const handleSave = useCallback(async () => {
     if (!title.trim() || !content.trim()) {
       toast.error('タイトルと内容を入力してください')
       return
@@ -163,7 +201,35 @@ function BlogEditorComponent() {
     } finally {
       setSaving(false)
     }
-  }
+  }, [title, content, slug, excerpt, status, category, isEditing, postId, router])
+
+  // 入力ハンドラを最適化
+  const handleContentChange = useCallback((newContent: string) => {
+    setContent(newContent)
+  }, [])
+
+  const handleSlugChange = useCallback((newSlug: string) => {
+    setSlug(newSlug)
+  }, [])
+
+  const handleExcerptChange = useCallback((newExcerpt: string) => {
+    setExcerpt(newExcerpt)
+  }, [])
+
+  const handleCategoryChange = useCallback((newCategory: string) => {
+    setCategory(newCategory)
+  }, [])
+
+  const handleStatusChange = useCallback((newStatus: string) => {
+    setStatus(newStatus)
+  }, [])
+
+  // Enterキーでのフォーム送信を防ぐ
+  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && e.target instanceof HTMLInputElement) {
+      e.preventDefault()
+    }
+  }, [])
 
   if (loading) {
     return (
@@ -193,7 +259,7 @@ function BlogEditorComponent() {
               </h1>
             </div>
             <div className="flex items-center space-x-2">
-              <Button variant="outline" size="sm" onClick={handleSave} disabled={saving || loading}>
+              <Button type="button" variant="outline" size="sm" onClick={handleSave} disabled={saving || loading}>
                 {saving ? (
                   <Loader2 className="h-4 w-4 mr-2 animate-spin" />
                 ) : (
@@ -218,7 +284,8 @@ function BlogEditorComponent() {
             <CardTitle>記事情報</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4">
+            <form onSubmit={(e) => e.preventDefault()} onKeyDown={handleKeyDown}>
+              <div className="space-y-4">
               <div>
                 <Label htmlFor="title">タイトル</Label>
                 <Input
@@ -235,7 +302,7 @@ function BlogEditorComponent() {
                   <Input
                     id="slug"
                     value={slug}
-                    onChange={(e) => setSlug(e.target.value)}
+                    onChange={(e) => handleSlugChange(e.target.value)}
                     placeholder="url-slug"
                     className="flex-1"
                   />
@@ -249,13 +316,13 @@ function BlogEditorComponent() {
                 <Input
                   id="category"
                   value={category}
-                  onChange={(e) => setCategory(e.target.value)}
+                  onChange={(e) => handleCategoryChange(e.target.value)}
                   placeholder="カテゴリ名を入力（省略可）"
                 />
               </div>
               <div>
                 <Label htmlFor="status">公開ステータス</Label>
-                <Select value={status} onValueChange={setStatus}>
+                <Select value={status} onValueChange={handleStatusChange}>
                   <SelectTrigger id="status">
                     <SelectValue placeholder="ステータスを選択" />
                   </SelectTrigger>
@@ -270,32 +337,14 @@ function BlogEditorComponent() {
                 <Textarea
                   id="excerpt"
                   value={excerpt}
-                  onChange={(e) => setExcerpt(e.target.value)}
+                  onChange={(e) => handleExcerptChange(e.target.value)}
                   placeholder="記事の概要を入力（省略可：自動生成されます）"
                   rows={3}
                 />
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 bg-muted/50 rounded-lg">
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-primary">
-                    {content.length.toLocaleString()}
-                  </div>
-                  <div className="text-sm text-muted-foreground">総文字数</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-blue-600">
-                    {content.replace(/\s+/g, '').length.toLocaleString()}
-                  </div>
-                  <div className="text-sm text-muted-foreground">文字数（空白除く）</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-green-600">
-                    {Math.ceil(content.replace(/\s+/g, '').length / 400)}
-                  </div>
-                  <div className="text-sm text-muted-foreground">読了時間（分）</div>
-                </div>
+              <ContentStats content={content} />
               </div>
-            </div>
+            </form>
           </CardContent>
         </Card>
 
@@ -309,7 +358,7 @@ function BlogEditorComponent() {
                   エディタ
                 </h3>
                 <div className="flex-1 min-h-0">
-                  <MDXEditor value={content} onChange={setContent} />
+                  <MDXEditor value={content} onChange={handleContentChange} />
                 </div>
               </div>
             </ResizablePanel>
@@ -342,7 +391,7 @@ function BlogEditorComponent() {
               </TabsTrigger>
             </TabsList>
             <TabsContent value="editor" className="min-h-[400px]">
-              <MDXEditor value={content} onChange={setContent} />
+              <MDXEditor value={content} onChange={handleContentChange} />
             </TabsContent>
             <TabsContent value="preview" className="min-h-[400px] overflow-auto">
               <MDXPreview content={content} />

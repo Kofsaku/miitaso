@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@/lib/auth';
+import { calculateReadingTime } from '@/lib/utils';
 import { z } from 'zod';
 
 const updatePostSchema = z.object({
@@ -119,7 +120,7 @@ export async function PUT(
     const { categoryIds, tagIds, ...updateData } = validatedData;
 
     if (updateData.content) {
-      updateData.readingTime = Math.ceil(updateData.content.split(' ').length / 200);
+      updateData.readingTime = calculateReadingTime(updateData.content);
     }
 
     if (updateData.slug && updateData.slug !== post.slug) {

@@ -58,8 +58,8 @@ export async function GET(
       tags: post.tags.map(pt => pt.tag),
     });
 
-    // キャッシュヘッダーを設定
-    response.headers.set('Cache-Control', 'public, s-maxage=3600, stale-while-revalidate=86400');
+    // キャッシュを無効化（編集可能なコンテンツのため）
+    response.headers.set('Cache-Control', 'no-cache, no-store, must-revalidate');
     
     return response;
   } catch (error) {

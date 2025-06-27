@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
-import { Image, Upload } from 'lucide-react'
+import { Image, Upload, Table2, Plus } from 'lucide-react'
 
 interface MDXEditorProps {
   value: string
@@ -40,7 +40,9 @@ export function MDXEditor({ value, onChange, placeholder }: MDXEditorProps) {
         if (textarea) {
           const start = textarea.selectionStart
           const end = textarea.selectionEnd
-          const imageMarkdown = `\n![${file.name}](${result.url})\n`
+          // 元のファイル名を使用してalt textを設定
+          const altText = result.originalName || file.name
+          const imageMarkdown = `\n![${altText}](${result.url})\n`
           
           const newValue = value.substring(0, start) + imageMarkdown + value.substring(end)
           onChange(newValue)
@@ -92,6 +94,59 @@ export function MDXEditor({ value, onChange, placeholder }: MDXEditorProps) {
     event.preventDefault()
   }
 
+  const insertTableTemplate = () => {
+    const textarea = textareaRef.current
+    if (textarea) {
+      const start = textarea.selectionStart
+      const end = textarea.selectionEnd
+      
+      const tableTemplate = `
+比較表：タイトル名
+
+| 項目 | カラム1 | カラム2 |
+|------|---------|---------|
+| 行1 | データ1 | データ2 |
+| 行2 | データ3 | データ4 |
+| 行3 | データ5 | データ6 |
+
+`
+      
+      const newValue = value.substring(0, start) + tableTemplate + value.substring(end)
+      onChange(newValue)
+      
+      // カーソル位置を調整
+      setTimeout(() => {
+        textarea.selectionStart = textarea.selectionEnd = start + tableTemplate.length
+        textarea.focus()
+      }, 0)
+    }
+  }
+
+  const insertSimpleTable = () => {
+    const textarea = textareaRef.current
+    if (textarea) {
+      const start = textarea.selectionStart
+      const end = textarea.selectionEnd
+      
+      const simpleTable = `
+| ヘッダー1 | ヘッダー2 | ヘッダー3 |
+|-----------|-----------|-----------|
+| データ1   | データ2   | データ3   |
+| データ4   | データ5   | データ6   |
+
+`
+      
+      const newValue = value.substring(0, start) + simpleTable + value.substring(end)
+      onChange(newValue)
+      
+      // カーソル位置を調整
+      setTimeout(() => {
+        textarea.selectionStart = textarea.selectionEnd = start + simpleTable.length
+        textarea.focus()
+      }, 0)
+    }
+  }
+
   if (!mounted) {
     return (
       <div className="h-full w-full border rounded-md">
@@ -105,7 +160,7 @@ export function MDXEditor({ value, onChange, placeholder }: MDXEditorProps) {
   return (
     <div className="h-full w-full border rounded-md flex flex-col">
       {/* ツールバー */}
-      <div className="border-b p-2 flex items-center gap-2">
+      <div className="border-b p-2 flex items-center gap-2 flex-wrap">
         <Button
           variant="outline"
           size="sm"
@@ -119,8 +174,31 @@ export function MDXEditor({ value, onChange, placeholder }: MDXEditorProps) {
           )}
           {uploading ? 'アップロード中...' : '画像を挿入'}
         </Button>
+        
+        <div className="h-4 w-px bg-gray-300" />
+        
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={insertTableTemplate}
+          title="比較表を挿入"
+        >
+          <Table2 className="h-4 w-4 mr-2" />
+          比較表
+        </Button>
+        
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={insertSimpleTable}
+          title="シンプルなテーブルを挿入"
+        >
+          <Plus className="h-4 w-4 mr-2" />
+          テーブル
+        </Button>
+        
         <span className="text-xs text-muted-foreground">
-          画像をドラッグ&ドロップまたはクリックして挿入
+          画像をドラッグ&ドロップまたはクリックして挿入 | テーブルボタンでマークダウン表を簡単作成
         </span>
       </div>
       

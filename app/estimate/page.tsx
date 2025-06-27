@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Input } from "@/components/ui/input"
@@ -119,16 +119,15 @@ export default function EstimatePage() {
     setEstimateData(prev => ({ ...prev, description: e.target.value }))
   }
 
-  const calculateEstimate = () => {
+  const performCalculation = () => {
     if (!estimateData.projectType || !estimateData.scale) {
-      toast.error("プロジェクトタイプとスケールを選択してください")
-      return
+      return null
     }
 
     const projectType = projectTypes.find(p => p.value === estimateData.projectType)
     const scale = scales.find(s => s.value === estimateData.scale)
     
-    if (!projectType || !scale) return
+    if (!projectType || !scale) return null
 
     // AI効率化を考慮した価格計算
     const aiOptimizedPrice = projectType.basePrice
@@ -191,8 +190,27 @@ export default function EstimatePage() {
       ]
     }
 
-    setEstimateResult(result)
+    return result
   }
+
+  const calculateEstimate = () => {
+    if (!estimateData.projectType || !estimateData.scale) {
+      toast.error("プロジェクトタイプとスケールを選択してください")
+      return
+    }
+    const result = performCalculation()
+    if (result) {
+      setEstimateResult(result)
+    }
+  }
+
+  // リアルタイム計算のためのuseEffect
+  useEffect(() => {
+    const result = performCalculation()
+    if (result) {
+      setEstimateResult(result)
+    }
+  }, [estimateData.projectType, estimateData.scale, estimateData.features])
 
   const handleContactFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -428,7 +446,7 @@ export default function EstimatePage() {
 
               {/* 見積もり結果表示 */}
               <div className="space-y-6">
-                {estimateResult ? (
+                {estimateResult || (estimateData.projectType && estimateData.scale) ? (
                   <>
                     <Card>
                       <CardHeader>
@@ -443,14 +461,14 @@ export default function EstimatePage() {
                       <CardContent className="space-y-6">
                         <div className="text-center space-y-3">
                           <div className="text-sm text-muted-foreground line-through">
-                            一般的な相場: {estimateResult.basePrice}万円
+                            一般的な相場: {estimateResult?.basePrice || 0}万円
                           </div>
                           <div className="text-3xl font-bold text-primary">
-                            {estimateResult.adjustedPrice}万円〜
+                            {estimateResult?.adjustedPrice || 0}万円〜
                           </div>
                           <div className="bg-gradient-to-r from-green-50 to-blue-50 border border-green-200 rounded-lg p-3 space-y-2">
                             <div className="text-sm text-green-700 font-medium">
-                              🤖 AI活用で相場より{estimateResult.savingsRate || 25}%お得！
+                              🤖 AI活用で相場より{estimateResult?.savingsRate || 25}%お得！
                             </div>
                             <div className="text-xs text-green-600">
                               最新AI技術と自動化で効率的な開発を実現
@@ -463,29 +481,29 @@ export default function EstimatePage() {
                           <div className="space-y-2">
                             <div className="flex justify-between text-sm">
                               <span>開発費用</span>
-                              <span>{estimateResult.breakdown.development}万円</span>
+                              <span>{estimateResult?.breakdown.development || 0}万円</span>
                             </div>
                             <div className="flex justify-between text-sm">
                               <span>デザイン費用</span>
-                              <span>{estimateResult.breakdown.design}万円</span>
+                              <span>{estimateResult?.breakdown.design || 0}万円</span>
                             </div>
                             <div className="flex justify-between text-sm">
                               <span>テスト・品質保証</span>
-                              <span>{estimateResult.breakdown.testing}万円</span>
+                              <span>{estimateResult?.breakdown.testing || 0}万円</span>
                             </div>
                             <div className="flex justify-between text-sm">
                               <span>プロジェクト管理</span>
-                              <span>{estimateResult.breakdown.projectManagement}万円</span>
+                              <span>{estimateResult?.breakdown.projectManagement || 0}万円</span>
                             </div>
                           </div>
                         </div>
 
                         <div className="space-y-2">
                           <h4 className="text-xl font-semibold tracking-tight">開発期間目安</h4>
-                          <p className="text-sm text-muted-foreground">{estimateResult.timeline}</p>
+                          <p className="text-sm text-muted-foreground">{estimateResult?.timeline || "選択してください"}</p>
                         </div>
 
-                        {estimateResult.aiOptimizations && (
+                        {estimateResult?.aiOptimizations && (
                           <div className="space-y-3">
                             <h4 className="text-xl font-semibold tracking-tight flex items-center gap-2">
                               🤖 AI活用によるコスト削減要因
@@ -501,7 +519,7 @@ export default function EstimatePage() {
                           </div>
                         )}
 
-                        {estimateResult.features.length > 0 && (
+                        {estimateResult?.features && estimateResult.features.length > 0 && (
                           <div className="space-y-2">
                             <h4 className="text-xl font-semibold tracking-tight">選択された機能</h4>
                             <div className="flex flex-wrap gap-2">
