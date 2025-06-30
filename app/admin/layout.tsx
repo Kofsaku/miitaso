@@ -3,15 +3,12 @@
 import { useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Inter } from "next/font/google"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { AdminAuth } from "@/components/admin-auth"
 import { SessionProvider, signOut } from "next-auth/react"
-import { ThemeProvider } from "@/components/theme-provider"
-import "@/app/globals.css"
 import {
   BarChart3,
   FileText,
@@ -26,8 +23,6 @@ import {
   ChevronDown,
   ChevronRight,
 } from "lucide-react"
-
-const inter = Inter({ subsets: ["latin"] })
 
 const sidebarNavItems = [
   {
@@ -174,52 +169,46 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   )
 
   return (
-    <html lang="ja" suppressHydrationWarning>
-      <body className={inter.className}>
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
-          <SessionProvider>
-            <AdminAuth>
-              <div className="flex h-screen bg-gray-100">
-              {/* サイドバー */}
-              <div className="hidden w-64 md:block">
-                <SidebarContent />
-              </div>
-              
-              {/* メインコンテンツ */}
-              <div className="flex-1 flex flex-col overflow-hidden">
-                {/* トップバー */}
-                <header className="bg-white border-b border-gray-200 px-6 py-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                      <Sheet open={sidebarOpen} onOpenChange={setSidebarOpen}>
-                        <SheetTrigger asChild>
-                          <Button variant="outline" size="icon" className="md:hidden">
-                            <Menu className="h-5 w-5" />
-                          </Button>
-                        </SheetTrigger>
-                        <SheetContent side="left" className="p-0 w-64">
-                          <SidebarContent />
-                        </SheetContent>
-                      </Sheet>
-                      <h1 className="text-xl font-semibold tracking-tight text-gray-900">ブログ管理システム</h1>
-                    </div>
-                    <Button variant="ghost" size="sm" onClick={handleLogout}>
-                      <LogOut className="h-4 w-4 mr-2" />
-                      ログアウト
+    <SessionProvider>
+      <AdminAuth>
+        <div className="flex h-screen bg-gray-100">
+        {/* サイドバー */}
+        <div className="hidden w-64 md:block">
+          <SidebarContent />
+        </div>
+        
+        {/* メインコンテンツ */}
+        <div className="flex-1 flex flex-col overflow-hidden">
+          {/* トップバー */}
+          <header className="bg-white border-b border-gray-200 px-6 py-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <Sheet open={sidebarOpen} onOpenChange={setSidebarOpen}>
+                  <SheetTrigger asChild>
+                    <Button variant="outline" size="icon" className="md:hidden">
+                      <Menu className="h-5 w-5" />
                     </Button>
-                  </div>
-                </header>
-                
-                {/* メインコンテンツエリア */}
-                <main className="flex-1 overflow-auto p-6">
-                  {children}
-                </main>
+                  </SheetTrigger>
+                  <SheetContent side="left" className="p-0 w-64">
+                    <SidebarContent />
+                  </SheetContent>
+                </Sheet>
+                <h1 className="text-xl font-semibold tracking-tight text-gray-900">ブログ管理システム</h1>
               </div>
+              <Button variant="ghost" size="sm" onClick={handleLogout}>
+                <LogOut className="h-4 w-4 mr-2" />
+                ログアウト
+              </Button>
             </div>
-            </AdminAuth>
-          </SessionProvider>
-        </ThemeProvider>
-      </body>
-    </html>
+          </header>
+          
+          {/* メインコンテンツエリア */}
+          <main className="flex-1 overflow-auto p-6">
+            {children}
+          </main>
+        </div>
+      </div>
+      </AdminAuth>
+    </SessionProvider>
   )
 }

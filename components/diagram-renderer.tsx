@@ -21,7 +21,15 @@ export function DiagramRenderer({ content }: DiagramRendererProps) {
 
 // MDXコンテンツに図解プレースホルダーを挿入するコンポーネント
 export function ProcessedMDXContent({ children, content }: { children: React.ReactNode, content: string }) {
+  const [mounted, setMounted] = useState(false)
+
   useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  useEffect(() => {
+    if (!mounted) return
+    
     const timer = setTimeout(() => {
       const proseContainer = document.querySelector('.prose')
       if (!proseContainer) return
@@ -84,7 +92,7 @@ export function ProcessedMDXContent({ children, content }: { children: React.Rea
     }, 200) // MDXのレンダリングを待つ
     
     return () => clearTimeout(timer)
-  }, [content])
+  }, [content, mounted])
 
   return <>{children}</>
 }

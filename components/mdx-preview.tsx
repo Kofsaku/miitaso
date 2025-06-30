@@ -1,7 +1,7 @@
 'use client'
 
 import { MDXRemote } from 'next-mdx-remote/rsc'
-import { Suspense, memo, useMemo } from 'react'
+import { Suspense, memo, useMemo, useEffect, useState } from 'react'
 import remarkGfm from 'remark-gfm'
 
 interface MDXPreviewProps {
@@ -11,8 +11,8 @@ interface MDXPreviewProps {
 // プレビューでは実際の表示と同じようにTailwind proseクラスに任せる
 
 const MDXPreviewContent = memo(({ content }: { content: string }) => {
-  const mdxContent = useMemo(() => {
-    return (
+  return (
+    <Suspense fallback={<div className="p-4 text-gray-500">読み込み中...</div>}>
       <MDXRemote 
         source={content} 
         options={{
@@ -21,12 +21,6 @@ const MDXPreviewContent = memo(({ content }: { content: string }) => {
           },
         }}
       />
-    )
-  }, [content])
-
-  return (
-    <Suspense fallback={<div className="p-4 text-gray-500">読み込み中...</div>}>
-      {mdxContent}
     </Suspense>
   )
 })
@@ -34,6 +28,20 @@ const MDXPreviewContent = memo(({ content }: { content: string }) => {
 MDXPreviewContent.displayName = 'MDXPreviewContent'
 
 export const MDXPreview = memo(({ content }: MDXPreviewProps) => {
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) {
+    return (
+      <div className="h-full w-full border rounded-md p-4 flex items-center justify-center text-gray-500">
+        プレビューを読み込み中...
+      </div>
+    )
+  }
+
   if (!content.trim()) {
     return (
       <div className="h-full w-full border rounded-md p-4 flex items-center justify-center text-gray-500">

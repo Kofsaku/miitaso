@@ -140,6 +140,14 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             
             {/* メインコンテンツ */}
             <div className="lg:order-2">
+              {post.status === 'DRAFT' && isAdmin && (
+                <div className="max-w-4xl mx-auto mb-6 p-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg">
+                  <div className="flex items-center gap-2 text-yellow-800 dark:text-yellow-200">
+                    <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
+                    <span className="text-sm font-medium">この記事は下書きです。管理者のみ表示されています。</span>
+                  </div>
+                </div>
+              )}
               <article className="max-w-4xl mx-auto">
                 {/* モバイル用目次 */}
                 <div className="lg:hidden mb-8">
@@ -147,6 +155,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 </div>
                 <div className="mb-8">
                   <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
+                    {post.status === 'DRAFT' && isAdmin && (
+                      <span className="rounded-full bg-yellow-100 dark:bg-yellow-900 px-3 py-1 text-xs font-medium text-yellow-800 dark:text-yellow-200 border border-yellow-200 dark:border-yellow-700">
+                        下書き
+                      </span>
+                    )}
                     {post.categories?.length > 0 && (
                       <span className="rounded-full bg-primary/10 px-2 py-1 text-xs font-medium text-primary">
                         {post.categories[0].name}
@@ -154,7 +167,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                     )}
                     <div className="flex items-center gap-1">
                       <Calendar className="h-4 w-4" />
-                      <span>{new Date(post.publishedAt).toLocaleDateString('ja-JP')}</span>
+                      <span>{new Date(post.publishedAt || post.createdAt).toLocaleDateString('ja-JP')}</span>
                     </div>
                     <div className="flex items-center gap-1">
                       <Clock className="h-4 w-4" />

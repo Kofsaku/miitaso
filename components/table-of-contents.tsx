@@ -19,8 +19,15 @@ export function TableOfContents({ content }: TableOfContentsProps) {
   const [headings, setHeadings] = useState<HeadingItem[]>([])
   const [activeId, setActiveId] = useState<string>('')
   const [isOpen, setIsOpen] = useState(false)
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  useEffect(() => {
+    if (!mounted) return
+    
     // マークダウンから見出しを抽出
     const extractHeadings = () => {
       const headingRegex = /^(#{1,6})\s+(.+)$/gm
@@ -49,9 +56,11 @@ export function TableOfContents({ content }: TableOfContentsProps) {
     if (content) {
       extractHeadings()
     }
-  }, [content])
+  }, [content, mounted])
 
   useEffect(() => {
+    if (!mounted || headings.length === 0) return
+    
     // 見出し要素にIDを設定し、スクロール位置を監視
     const observer = new IntersectionObserver(
       (entries) => {
@@ -78,9 +87,11 @@ export function TableOfContents({ content }: TableOfContentsProps) {
     return () => {
       observer.disconnect()
     }
-  }, [headings])
+  }, [headings, mounted])
 
   useEffect(() => {
+    if (!mounted || headings.length === 0) return
+    
     // 見出し要素にIDを設定
     const addIdsToHeadings = () => {
       headings.forEach((heading) => {
@@ -108,7 +119,7 @@ export function TableOfContents({ content }: TableOfContentsProps) {
       clearTimeout(timeout)
       intervals.forEach(clearTimeout)
     }
-  }, [headings])
+  }, [headings, mounted])
 
   const scrollToHeading = (id: string) => {
     console.log('Scrolling to:', id)
@@ -141,7 +152,7 @@ export function TableOfContents({ content }: TableOfContentsProps) {
     setIsOpen(false)
   }
 
-  if (headings.length === 0) {
+  if (!mounted || headings.length === 0) {
     return null
   }
 

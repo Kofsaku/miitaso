@@ -103,6 +103,7 @@ function BlogEditorComponent() {
   const [selectedTags, setSelectedTags] = useState<string[]>([])
   const [availableCategories, setAvailableCategories] = useState<{id: string, name: string}[]>([])
   const [availableTags, setAvailableTags] = useState<{id: string, name: string}[]>([])
+  const [newCategoryName, setNewCategoryName] = useState('')
   const [status, setStatus] = useState('DRAFT')
   const [isMobile, setIsMobile] = useState(false)
   const [activeTab, setActiveTab] = useState('editor')
@@ -270,6 +271,36 @@ function BlogEditorComponent() {
     setStatus(newStatus)
   }, [])
 
+  const handleAddNewCategory = useCallback(async () => {
+    if (!newCategoryName.trim()) return
+    
+    try {
+      const response = await fetch('/api/blog/categories', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: newCategoryName.trim(),
+        }),
+      })
+
+      if (response.ok) {
+        const newCategory = await response.json()
+        setAvailableCategories(prev => [...prev, newCategory])
+        setSelectedCategories(prev => [...prev, newCategory.id])
+        setNewCategoryName('')
+        toast.success('新しいカテゴリーを追加しました')
+      } else {
+        const error = await response.json()
+        toast.error(error.message || 'カテゴリーの追加に失敗しました')
+      }
+    } catch (error) {
+      console.error('Error adding category:', error)
+      toast.error('カテゴリーの追加に失敗しました')
+    }
+  }, [newCategoryName])
+
   // Enterキーでのフォーム送信を防ぐ
   const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && e.target instanceof HTMLInputElement) {
@@ -359,7 +390,8 @@ function BlogEditorComponent() {
               </div>
               <div>
                 <Label htmlFor="categories">カテゴリー</Label>
-                <div className="space-y-3">
+                <div className="space-y-4">
+                  {/* 選択されたカテゴリーの表示 */}
                   <div className="flex flex-wrap gap-2">
                     {selectedCategories.map(categoryId => {
                       const category = availableCategories.find(c => c.id === categoryId)
@@ -377,20 +409,52 @@ function BlogEditorComponent() {
                       ) : null
                     })}
                   </div>
-                  <Select onValueChange={handleCategoryToggle}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="カテゴリーを選択..." />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {availableCategories
-                        .filter(category => !selectedCategories.includes(category.id))
-                        .map(category => (
-                          <SelectItem key={category.id} value={category.id}>
-                            {category.name}
-                          </SelectItem>
-                        ))}
-                    </SelectContent>
-                  </Select>
+                  
+                  {/* 既存カテゴリーの選択 */}
+                  <div>
+                    <Label className="text-sm font-medium">既存のカテゴリーから選択</Label>
+                    <Select onValueChange={handleCategoryToggle}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="カテゴリーを選択..." />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {availableCategories
+                          .filter(category => !selectedCategories.includes(category.id))
+                          .map(category => (
+                            <SelectItem key={category.id} value={category.id}>
+                              {category.name}
+                            </SelectItem>
+                          ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  
+                  {/* 新しいカテゴリーの作成 */}
+                  <div>
+                    <Label className="text-sm font-medium">新しいカテゴリーを作成</Label>
+                    <div className="flex gap-2 mt-1">
+                      <Input
+                        placeholder="カテゴリー名を入力..."
+                        value={newCategoryName}
+                        onChange={(e) => setNewCategoryName(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') {
+                            e.preventDefault()
+                            handleAddNewCategory()
+                          }
+                        }}
+                        className="flex-1"
+                      />
+                      <Button 
+                        type="button"
+                        variant="outline"
+                        onClick={handleAddNewCategory}
+                        disabled={!newCategoryName.trim()}
+                      >
+                        作成して追加
+                      </Button>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div>

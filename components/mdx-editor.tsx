@@ -48,10 +48,12 @@ export function MDXEditor({ value, onChange, placeholder }: MDXEditorProps) {
           const newValue = value.substring(0, start) + imageMarkdown + value.substring(end)
           onChange(newValue)
           
-          // カーソル位置を調整
+          // カーソル位置を調整（スクロール位置を保持）
           setTimeout(() => {
+            const scrollTop = textarea.scrollTop
             textarea.selectionStart = textarea.selectionEnd = start + imageMarkdown.length
             textarea.focus()
+            textarea.scrollTop = scrollTop
           }, 0)
         }
       } else {
@@ -115,10 +117,12 @@ export function MDXEditor({ value, onChange, placeholder }: MDXEditorProps) {
       const newValue = value.substring(0, start) + tableTemplate + value.substring(end)
       onChange(newValue)
       
-      // カーソル位置を調整
+      // カーソル位置を調整（スクロール位置を保持）
       setTimeout(() => {
+        const scrollTop = textarea.scrollTop
         textarea.selectionStart = textarea.selectionEnd = start + tableTemplate.length
         textarea.focus()
+        textarea.scrollTop = scrollTop
       }, 0)
     }
   }
@@ -140,10 +144,12 @@ export function MDXEditor({ value, onChange, placeholder }: MDXEditorProps) {
       const newValue = value.substring(0, start) + simpleTable + value.substring(end)
       onChange(newValue)
       
-      // カーソル位置を調整
+      // カーソル位置を調整（スクロール位置を保持）
       setTimeout(() => {
+        const scrollTop = textarea.scrollTop
         textarea.selectionStart = textarea.selectionEnd = start + simpleTable.length
         textarea.focus()
+        textarea.scrollTop = scrollTop
       }, 0)
     }
   }
