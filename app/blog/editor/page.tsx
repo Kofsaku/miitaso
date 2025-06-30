@@ -523,23 +523,29 @@ function BlogEditorComponent() {
 
         {/* Desktop Layout */}
         <div className="hidden md:block mb-8">
-          <div className="border rounded-lg h-[calc(100vh-500px)] min-h-[500px] grid grid-cols-2 gap-0">
-            <div className="border-r border-gray-200 h-full p-4 flex flex-col">
-              <h3 className="text-lg font-medium mb-4 flex items-center">
-                <Edit className="h-4 w-4 mr-2" />
-                エディタ
-              </h3>
-              <div className="flex-1 min-h-0">
-                <MDXEditor value={content} onChange={handleContentChange} />
+          <div className="border rounded-lg overflow-hidden">
+            <div className="grid grid-cols-2">
+              <div className="border-r border-gray-200">
+                <div className="sticky top-0 bg-white z-10 p-4 pb-2 border-b">
+                  <h3 className="text-lg font-medium flex items-center">
+                    <Edit className="h-4 w-4 mr-2" />
+                    エディタ
+                  </h3>
+                </div>
+                <div className="p-4">
+                  <MDXEditor value={content} onChange={handleContentChange} />
+                </div>
               </div>
-            </div>
-            <div className="h-full p-4 flex flex-col">
-              <h3 className="text-lg font-medium mb-4 flex items-center">
-                <Eye className="h-4 w-4 mr-2" />
-                プレビュー
-              </h3>
-              <div className="flex-1 min-h-0">
-                <MDXPreview content={content} />
+              <div>
+                <div className="sticky top-0 bg-white z-10 p-4 pb-2 border-b">
+                  <h3 className="text-lg font-medium flex items-center">
+                    <Eye className="h-4 w-4 mr-2" />
+                    プレビュー
+                  </h3>
+                </div>
+                <div className="p-4">
+                  <MDXPreview content={content} />
+                </div>
               </div>
             </div>
           </div>

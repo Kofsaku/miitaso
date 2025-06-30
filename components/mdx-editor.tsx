@@ -1,7 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
-import { Textarea } from '@/components/ui/textarea'
+import { useState, useRef } from 'react'
 import { Button } from '@/components/ui/button'
 import { Image, Upload, Table2, Plus } from 'lucide-react'
 
@@ -12,15 +11,9 @@ interface MDXEditorProps {
 }
 
 export function MDXEditor({ value, onChange, placeholder }: MDXEditorProps) {
-  const [mounted, setMounted] = useState(false)
   const [uploading, setUploading] = useState(false)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
-  const lastScrollTop = useRef<number>(0)
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
 
   const handleImageUpload = async (file: File) => {
     setUploading(true)
@@ -48,12 +41,12 @@ export function MDXEditor({ value, onChange, placeholder }: MDXEditorProps) {
           const newValue = value.substring(0, start) + imageMarkdown + value.substring(end)
           onChange(newValue)
           
-          // カーソル位置を調整（スクロール位置を保持）
+          // カーソル位置を調整
           setTimeout(() => {
-            const scrollTop = textarea.scrollTop
-            textarea.selectionStart = textarea.selectionEnd = start + imageMarkdown.length
-            textarea.focus()
-            textarea.scrollTop = scrollTop
+            if (textarea) {
+              textarea.selectionStart = textarea.selectionEnd = start + imageMarkdown.length
+              textarea.focus()
+            }
           }, 0)
         }
       } else {
@@ -117,12 +110,12 @@ export function MDXEditor({ value, onChange, placeholder }: MDXEditorProps) {
       const newValue = value.substring(0, start) + tableTemplate + value.substring(end)
       onChange(newValue)
       
-      // カーソル位置を調整（スクロール位置を保持）
+      // カーソル位置を調整
       setTimeout(() => {
-        const scrollTop = textarea.scrollTop
-        textarea.selectionStart = textarea.selectionEnd = start + tableTemplate.length
-        textarea.focus()
-        textarea.scrollTop = scrollTop
+        if (textarea) {
+          textarea.selectionStart = textarea.selectionEnd = start + tableTemplate.length
+          textarea.focus()
+        }
       }, 0)
     }
   }
@@ -144,30 +137,20 @@ export function MDXEditor({ value, onChange, placeholder }: MDXEditorProps) {
       const newValue = value.substring(0, start) + simpleTable + value.substring(end)
       onChange(newValue)
       
-      // カーソル位置を調整（スクロール位置を保持）
+      // カーソル位置を調整
       setTimeout(() => {
-        const scrollTop = textarea.scrollTop
-        textarea.selectionStart = textarea.selectionEnd = start + simpleTable.length
-        textarea.focus()
-        textarea.scrollTop = scrollTop
+        if (textarea) {
+          textarea.selectionStart = textarea.selectionEnd = start + simpleTable.length
+          textarea.focus()
+        }
       }, 0)
     }
   }
 
-  if (!mounted) {
-    return (
-      <div className="h-full w-full border rounded-md">
-        <div className="h-full w-full p-4 text-muted-foreground">
-          エディターを読み込み中...
-        </div>
-      </div>
-    )
-  }
-
   return (
-    <div className="h-full w-full border rounded-md flex flex-col">
+    <div className="w-full">
       {/* ツールバー */}
-      <div className="border-b p-2 flex items-center gap-2 flex-wrap">
+      <div className="border-b p-2 flex items-center gap-2 flex-wrap border border-gray-200 rounded-t-md bg-gray-50">
         <Button
           variant="outline"
           size="sm"
@@ -218,18 +201,21 @@ export function MDXEditor({ value, onChange, placeholder }: MDXEditorProps) {
         className="hidden"
       />
       
-      {/* エディタ */}
-      <div className="flex-1 overflow-hidden">
-        <Textarea
-          ref={textareaRef}
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          onDrop={handleDrop}
-          onDragOver={handleDragOver}
-          placeholder={placeholder || 'ここにMarkdownを入力してください...\n\n画像を挿入するには「画像を挿入」ボタンをクリックするか、画像ファイルをここにドラッグ&ドロップしてください。'}
-          className="w-full h-full border-0 resize-none focus:ring-0 font-mono text-sm"
-        />
-      </div>
+      {/* エディタ - 標準のtextarea要素を使用 */}
+      <textarea
+        ref={textareaRef}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        onDrop={handleDrop}
+        onDragOver={handleDragOver}
+        placeholder={placeholder || 'ここにMarkdownを入力してください...\n\n画像を挿入するには「画像を挿入」ボタンをクリックするか、画像ファイルをここにドラッグ&ドロップしてください。'}
+        className="w-full border border-gray-200 rounded-b-md resize-none focus:ring-2 focus:ring-blue-500 focus:border-transparent font-mono text-sm p-4"
+        style={{ 
+          minHeight: '500px',
+          height: 'auto',
+          fieldSizing: 'content'
+        } as React.CSSProperties}
+      />
     </div>
   )
 }
