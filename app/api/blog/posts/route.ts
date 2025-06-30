@@ -24,6 +24,7 @@ export async function GET(request: NextRequest) {
     const page = parseInt(searchParams.get('page') || '1');
     const limit = parseInt(searchParams.get('limit') || '10');
     const status = searchParams.get('status') as 'DRAFT' | 'REVIEW' | 'PUBLISHED' | 'ARCHIVED' | null;
+    const showAll = searchParams.get('showAll') === 'true'; // 管理画面用フラグ
     const categoryId = searchParams.get('categoryId');
     const categoryName = searchParams.get('categoryName');
     const tagId = searchParams.get('tagId');
@@ -36,9 +37,11 @@ export async function GET(request: NextRequest) {
 
     if (status) {
       where.status = status;
-    } else {
+    } else if (!showAll) {
+      // showAllがfalseの場合のみ公開済みのみを表示（公開サイト用）
       where.status = 'PUBLISHED';
     }
+    // showAllがtrueの場合はすべてのステータスを表示（管理画面用）
 
     if (categoryId) {
       where.categories = {
@@ -92,9 +95,17 @@ export async function GET(request: NextRequest) {
           excerpt: true,
           slug: true,
           publishedAt: true,
+          updatedAt: true,
           readingTime: true,
           status: true,
           viewCount: true,
+          author: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+            },
+          },
           categories: {
             select: {
               category: {
@@ -160,31 +171,50 @@ export async function POST(request: NextRequest) {
 
     const finalSlug = existingPost ? `${slug}-${Date.now()}` : slug;
 
-    // デフォルトカテゴリを作成または取得
-    let category = null;
-    if (categoryName || categoryIds?.length) {
-      const catName = categoryName || '未分類';
-      const catSlug = catName.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-');
+    // カテゴリーの処理
+    let categoryConnections = [];
+    if (categoryIds?.length) {
+      // 指定されたカテゴリーIDが存在するかチェック
+      const existingCategories = await prisma.category.findMany({
+        where: { id: { in: categoryIds } }
+      });
+      categoryConnections = existingCategories.map(cat => ({
+        category: { connect: { id: cat.id } }
+      }));
+    } else if (categoryName) {
+      // 後方互換性のため、categoryNameも処理
+      const catSlug = categoryName.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-');
       
-      // 既存のカテゴリを名前またはスラッグで検索
-      category = await prisma.category.findFirst({
+      let category = await prisma.category.findFirst({
         where: {
           OR: [
-            { name: catName },
+            { name: categoryName },
             { slug: catSlug }
           ]
         }
       });
       
-      // 見つからない場合は新規作成
       if (!category) {
         category = await prisma.category.create({
           data: {
-            name: catName,
+            name: categoryName,
             slug: catSlug,
           },
         });
       }
+      
+      categoryConnections = [{ category: { connect: { id: category.id } } }];
+    }
+
+    // タグの処理
+    let tagConnections = [];
+    if (tagIds?.length) {
+      const existingTags = await prisma.tag.findMany({
+        where: { id: { in: tagIds } }
+      });
+      tagConnections = existingTags.map(tag => ({
+        tag: { connect: { id: tag.id } }
+      }));
     }
 
     // デフォルトユーザーを作成または取得
@@ -208,13 +238,14 @@ export async function POST(request: NextRequest) {
         readingTime,
         authorId: defaultUser.id,
         publishedAt: (postData.status || 'DRAFT') === 'PUBLISHED' ? new Date() : null,
-        ...(category && {
+        ...(categoryConnections.length > 0 && {
           categories: {
-            create: [{
-              category: {
-                connect: { id: category.id },
-              },
-            }],
+            create: categoryConnections,
+          },
+        }),
+        ...(tagConnections.length > 0 && {
+          tags: {
+            create: tagConnections,
           },
         }),
       },
@@ -229,6 +260,11 @@ export async function POST(request: NextRequest) {
         categories: {
           include: {
             category: true,
+          },
+        },
+        tags: {
+          include: {
+            tag: true,
           },
         },
       },

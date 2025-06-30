@@ -10,7 +10,9 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
-import { ArrowLeft, Save, Eye, Edit, Loader2 } from 'lucide-react'
+import { Badge } from '@/components/ui/badge'
+import { Combobox } from '@/components/ui/combobox'
+import { ArrowLeft, Save, Eye, Edit, Loader2, X } from 'lucide-react'
 import Link from 'next/link'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
@@ -97,7 +99,10 @@ function BlogEditorComponent() {
   const [title, setTitle] = useState('新しいブログ記事')
   const [slug, setSlug] = useState('')
   const [excerpt, setExcerpt] = useState('')
-  const [category, setCategory] = useState('')
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([])
+  const [selectedTags, setSelectedTags] = useState<string[]>([])
+  const [availableCategories, setAvailableCategories] = useState<{id: string, name: string}[]>([])
+  const [availableTags, setAvailableTags] = useState<{id: string, name: string}[]>([])
   const [status, setStatus] = useState('DRAFT')
   const [isMobile, setIsMobile] = useState(false)
   const [activeTab, setActiveTab] = useState('editor')
@@ -122,6 +127,32 @@ function BlogEditorComponent() {
     }
   }, [slug, isEditing])
 
+  // カテゴリーとタグのデータを読み込む
+  useEffect(() => {
+    const fetchCategoriesAndTags = async () => {
+      try {
+        const [categoriesRes, tagsRes] = await Promise.all([
+          fetch('/api/blog/categories'),
+          fetch('/api/blog/tags')
+        ])
+        
+        if (categoriesRes.ok) {
+          const categoriesData = await categoriesRes.json()
+          setAvailableCategories(categoriesData.categories || [])
+        }
+        
+        if (tagsRes.ok) {
+          const tagsData = await tagsRes.json()
+          setAvailableTags(tagsData || [])
+        }
+      } catch (error) {
+        console.error('Error loading categories/tags:', error)
+      }
+    }
+    
+    fetchCategoriesAndTags()
+  }, [])
+
   // 既存の投稿データを読み込む
   useEffect(() => {
     if (postId) {
@@ -139,9 +170,11 @@ function BlogEditorComponent() {
           setContent(data.content || '')
           setExcerpt(data.excerpt || '')
           setStatus(data.status || 'DRAFT')
-          // カテゴリ名を取得（最初のカテゴリを使用）
-          const categoryName = data.categories?.[0]?.category?.name || ''
-          setCategory(categoryName)
+          // カテゴリとタグのIDを設定
+          const categoryIds = data.categories?.map((c: any) => c.category?.id || c.categoryId) || []
+          const tagIds = data.tags?.map((t: any) => t.tag?.id || t.tagId) || []
+          setSelectedCategories(categoryIds)
+          setSelectedTags(tagIds)
         })
         .catch(error => {
           console.error('Error loading post:', error)
@@ -176,7 +209,8 @@ function BlogEditorComponent() {
         content,
         excerpt: excerpt || content.slice(0, 200) + '...',
         status: status || 'PUBLISHED',
-        ...(category && { categoryName: category }),
+        categoryIds: selectedCategories,
+        tagIds: selectedTags,
       }
 
       const response = await fetch(url, {
@@ -201,7 +235,7 @@ function BlogEditorComponent() {
     } finally {
       setSaving(false)
     }
-  }, [title, content, slug, excerpt, status, category, isEditing, postId, router])
+  }, [title, content, slug, excerpt, status, selectedCategories, selectedTags, isEditing, postId, router])
 
   // 入力ハンドラを最適化
   const handleContentChange = useCallback((newContent: string) => {
@@ -216,8 +250,20 @@ function BlogEditorComponent() {
     setExcerpt(newExcerpt)
   }, [])
 
-  const handleCategoryChange = useCallback((newCategory: string) => {
-    setCategory(newCategory)
+  const handleCategoryToggle = useCallback((categoryId: string) => {
+    setSelectedCategories(prev => 
+      prev.includes(categoryId) 
+        ? prev.filter(id => id !== categoryId)
+        : [...prev, categoryId]
+    )
+  }, [])
+
+  const handleTagToggle = useCallback((tagId: string) => {
+    setSelectedTags(prev => 
+      prev.includes(tagId) 
+        ? prev.filter(id => id !== tagId)
+        : [...prev, tagId]
+    )
   }, [])
 
   const handleStatusChange = useCallback((newStatus: string) => {
@@ -312,13 +358,76 @@ function BlogEditorComponent() {
                 </p>
               </div>
               <div>
-                <Label htmlFor="category">カテゴリ</Label>
-                <Input
-                  id="category"
-                  value={category}
-                  onChange={(e) => handleCategoryChange(e.target.value)}
-                  placeholder="カテゴリ名を入力（省略可）"
-                />
+                <Label htmlFor="categories">カテゴリー</Label>
+                <div className="space-y-3">
+                  <div className="flex flex-wrap gap-2">
+                    {selectedCategories.map(categoryId => {
+                      const category = availableCategories.find(c => c.id === categoryId)
+                      return category ? (
+                        <Badge key={categoryId} variant="secondary" className="flex items-center gap-1">
+                          {category.name}
+                          <button 
+                            type="button"
+                            onClick={() => handleCategoryToggle(categoryId)}
+                            className="ml-1 rounded-full hover:bg-gray-600 p-0.5"
+                          >
+                            <X className="h-3 w-3" />
+                          </button>
+                        </Badge>
+                      ) : null
+                    })}
+                  </div>
+                  <Select onValueChange={handleCategoryToggle}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="カテゴリーを選択..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {availableCategories
+                        .filter(category => !selectedCategories.includes(category.id))
+                        .map(category => (
+                          <SelectItem key={category.id} value={category.id}>
+                            {category.name}
+                          </SelectItem>
+                        ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+              <div>
+                <Label htmlFor="tags">タグ</Label>
+                <div className="space-y-3">
+                  <div className="flex flex-wrap gap-2">
+                    {selectedTags.map(tagId => {
+                      const tag = availableTags.find(t => t.id === tagId)
+                      return tag ? (
+                        <Badge key={tagId} variant="outline" className="flex items-center gap-1">
+                          {tag.name}
+                          <button 
+                            type="button"
+                            onClick={() => handleTagToggle(tagId)}
+                            className="ml-1 rounded-full hover:bg-gray-600 p-0.5"
+                          >
+                            <X className="h-3 w-3" />
+                          </button>
+                        </Badge>
+                      ) : null
+                    })}
+                  </div>
+                  <Select onValueChange={handleTagToggle}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="タグを選択..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {availableTags
+                        .filter(tag => !selectedTags.includes(tag.id))
+                        .map(tag => (
+                          <SelectItem key={tag.id} value={tag.id}>
+                            {tag.name}
+                          </SelectItem>
+                        ))}
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
               <div>
                 <Label htmlFor="status">公開ステータス</Label>
@@ -350,31 +459,26 @@ function BlogEditorComponent() {
 
         {/* Desktop Layout */}
         <div className="hidden md:block mb-8">
-          <ResizablePanelGroup direction="horizontal" className="border rounded-lg h-[calc(100vh-500px)] min-h-[500px]">
-            <ResizablePanel defaultSize={50} minSize={30}>
-              <div className="h-full p-4 flex flex-col">
-                <h3 className="text-lg font-medium mb-4 flex items-center">
-                  <Edit className="h-4 w-4 mr-2" />
-                  エディタ
-                </h3>
-                <div className="flex-1 min-h-0">
-                  <MDXEditor value={content} onChange={handleContentChange} />
-                </div>
+          <div className="border rounded-lg h-[calc(100vh-500px)] min-h-[500px] grid grid-cols-2 gap-0">
+            <div className="border-r border-gray-200 h-full p-4 flex flex-col">
+              <h3 className="text-lg font-medium mb-4 flex items-center">
+                <Edit className="h-4 w-4 mr-2" />
+                エディタ
+              </h3>
+              <div className="flex-1 min-h-0">
+                <MDXEditor value={content} onChange={handleContentChange} />
               </div>
-            </ResizablePanel>
-            <ResizableHandle withHandle />
-            <ResizablePanel defaultSize={50} minSize={30}>
-              <div className="h-full p-4 flex flex-col">
-                <h3 className="text-lg font-medium mb-4 flex items-center">
-                  <Eye className="h-4 w-4 mr-2" />
-                  プレビュー
-                </h3>
-                <div className="flex-1 min-h-0">
-                  <MDXPreview content={content} />
-                </div>
+            </div>
+            <div className="h-full p-4 flex flex-col">
+              <h3 className="text-lg font-medium mb-4 flex items-center">
+                <Eye className="h-4 w-4 mr-2" />
+                プレビュー
+              </h3>
+              <div className="flex-1 min-h-0">
+                <MDXPreview content={content} />
               </div>
-            </ResizablePanel>
-          </ResizablePanelGroup>
+            </div>
+          </div>
         </div>
 
         {/* Mobile Layout */}

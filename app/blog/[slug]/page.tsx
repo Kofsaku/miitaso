@@ -9,6 +9,7 @@ import { authOptions } from "@/lib/auth"
 import { MDXRemote } from "next-mdx-remote/rsc"
 import { notFound } from "next/navigation"
 import { DiagramRenderer, ProcessedMDXContent } from "@/components/diagram-renderer"
+import remarkGfm from "remark-gfm"
 
 interface BlogPostPageProps {
   params: {
@@ -166,8 +167,15 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 </div>
                 
                 <ProcessedMDXContent content={post.content}>
-                  <div className="prose prose-gray max-w-none dark:prose-invert lg:prose-lg prose-h1:hidden">
-                    <MDXRemote source={post.content} />
+                  <div className="prose prose-gray max-w-none dark:prose-invert lg:prose-lg prose-h1:hidden prose-table:border-collapse prose-table:w-full prose-th:border prose-th:border-gray-300 prose-th:px-4 prose-th:py-2 prose-th:bg-gray-50 prose-th:text-left prose-th:font-semibold prose-td:border prose-td:border-gray-300 prose-td:px-4 prose-td:py-2 dark:prose-th:border-gray-600 dark:prose-th:bg-gray-800 dark:prose-td:border-gray-600">
+                    <MDXRemote 
+                      source={post.content} 
+                      options={{
+                        mdxOptions: {
+                          remarkPlugins: [remarkGfm],
+                        },
+                      }}
+                    />
                   </div>
                 </ProcessedMDXContent>
                 <DiagramRenderer content={post.content} />

@@ -16,6 +16,7 @@ export function MDXEditor({ value, onChange, placeholder }: MDXEditorProps) {
   const [uploading, setUploading] = useState(false)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const lastScrollTop = useRef<number>(0)
 
   useEffect(() => {
     setMounted(true)

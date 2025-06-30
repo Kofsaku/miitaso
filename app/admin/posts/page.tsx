@@ -79,6 +79,7 @@ interface BlogPost {
   publishedAt: string | null
   views: number
   comments: number
+  slug: string
 }
 
 export default function PostsManagement() {
@@ -90,10 +91,45 @@ export default function PostsManagement() {
 
   const fetchPosts = async () => {
     try {
-      const response = await fetch('/api/blog/posts')
+      // 管理画面ではすべてのステータスの記事を取得
+      const params = new URLSearchParams({
+        limit: '100', // 管理画面なのですべての記事を表示
+        showAll: 'true', // 管理画面用フラグ
+        orderBy: 'updatedAt' // 更新日時でソートして最新のものから表示
+      });
+      
+      const response = await fetch(`/api/blog/posts?${params}`)
+      console.log('管理画面 API呼び出し:', `/api/blog/posts?${params}`);
+      
       if (response.ok) {
         const data = await response.json()
-        setPosts(data.posts || [])
+        console.log('APIから取得したデータ:', data);
+        console.log('取得した記事数:', data.posts?.length || 0);
+        console.log('ドラフト記事数:', data.posts?.filter((p: any) => p.status === 'DRAFT').length || 0);
+        
+        // APIから返されたデータを管理画面用に変換
+        const transformedPosts = data.posts.map((post: any) => ({
+          id: post.id,
+          title: post.title,
+          status: post.status,
+          category: post.categories?.[0]?.name || '未分類',
+          author: post.author?.name || '管理者',
+          publishedAt: post.publishedAt,
+          views: post.viewCount || 0,
+          comments: 0, // コメント数は実装されていない
+          slug: post.slug,
+        })).sort((a, b) => {
+          // 下書きを上に表示し、公開済みを下に表示
+          if (a.status === 'DRAFT' && b.status !== 'DRAFT') return -1;
+          if (a.status !== 'DRAFT' && b.status === 'DRAFT') return 1;
+          return 0;
+        })
+        
+        console.log('変換後の記事数:', transformedPosts.length);
+        console.log('変換後のドラフト記事数:', transformedPosts.filter(p => p.status === 'DRAFT').length);
+        setPosts(transformedPosts)
+      } else {
+        console.error('API呼び出しエラー:', response.status, response.statusText);
       }
     } catch (error) {
       console.error('記事の取得に失敗しました:', error)
@@ -143,15 +179,44 @@ export default function PostsManagement() {
   }
 
   useEffect(() => {
+    console.log('管理画面の初期化開始');
     setLoading(true)
-    fetchPosts().finally(() => setLoading(false))
+    fetchPosts().finally(() => {
+      setLoading(false)
+      console.log('管理画面の初期化完了');
+    })
   }, [])
 
   const filteredPosts = posts.filter(post => {
     const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesStatus = statusFilter === 'all' || post.status.toLowerCase() === statusFilter.toLowerCase()
+    const matchesStatus = statusFilter === 'all' || 
+      (statusFilter === 'published' && post.status === 'PUBLISHED') ||
+      (statusFilter === 'draft' && post.status === 'DRAFT')
     const matchesCategory = categoryFilter === 'all' || post.category === categoryFilter
+    
+    // デバッグ用ログ
+    if (post.status === 'DRAFT') {
+      console.log(`ドラフト記事フィルタリング:`, {
+        title: post.title,
+        statusFilter,
+        matchesSearch,
+        matchesStatus,
+        matchesCategory,
+        finalResult: matchesSearch && matchesStatus && matchesCategory
+      });
+    }
+    
     return matchesSearch && matchesStatus && matchesCategory
+  })
+  
+  // フィルタリング結果をログ出力
+  console.log('フィルタリング結果:', {
+    totalPosts: posts.length,
+    filteredPosts: filteredPosts.length,
+    draftPosts: posts.filter(p => p.status === 'DRAFT').length,
+    filteredDraftPosts: filteredPosts.filter(p => p.status === 'DRAFT').length,
+    statusFilter,
+    searchTerm
   })
 
   if (loading) {
