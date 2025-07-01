@@ -6,7 +6,7 @@ import { caseStudies } from "@/app/data/case-studies"
 import Image from "next/image"
 import Link from "next/link"
 import { useState } from "react"
-import { Cpu, Rocket, Lightbulb, Palette } from "lucide-react"
+import { Cpu, Rocket, Lightbulb, Palette, BarChart3, Users, ArrowUpRight, CheckCircle2 } from "lucide-react"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 
@@ -79,33 +79,78 @@ export default function CaseStudiesPage() {
                 </Button>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {filteredCaseStudies.map((caseStudy) => (
-                  <Link key={caseStudy.id} href={`/case-studies/${caseStudy.id}`}>
-                    <Card className="h-full hover:shadow-lg transition-shadow">
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-6">
-                        <div className="space-y-4">
-                          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                            <span>{caseStudy.category}</span>
-                            <span>•</span>
-                            <span>{caseStudy.serviceType}</span>
+              <div className="mx-auto grid max-w-5xl grid-cols-1 gap-8 py-12 lg:grid-cols-2 lg:gap-12">
+                {filteredCaseStudies.map((caseStudy, index) => {
+                  const serviceIcons = {
+                    product: Cpu,
+                    mvp: Rocket,
+                    consulting: Lightbulb,
+                    design: Palette
+                  }
+                  const ServiceIcon = serviceIcons[caseStudy.serviceType as keyof typeof serviceIcons] || Cpu
+                  
+                  // Extract key metrics from content
+                  const metrics = caseStudy.content.match(/<strong>(.*?)<\/strong>/g)
+                    ?.slice(0, 3)
+                    .map(m => m.replace(/<\/?strong>/g, ''))
+                    || []
+                  
+                  return (
+                    <Link key={caseStudy.id} href={`/case-studies/${caseStudy.id}`} className="block">
+                      <Card className="h-full hover:shadow-lg transition-shadow cursor-pointer">
+                      <div className="p-6">
+                        <div className="flex items-start justify-between mb-6">
+                          <div className="flex items-center gap-3">
+                            <div className="p-3 rounded-xl bg-white shadow-sm">
+                              <ServiceIcon className="h-6 w-6 text-blue-600" />
+                            </div>
+                            <div>
+                              <p className="text-sm font-medium text-muted-foreground">{caseStudy.category}</p>
+                              <p className="text-xs text-muted-foreground">{caseStudy.date}</p>
+                            </div>
                           </div>
-                          <h3 className="text-xl font-bold">{caseStudy.title}</h3>
-                          <p className="text-muted-foreground">{caseStudy.description}</p>
+                          <ArrowUpRight className="h-5 w-5 text-muted-foreground" />
                         </div>
-                        <div className="relative aspect-[16/9]">
-                          <Image
-                            src={caseStudy.image}
-                            width={400}
-                            height={225}
-                            alt={`Case Study ${caseStudy.id}`}
-                            className="rounded-lg object-cover"
-                          />
+                        
+                        <h3 className="text-2xl font-bold mb-3 line-clamp-2">
+                          {caseStudy.title}
+                        </h3>
+                        
+                        <p className="text-muted-foreground mb-6 line-clamp-3">
+                          {caseStudy.description}
+                        </p>
+                        
+                        {metrics.length > 0 && (
+                          <div className="space-y-3 mb-6">
+                            {metrics.map((metric, idx) => (
+                              <div key={idx} className="flex items-center gap-2 text-sm">
+                                <CheckCircle2 className="h-4 w-4 text-green-600 flex-shrink-0" />
+                                <span className="font-medium text-foreground/80">{metric}</span>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                        
+                        <div className="flex items-center justify-between pt-4 border-t">
+                          <div className="flex items-center gap-4">
+                            <div className="flex items-center gap-1">
+                              <BarChart3 className="h-4 w-4 text-muted-foreground" />
+                              <span className="text-sm text-muted-foreground">高インパクト</span>
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <Users className="h-4 w-4 text-muted-foreground" />
+                              <span className="text-sm text-muted-foreground">実績あり</span>
+                            </div>
+                          </div>
+                          <span className="text-sm font-medium text-blue-600">
+                            詳細を見る →
+                          </span>
                         </div>
                       </div>
-                    </Card>
-                  </Link>
-                ))}
+                      </Card>
+                    </Link>
+                  )
+                })}
               </div>
             </div>
           </div>
@@ -114,4 +159,4 @@ export default function CaseStudiesPage() {
       <Footer />
     </div>
   )
-} 
+}

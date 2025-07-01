@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Footer } from "@/components/footer"
@@ -16,6 +17,10 @@ import {
   Palette,
   Rocket,
   Users,
+  BarChart3,
+  ArrowUpRight,
+  CheckCircle2,
+  Zap,
 } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
@@ -35,20 +40,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
-type ServiceType = "product" | "mvp" | "consulting" | "design"
-
-type CaseStudy = {
-  title: string
-  description: string
-  content: string
-  image: string
-  category: string
-  serviceType: string
-}
-
-type CaseStudies = {
-  [key in ServiceType]: CaseStudy[]
-}
+import { ServiceType } from "@/types"
 
 export default function Home() {
   const [selectedCaseStudy, setSelectedCaseStudy] = useState<ServiceType>("product")
@@ -123,46 +115,45 @@ export default function Home() {
       <Toaster position="top-center" />
       <Header />
       <main className="flex-1">
-        <section className="w-full py-8 md:py-12 lg:py-16 xl:py-20 bg-gradient-to-b from-background to-muted">
+        <section className="w-full py-8 md:py-12 lg:py-16 xl:py-20 bg-white overflow-hidden">
           <div className="container px-4 md:px-6">
             <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 xl:grid-cols-2">
-              <div className="flex flex-col justify-center space-y-4">
+              <div className="flex flex-col justify-center space-y-4 animate-fade-in-up">
                 <div className="space-y-2">
-                  <div className="inline-block rounded-lg bg-primary/10 px-3 py-1 text-sm mb-4">
+                  <div className="inline-block rounded-lg bg-white border border-gray-200 px-3 py-1 text-sm mb-4 animate-slide-in-left animation-delay-200">
                     🎯 総合システム開発
                   </div>
-                  <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
+                  <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl animate-fade-in-up animation-delay-300">
                   アイデアを<br/>現実に変える
                   </h1>
-                  <p className="max-w-[600px] text-muted-foreground md:text-xl">
+                  <p className="max-w-[600px] text-muted-foreground md:text-xl animate-fade-in-up animation-delay-500">
                     戦略立案、要件定義、UI/UX設計、実装、保守運用まで。一貫したサービス提供で、あなたのビジョンを確実に実現します。
                   </p>
                 </div>
-                <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                  <Button size="lg" className="inline-flex items-center" asChild>
+                <div className="flex flex-col gap-2 min-[400px]:flex-row animate-fade-in-up animation-delay-700">
+                  <Button size="lg" className="inline-flex items-center hover:scale-105 transition-all duration-300 hover:shadow-lg" asChild>
                     <Link href="/contact">
                       無料相談を申し込む
-                      <ArrowRight className="ml-2 h-4 w-4" />
+                      <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                     </Link>
                   </Button>
-                  <Button size="lg" variant="outline" asChild>
+                  <Button size="lg" variant="outline" className="hover:scale-105 transition-all duration-300 hover:shadow-md" asChild>
                     <Link href="/estimate">無料見積もり</Link>
                   </Button>
                 </div>
               </div>
-              <div className="hidden lg:block">
+              <div className="hidden lg:block animate-fade-in-right animation-delay-400">
                 <Image
                   src="/hero2.png?height=550&width=550"
                   width={550}
                   height={550}
                   alt="Hero Image"
-                  className="mx-auto aspect-video overflow-hidden rounded-xl object-cover"
+                  className="mx-auto aspect-video overflow-hidden rounded-xl object-cover hover:scale-105 transition-transform duration-700 hover:shadow-2xl"
                 />
               </div>
             </div>
           </div>
         </section>
-
         <section className="w-full py-12 md:py-24 lg:py-32 bg-background">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
@@ -364,97 +355,6 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-background">
-          <div className="container px-4 md:px-6">
-            <div className="flex flex-col items-center justify-center space-y-4 text-center">
-              <div className="space-y-2">
-                <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm">ツール</div>
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">アイデア生成ツール</h2>
-                <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  AIがあなたのビジネスアイデアを自動生成します
-                </p>
-              </div>
-            </div>
-            <div className="grid gap-8 py-12 md:grid-cols-2">
-              <Card className="p-6">
-                <div className="space-y-4">
-                  <div className="inline-flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 mb-4">
-                    <Lightbulb className="h-6 w-6 text-primary" />
-                  </div>
-                  <h3 className="text-xl font-semibold tracking-tight">アイデアを生成する</h3>
-                  <p className="text-muted-foreground">
-                    以下のフォームにキーワードや業界を入力すると、AIが新しいビジネスアイデアを提案します。
-                  </p>
-                  <form onSubmit={async (e) => {
-                    e.preventDefault();
-                    const formData = new FormData(e.currentTarget);
-                    const prompt = formData.get('prompt') as string;
-                    
-                    try {
-                      const response = await fetch('/api/chat', {
-                        method: 'POST',
-                        headers: {
-                          'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                          type: 'ideaGeneration',
-                          prompt: prompt,
-                        }),
-                      });
-
-                      if (!response.ok) {
-                        throw new Error('APIリクエストに失敗しました');
-                      }
-
-                      const data = await response.json();
-                      setIdeaResponse(data.response);
-                    } catch (error) {
-                      console.error('Error:', error);
-                      toast.error('エラーが発生しました。もう一度お試しください。');
-                    }
-                  }} className="space-y-4">
-                    <div className="space-y-2">
-                      <label htmlFor="prompt" className="text-sm font-medium">
-                        キーワードや業界を入力してください
-                      </label>
-                      <textarea
-                        id="prompt"
-                        name="prompt"
-                        className="w-full min-h-[100px] p-2 border rounded-md"
-                        placeholder="例：健康食品、サブスクリプション、エコフレンドリー"
-                        required
-                      />
-                    </div>
-                    <Button type="submit" className="w-full">
-                      アイデアを生成する
-                    </Button>
-                  </form>
-                </div>
-              </Card>
-
-              <Card className="p-6">
-                <div className="space-y-4">
-                  <h3 className="text-xl font-semibold tracking-tight">生成されたアイデア</h3>
-                  {ideaResponse ? (
-                    <div className="prose max-w-none">
-                      <ReactMarkdown>{ideaResponse}</ReactMarkdown>
-                    </div>
-                  ) : (
-                    <p className="text-muted-foreground">
-                      左のフォームにキーワードを入力して、アイデアを生成してください。
-                    </p>
-                  )}
-                </div>
-              </Card>
-            </div>
-            <div className="mt-8 text-center">
-              <Button size="lg" asChild>
-                <Link href="/tools">すべてのツールを見る</Link>
-              </Button>
-            </div>
-          </div>
-        </section>
-
         <section className="w-full py-12 md:py-24 lg:py-32 bg-muted">
           <div className="container px-4 md:px-6">
             <div className="grid gap-6 lg:grid-cols-2 lg:gap-12">
@@ -534,34 +434,78 @@ export default function Home() {
                 UI/UXデザイン
               </Button>
             </div>
-            <div className="mx-auto grid max-w-5xl grid-cols-1 gap-8 py-12 md:grid-cols-2 lg:gap-12">
-              {currentCaseStudies.map((caseStudy) => (
-                <Link key={caseStudy.id} href={`/case-studies/${caseStudy.id}`}>
-                  <Card className="h-full hover:shadow-lg transition-shadow">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-6">
-                      <div className="space-y-4">
-                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                          <span>{caseStudy.category}</span>
-                          <span>•</span>
-                          <span>{caseStudy.serviceType}</span>
+            <div className="mx-auto grid max-w-5xl grid-cols-1 gap-8 py-12 lg:grid-cols-2 lg:gap-12">
+              {currentCaseStudies.map((caseStudy, index) => {
+                const serviceIcons = {
+                  product: Cpu,
+                  mvp: Rocket,
+                  consulting: Lightbulb,
+                  design: Palette
+                }
+                const ServiceIcon = serviceIcons[caseStudy.serviceType as keyof typeof serviceIcons] || Zap
+                
+                // Extract key metrics from content
+                const metrics = caseStudy.content.match(/<strong>(.*?)<\/strong>/g)
+                  ?.slice(0, 3)
+                  .map(m => m.replace(/<\/?strong>/g, ''))
+                  || []
+                
+                return (
+                  <Link key={caseStudy.id} href={`/case-studies/${caseStudy.id}`} className="block">
+                    <Card className="h-full hover:shadow-lg transition-shadow cursor-pointer">
+                    <div className="p-6">
+                      <div className="flex items-start justify-between mb-6">
+                        <div className="flex items-center gap-3">
+                          <div className="p-3 rounded-xl bg-white shadow-sm">
+                            <ServiceIcon className="h-6 w-6 text-blue-600" />
+                          </div>
+                          <div>
+                            <p className="text-sm font-medium text-muted-foreground">{caseStudy.category}</p>
+                            <p className="text-xs text-muted-foreground">{caseStudy.date}</p>
+                          </div>
                         </div>
-                        <h3 className="text-xl font-semibold tracking-tight">{caseStudy.title}</h3>
-                        <p className="text-muted-foreground">{caseStudy.description}</p>
-                        {/* <p className="text-sm text-muted-foreground">{caseStudy.content}</p> */}
+                        <ArrowUpRight className="h-5 w-5 text-muted-foreground" />
                       </div>
-                      <div className="relative aspect-[16/9]">
-                        <Image
-                          src={caseStudy.image}
-                          width={400}
-                          height={225}
-                          alt={`Case Study ${caseStudy.id}`}
-                          className="rounded-lg object-cover"
-                        />
+                      
+                      <h3 className="text-2xl font-bold mb-3 line-clamp-2">
+                        {caseStudy.title}
+                      </h3>
+                      
+                      <p className="text-muted-foreground mb-6 line-clamp-3">
+                        {caseStudy.description}
+                      </p>
+                      
+                      {metrics.length > 0 && (
+                        <div className="space-y-3 mb-6">
+                          {metrics.map((metric, idx) => (
+                            <div key={idx} className="flex items-center gap-2 text-sm">
+                              <CheckCircle2 className="h-4 w-4 text-green-600 flex-shrink-0" />
+                              <span className="font-medium text-foreground/80">{metric}</span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                      
+                      <div className="flex items-center justify-between pt-4 border-t">
+                        <div className="flex items-center gap-4">
+                          <div className="flex items-center gap-1">
+                            <BarChart3 className="h-4 w-4 text-muted-foreground" />
+                            <span className="text-sm text-muted-foreground">高インパクト</span>
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <Users className="h-4 w-4 text-muted-foreground" />
+                            <span className="text-sm text-muted-foreground">実績あり</span>
+                          </div>
+                        </div>
+                        <span className="text-sm font-medium text-blue-600">
+                          詳細を見る →
+                        </span>
                       </div>
                     </div>
-                  </Card>
-                </Link>
-              ))}
+                    </Card>
+                  </Link>
+                )
+              })}
             </div>
             <div className="mt-8 text-center">
               <Button size="lg" asChild>
@@ -575,7 +519,7 @@ export default function Home() {
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
-                <div className="inline-block rounded-lg bg-primary/10 px-3 py-1 text-sm">🎯 総合力</div>
+                <div className="inline-block rounded-lg bg-white border border-gray-200 px-3 py-1 text-sm">🎯 総合力</div>
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">なぜmiitasoが選ばれるのか</h2>
                 <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                   ビジネス要件定義からコンサル、UI/UX、実装、保守まで一貫したサービス提供
@@ -584,29 +528,29 @@ export default function Home() {
             </div>
             <div className="mx-auto grid max-w-5xl grid-cols-1 gap-8 py-12 md:grid-cols-2 lg:grid-cols-4">
               <div className="flex flex-col items-center space-y-4 text-center p-6 bg-background rounded-lg">
-                <div className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
-                  <Lightbulb className="h-8 w-8 text-primary" />
+                <div className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-white border border-gray-200">
+                  <Lightbulb className="h-8 w-8 text-blue-600" />
                 </div>
                 <h3 className="text-xl font-semibold tracking-tight">ビジネス要件定義</h3>
                 <p className="text-sm text-muted-foreground">経営陣との直接対話でビジネス課題を深く理解し、的確な要件を定義</p>
               </div>
               <div className="flex flex-col items-center space-y-4 text-center p-6 bg-background rounded-lg">
-                <div className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
-                  <Users className="h-8 w-8 text-primary" />
+                <div className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-white border border-gray-200">
+                  <Users className="h-8 w-8 text-blue-600" />
                 </div>
                 <h3 className="text-xl font-semibold tracking-tight">コンサルティング</h3>
                 <p className="text-sm text-muted-foreground">戦略立案からシステム設計まで、ビジネス視点での包括的なアドバイス</p>
               </div>
               <div className="flex flex-col items-center space-y-4 text-center p-6 bg-background rounded-lg">
-                <div className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
-                  <Palette className="h-8 w-8 text-primary" />
+                <div className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-white border border-gray-200">
+                  <Palette className="h-8 w-8 text-blue-600" />
                 </div>
                 <h3 className="text-xl font-semibold tracking-tight">UI/UX設計</h3>
                 <p className="text-sm text-muted-foreground">ユーザー視点でのデザイン設計と使いやすさを追求したインターフェース</p>
               </div>
               <div className="flex flex-col items-center space-y-4 text-center p-6 bg-background rounded-lg">
-                <div className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
-                  <Code className="h-8 w-8 text-primary" />
+                <div className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-white border border-gray-200">
+                  <Code className="h-8 w-8 text-blue-600" />
                 </div>
                 <h3 className="text-xl font-semibold tracking-tight">実装〜保守</h3>
                 <p className="text-sm text-muted-foreground">高品質な開発から継続的な保守・改善まで、長期的なパートナーシップ</p>
@@ -629,7 +573,7 @@ export default function Home() {
                       <thead>
                         <tr className="border-b">
                           <th className="text-left p-3 font-medium text-sm bg-muted/50">比較項目</th>
-                          <th className="text-center p-3 font-medium text-sm bg-primary/10 text-primary">🎯 miitaso</th>
+                          <th className="text-center p-3 font-medium text-sm bg-white border border-gray-200 text-blue-600">🎯 miitaso</th>
                           <th className="text-center p-3 font-medium text-sm">一般的なシステム会社A</th>
                           <th className="text-center p-3 font-medium text-sm">一般的なシステム会社B</th>
                           <th className="text-center p-3 font-medium text-sm">大手システム会社C</th>
@@ -761,8 +705,8 @@ export default function Home() {
                     </table>
                   </div>
                   
-                  <div className="mt-6 bg-gradient-to-r from-primary/5 to-blue-50 border border-primary/20 rounded-lg p-4">
-                    <h4 className="text-xl font-semibold tracking-tight text-primary mb-3 flex items-center gap-2">
+                  <div className="mt-6 bg-gradient-to-r from-blue-50 to-blue-50 border border-blue-600/20 rounded-lg p-4">
+                    <h4 className="text-xl font-semibold tracking-tight text-blue-600 mb-3 flex items-center gap-2">
                       🎯 miitasoの一貫したサービスが実現する差別化
                     </h4>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
@@ -775,7 +719,7 @@ export default function Home() {
                       </div>
                       <div className="space-y-2">
                         <div className="flex items-center gap-2">
-                          <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                          <div className="w-2 h-2 bg-white border border-gray-2000 rounded-full"></div>
                           <span className="font-medium">戦略的コンサルティング</span>
                         </div>
                         <p className="text-muted-foreground text-xs pl-4">技術とビジネスを統合した最適解を提案</p>
@@ -808,6 +752,97 @@ export default function Home() {
           </div>
         </section>
 
+        <section className="w-full py-12 md:py-24 lg:py-32 bg-background">
+          <div className="container px-4 md:px-6">
+            <div className="flex flex-col items-center justify-center space-y-4 text-center">
+              <div className="space-y-2">
+                <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm">ツール</div>
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">お試しアイデア生成ツール</h2>
+                <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                  AIがあなたのビジネスアイデアを自動生成します
+                </p>
+              </div>
+            </div>
+            <div className="grid gap-8 py-12 md:grid-cols-2">
+              <Card className="p-6">
+                <div className="space-y-4">
+                  <div className="inline-flex h-12 w-12 items-center justify-center rounded-lg bg-white border border-gray-200 mb-4">
+                    <Lightbulb className="h-6 w-6 text-blue-600" />
+                  </div>
+                  <h3 className="text-xl font-semibold tracking-tight">アイデアを生成する</h3>
+                  <p className="text-muted-foreground">
+                    以下のフォームにキーワードや業界を入力すると、AIが新しいビジネスアイデアを提案します。
+                  </p>
+                  <form onSubmit={async (e) => {
+                    e.preventDefault();
+                    const formData = new FormData(e.currentTarget);
+                    const prompt = formData.get('prompt') as string;
+                    
+                    try {
+                      const response = await fetch('/api/chat', {
+                        method: 'POST',
+                        headers: {
+                          'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                          type: 'ideaGeneration',
+                          prompt: prompt,
+                        }),
+                      });
+
+                      if (!response.ok) {
+                        throw new Error('APIリクエストに失敗しました');
+                      }
+
+                      const data = await response.json();
+                      setIdeaResponse(data.response);
+                    } catch (error) {
+                      console.error('Error:', error);
+                      toast.error('エラーが発生しました。もう一度お試しください。');
+                    }
+                  }} className="space-y-4">
+                    <div className="space-y-2">
+                      <label htmlFor="prompt" className="text-sm font-medium">
+                        キーワードや業界を入力してください
+                      </label>
+                      <textarea
+                        id="prompt"
+                        name="prompt"
+                        className="w-full min-h-[100px] p-2 border rounded-md"
+                        placeholder="例：健康食品、サブスクリプション、エコフレンドリー"
+                        required
+                      />
+                    </div>
+                    <Button type="submit" className="w-full">
+                      アイデアを生成する
+                    </Button>
+                  </form>
+                </div>
+              </Card>
+
+              <Card className="p-6">
+                <div className="space-y-4">
+                  <h3 className="text-xl font-semibold tracking-tight">生成されたアイデア</h3>
+                  {ideaResponse ? (
+                    <div className="prose max-w-none">
+                      <ReactMarkdown>{ideaResponse}</ReactMarkdown>
+                    </div>
+                  ) : (
+                    <p className="text-muted-foreground">
+                      左のフォームにキーワードを入力して、アイデアを生成してください。
+                    </p>
+                  )}
+                </div>
+              </Card>
+            </div>
+            <div className="mt-8 text-center">
+              <Button size="lg" asChild>
+                <Link href="/tools">すべてのツールを見る</Link>
+              </Button>
+            </div>
+          </div>
+        </section>
+
         {/* クライアント証言セクション */}
         <section className="w-full py-12 md:py-24 lg:py-32 bg-muted">
           <div className="container px-4 md:px-6">
@@ -826,8 +861,8 @@ export default function Home() {
                 <Card className="bg-background w-80 flex-shrink-0">
                   <CardHeader>
                     <div className="flex items-center space-x-4">
-                      <div className="w-[60px] h-[60px] rounded-full bg-primary/10 flex items-center justify-center">
-                        <Users className="h-8 w-8 text-primary" />
+                      <div className="w-[60px] h-[60px] rounded-full bg-white border border-gray-200 flex items-center justify-center">
+                        <Users className="h-8 w-8 text-blue-600" />
                       </div>
                       <div>
                         <h3 className="text-lg font-semibold">K.T様</h3>
@@ -844,7 +879,7 @@ export default function Home() {
                     </p>
                     <div className="mt-4 flex items-center">
                       {[...Array(5)].map((_, i) => (
-                        <svg key={i} className="h-4 w-4 fill-primary text-primary" viewBox="0 0 20 20">
+                        <svg key={i} className="h-4 w-4 fill-blue-600 text-blue-600" viewBox="0 0 20 20">
                           <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                         </svg>
                       ))}
@@ -855,8 +890,8 @@ export default function Home() {
                 <Card className="bg-background w-80 flex-shrink-0">
                   <CardHeader>
                     <div className="flex items-center space-x-4">
-                      <div className="w-[60px] h-[60px] rounded-full bg-primary/10 flex items-center justify-center">
-                        <Users className="h-8 w-8 text-primary" />
+                      <div className="w-[60px] h-[60px] rounded-full bg-white border border-gray-200 flex items-center justify-center">
+                        <Users className="h-8 w-8 text-blue-600" />
                       </div>
                       <div>
                         <h3 className="text-lg font-semibold">H.I様</h3>
@@ -873,7 +908,7 @@ export default function Home() {
                     </p>
                     <div className="mt-4 flex items-center">
                       {[...Array(5)].map((_, i) => (
-                        <svg key={i} className="h-4 w-4 fill-primary text-primary" viewBox="0 0 20 20">
+                        <svg key={i} className="h-4 w-4 fill-blue-600 text-blue-600" viewBox="0 0 20 20">
                           <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                         </svg>
                       ))}
@@ -884,8 +919,8 @@ export default function Home() {
                 <Card className="bg-background w-80 flex-shrink-0">
                   <CardHeader>
                     <div className="flex items-center space-x-4">
-                      <div className="w-[60px] h-[60px] rounded-full bg-primary/10 flex items-center justify-center">
-                        <Users className="h-8 w-8 text-primary" />
+                      <div className="w-[60px] h-[60px] rounded-full bg-white border border-gray-200 flex items-center justify-center">
+                        <Users className="h-8 w-8 text-blue-600" />
                       </div>
                       <div>
                         <h3 className="text-lg font-semibold">Y.K様</h3>
@@ -903,7 +938,7 @@ export default function Home() {
                     </p>
                     <div className="mt-4 flex items-center">
                       {[...Array(5)].map((_, i) => (
-                        <svg key={i} className="h-4 w-4 fill-primary text-primary" viewBox="0 0 20 20">
+                        <svg key={i} className="h-4 w-4 fill-blue-600 text-blue-600" viewBox="0 0 20 20">
                           <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                         </svg>
                       ))}
@@ -914,8 +949,8 @@ export default function Home() {
                 <Card className="bg-background w-80 flex-shrink-0">
                   <CardHeader>
                     <div className="flex items-center space-x-4">
-                      <div className="w-[60px] h-[60px] rounded-full bg-primary/10 flex items-center justify-center">
-                        <Users className="h-8 w-8 text-primary" />
+                      <div className="w-[60px] h-[60px] rounded-full bg-white border border-gray-200 flex items-center justify-center">
+                        <Users className="h-8 w-8 text-blue-600" />
                       </div>
                       <div>
                         <h3 className="text-lg font-semibold">S.T様</h3>
@@ -932,7 +967,7 @@ export default function Home() {
                     </p>
                     <div className="mt-4 flex items-center">
                       {[...Array(5)].map((_, i) => (
-                        <svg key={i} className="h-4 w-4 fill-primary text-primary" viewBox="0 0 20 20">
+                        <svg key={i} className="h-4 w-4 fill-blue-600 text-blue-600" viewBox="0 0 20 20">
                           <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                         </svg>
                       ))}
@@ -943,8 +978,8 @@ export default function Home() {
                 <Card className="bg-background w-80 flex-shrink-0">
                   <CardHeader>
                     <div className="flex items-center space-x-4">
-                      <div className="w-[60px] h-[60px] rounded-full bg-primary/10 flex items-center justify-center">
-                        <Users className="h-8 w-8 text-primary" />
+                      <div className="w-[60px] h-[60px] rounded-full bg-white border border-gray-200 flex items-center justify-center">
+                        <Users className="h-8 w-8 text-blue-600" />
                       </div>
                       <div>
                         <h3 className="text-lg font-semibold">M.S様</h3>
@@ -961,7 +996,7 @@ export default function Home() {
                     </p>
                     <div className="mt-4 flex items-center">
                       {[...Array(5)].map((_, i) => (
-                        <svg key={i} className="h-4 w-4 fill-primary text-primary" viewBox="0 0 20 20">
+                        <svg key={i} className="h-4 w-4 fill-blue-600 text-blue-600" viewBox="0 0 20 20">
                           <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                         </svg>
                       ))}
@@ -972,8 +1007,8 @@ export default function Home() {
                 <Card className="bg-background w-80 flex-shrink-0">
                   <CardHeader>
                     <div className="flex items-center space-x-4">
-                      <div className="w-[60px] h-[60px] rounded-full bg-primary/10 flex items-center justify-center">
-                        <Users className="h-8 w-8 text-primary" />
+                      <div className="w-[60px] h-[60px] rounded-full bg-white border border-gray-200 flex items-center justify-center">
+                        <Users className="h-8 w-8 text-blue-600" />
                       </div>
                       <div>
                         <h3 className="text-lg font-semibold">R.M様</h3>
@@ -990,7 +1025,7 @@ export default function Home() {
                     </p>
                     <div className="mt-4 flex items-center">
                       {[...Array(5)].map((_, i) => (
-                        <svg key={i} className="h-4 w-4 fill-primary text-primary" viewBox="0 0 20 20">
+                        <svg key={i} className="h-4 w-4 fill-blue-600 text-blue-600" viewBox="0 0 20 20">
                           <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                         </svg>
                       ))}
@@ -1018,15 +1053,15 @@ export default function Home() {
                 </p>
                 <div className="flex flex-col space-y-4">
                   <div className="flex items-center space-x-2">
-                    <Users className="h-5 w-5 text-primary" />
+                    <Users className="h-5 w-5 text-blue-600" />
                     <span>経験豊富な専門家チーム</span>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <Rocket className="h-5 w-5 text-primary" />
+                    <Rocket className="h-5 w-5 text-blue-600" />
                     <span>迅速な開発プロセス</span>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <Lightbulb className="h-5 w-5 text-primary" />
+                    <Lightbulb className="h-5 w-5 text-blue-600" />
                     <span>革新的なソリューション</span>
                   </div>
                 </div>

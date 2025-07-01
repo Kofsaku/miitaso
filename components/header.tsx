@@ -89,7 +89,7 @@ export function Header() {
                   key={item.href}
                   href={item.href!}
                   className={`flex items-center text-sm font-medium ${
-                    isActive(item.href!) ? "text-primary" : "text-muted-foreground hover:text-primary"
+                    isActive(item.href!) ? "text-foreground font-semibold pointer-events-none" : "text-muted-foreground hover:text-primary"
                   }`}
                 >
                   {item.label}
@@ -143,9 +143,9 @@ export function Header() {
                     <Link
                       key={item.href}
                       href={item.href!}
-                      onClick={() => setIsOpen(false)}
-                      className={`block py-2 px-2 text-sm rounded-md hover:bg-accent ${
-                        isActive(item.href!) ? "text-primary font-medium" : ""
+                      onClick={() => isActive(item.href!) ? undefined : setIsOpen(false)}
+                      className={`block py-2 px-2 text-sm rounded-md ${
+                        isActive(item.href!) ? "text-foreground font-semibold bg-accent pointer-events-none" : "hover:bg-accent"
                       }`}
                     >
                       {item.label}

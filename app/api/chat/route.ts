@@ -20,7 +20,7 @@ export async function POST(req: Request) {
       )
     }
 
-    const { toolType, formData, prompt, testQuotaLimit } = body
+    const { toolType, formData, prompt, testQuotaLimit, type } = body
 
     // テスト用: 429エラーを強制発生させる
     if (testQuotaLimit === true) {
@@ -33,24 +33,31 @@ export async function POST(req: Request) {
       )
     }
 
-    // 必須パラメータの検証
-    if (!toolType || typeof toolType !== 'string') {
+    // promptのみのリクエストに対応
+    const actualToolType = toolType || type || 'ideaGeneration'
+    const actualFormData = formData || {}
+    
+    // promptが存在しない場合はデフォルトのシステムプロンプトを使用
+    const systemPrompt = prompt || "あなたは優秀なビジネスコンサルタントです。ユーザーの質問や要求に対して、具体的で実用的なアドバイスを提供してください。"
+
+    // 必須パラメータの検証（緩和）
+    if (actualToolType && typeof actualToolType !== 'string') {
       return NextResponse.json(
-        { error: 'ツールタイプは必須で、文字列である必要があります' },
+        { error: 'ツールタイプは文字列である必要があります' },
         { status: 400 }
       )
     }
 
-    if (!formData || typeof formData !== 'object') {
+    if (actualFormData && typeof actualFormData !== 'object') {
       return NextResponse.json(
-        { error: 'フォームデータは必須で、オブジェクトである必要があります' },
+        { error: 'フォームデータはオブジェクトである必要があります' },
         { status: 400 }
       )
     }
 
-    if (!prompt || typeof prompt !== 'string') {
+    if (systemPrompt && typeof systemPrompt !== 'string') {
       return NextResponse.json(
-        { error: 'プロンプトは必須で、文字列である必要があります' },
+        { error: 'プロンプトは文字列である必要があります' },
         { status: 400 }
       )
     }
@@ -66,43 +73,47 @@ export async function POST(req: Request) {
 
     // フォームデータを構造化されたプロンプトに変換
     let userPrompt = ''
-    switch (toolType) {
-      case 'ideaGeneration':
-        userPrompt = `
-業界/分野：${formData.industry || ''}
-ターゲットユーザー：${formData.targetUser || ''}
-解決したい課題：${formData.problem || ''}
-既存の競合サービス：${formData.competitors || ''}
-予算規模：${formData.budget || ''}
+    
+    // promptのみのリクエストの場合は、promptをそのままuserPromptとして使用
+    if (body.prompt && !body.toolType && !body.type && !body.formData) {
+      userPrompt = body.prompt
+    } else {
+      switch (actualToolType) {
+        case 'ideaGeneration':
+          userPrompt = `
+業界/分野：${actualFormData.industry || ''}
+ターゲットユーザー：${actualFormData.targetUser || ''}
+解決したい課題：${actualFormData.problem || ''}
+既存の競合サービス：${actualFormData.competitors || ''}
+予算規模：${actualFormData.budget || ''}
 `
-        break
-      case 'ideaRefinement':
-        userPrompt = `
-現在のアイデア概要：${formData.idea || ''}
-想定される課題：${formData.challenges || ''}
-想定されるユーザー：${formData.users || ''}
-既存の類似サービス：${formData.similarServices || ''}
+          break
+        case 'ideaRefinement':
+          userPrompt = `
+現在のアイデア概要：${actualFormData.idea || ''}
+想定される課題：${actualFormData.challenges || ''}
+想定されるユーザー：${actualFormData.users || ''}
+既存の類似サービス：${actualFormData.similarServices || ''}
 `
-        break
-      case 'requirementDraft':
-        userPrompt = `
-プロジェクト概要：${formData.projectOverview || ''}
-主要なユーザーストーリー：${formData.userStories || ''}
-必須機能：${formData.requiredFeatures || ''}
-技術スタック：${formData.techStack || ''}
-予算と期間：${formData.budgetAndTimeline || ''}
+          break
+        case 'requirementDraft':
+          userPrompt = `
+プロジェクト概要：${actualFormData.projectOverview || ''}
+主要なユーザーストーリー：${actualFormData.userStories || ''}
+必須機能：${actualFormData.requiredFeatures || ''}
+技術スタック：${actualFormData.techStack || ''}
+予算と期間：${actualFormData.budgetAndTimeline || ''}
 `
-        break
-      default:
-        return NextResponse.json(
-          { error: '無効なツールタイプです' },
-          { status: 400 }
-        )
+          break
+        default:
+          // 不明なtoolTypeの場合もエラーではなく、デフォルトの動作を行う
+          userPrompt = body.prompt || '健康に関するビジネスアイデアを教えてください。'
+      }
     }
 
     // OpenAI APIリクエスト
     console.log("Sending request to OpenAI...")
-    console.log("System prompt:", prompt)
+    console.log("System prompt:", systemPrompt)
     console.log("User prompt:", userPrompt)
     
     const completion = await openai.chat.completions.create({
@@ -110,7 +121,7 @@ export async function POST(req: Request) {
       messages: [
         {
           role: "system",
-          content: prompt
+          content: systemPrompt
         },
         {
           role: "user",

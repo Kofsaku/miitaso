@@ -347,14 +347,14 @@ export const caseStudies = [
   {
     id: 9,
     title: "YouTuber向け動画編集効率化ツール",
-    description: "Electron製のデスクトップアプリ。編集作業時間60%短縮、投稿頻度150%向上を実現。",
+    description: "NextJSとPythonを使用したウェブアプリ。編集作業時間60%短縮、投稿頻度150%向上を実現。",
     image: "/video-editor.png?height=400&width=800",
     category: "動画・メディア",
     serviceType: "product" as ServiceType,
     date: "2023年7月",
     content: `
       <h2>プロジェクト概要</h2>
-      <p>個人YouTuber様向けに、動画編集の繰り返し作業を自動化するデスクトップアプリを開発。編集時間の大幅短縮により、コンテンツ制作に集中できる環境を提供しました。</p>
+      <p>個人YouTuber様向けに、動画編集の繰り返し作業を自動化するウェブアプリを開発。編集時間の大幅短縮により、コンテンツ制作に集中できる環境を提供しました。</p>
 
       <h2>課題</h2>
       <ul>
@@ -366,7 +366,7 @@ export const caseStudies = [
       </ul>
 
       <h2>ソリューション</h2>
-      <p>ElectronとFFmpegを活用した編集自動化ツール：</p>
+      <p>FFmpegを活用した編集自動化ツール：</p>
       <ul>
         <li>無音部分の自動カット機能</li>
         <li>テンプレートベースのサムネイル自動生成</li>

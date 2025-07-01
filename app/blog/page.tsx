@@ -134,7 +134,7 @@ export default function BlogPage() {
       <div className="flex min-h-screen flex-col">
         <Header />
         <main className="flex-1">
-          <section className="w-full py-12 md:py-24 lg:py-32">
+          <section className="w-full py-20 md:py-32 bg-slate-100">
             <div className="container px-4 md:px-6">
               <div className="flex flex-col items-center space-y-4 text-center">
                 <div className="space-y-2">
@@ -158,7 +158,7 @@ export default function BlogPage() {
     <div className="flex min-h-screen flex-col">
       <Header />
       <main className="flex-1">
-        <section className="w-full py-12 md:py-24 lg:py-32">
+        <section className="w-full py-20 md:py-32 bg-slate-100">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center space-y-4 text-center">
               <div className="space-y-2">
