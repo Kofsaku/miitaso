@@ -4,5 +4,22 @@
       "maxDuration": 30
     }
   },
-  "regions": ["hnd1"]
+  "regions": ["hnd1"],
+  "redirects": [
+    {
+      "source": "http://miitaso.com/(.*)",
+      "destination": "https://miitaso.com/$1",
+      "permanent": true
+    },
+    {
+      "source": "http://www.miitaso.com/(.*)",
+      "destination": "https://miitaso.com/$1",
+      "permanent": true
+    },
+    {
+      "source": "https://www.miitaso.com/(.*)",
+      "destination": "https://miitaso.com/$1",
+      "permanent": true
+    }
+  ]
 }

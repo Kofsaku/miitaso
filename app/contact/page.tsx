@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { toast, Toaster } from "sonner"
+import Head from "next/head"
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -63,9 +64,15 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <Toaster position="top-right" />
-      <Header />
+    <>
+      <Head>
+        <title>お問い合わせ - miitaso</title>
+        <meta name="description" content="miitasoへのお問い合わせページ。プロジェクトのご相談、お見積もり、その他のご質問をお気軽にお寄せください。" />
+        <link rel="canonical" href="https://miitaso.com/contact" />
+      </Head>
+      <div className="flex flex-col min-h-screen">
+        <Toaster position="top-right" />
+        <Header />
       <main className="flex-1">
         {/* ヒーローセクション */}
         <section className="w-full py-20 md:py-32 bg-gradient-to-b from-background to-muted">
@@ -304,6 +311,7 @@ export default function ContactPage() {
           </div>
         </section>
       </main>
-    </div>
+      </div>
+    </>
   )
 } 

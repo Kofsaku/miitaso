@@ -90,11 +90,23 @@ export async function POST(request: NextRequest) {
     const validatedData = createCategorySchema.parse(body);
 
     // slugを自動生成（未提供の場合）
-    const slug = validatedData.slug || validatedData.name
-      .toLowerCase()
-      .replace(/[^a-z0-9\s-]/g, '')
-      .replace(/\s+/g, '-')
-      .substring(0, 50);
+    const generateSlug = (name: string) => {
+      // 日本語の場合はローマ字に変換するか、IDベースのslugを生成
+      const cleanName = name
+        .toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, '')
+        .replace(/\s+/g, '-')
+        .trim();
+      
+      // 空文字列の場合は一意のIDを生成
+      if (!cleanName) {
+        return `category-${Date.now()}`;
+      }
+      
+      return cleanName.substring(0, 50);
+    };
+    
+    const slug = validatedData.slug || generateSlug(validatedData.name);
 
     const existingCategory = await prisma.category.findFirst({
       where: {

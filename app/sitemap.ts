@@ -36,6 +36,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 1,
     },
     {
+      url: 'https://miitaso.com/about',
+      lastModified: new Date(),
+      changeFrequency: 'monthly' as const,
+      priority: 0.8,
+    },
+    {
+      url: 'https://miitaso.com/services',
+      lastModified: new Date(),
+      changeFrequency: 'monthly' as const,
+      priority: 0.8,
+    },
+    {
       url: 'https://miitaso.com/blog',
       lastModified: new Date(),
       changeFrequency: 'daily' as const,
@@ -60,7 +72,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7,
     },
     {
+      url: 'https://miitaso.com/case-studies',
+      lastModified: new Date(),
+      changeFrequency: 'monthly' as const,
+      priority: 0.7,
+    },
+    {
       url: 'https://miitaso.com/faq',
+      lastModified: new Date(),
+      changeFrequency: 'monthly' as const,
+      priority: 0.6,
+    },
+    {
+      url: 'https://miitaso.com/pricing',
       lastModified: new Date(),
       changeFrequency: 'monthly' as const,
       priority: 0.6,

@@ -251,6 +251,86 @@ html {
   user-select: text !important;
 }
 
+/* Fast light flash entrance animation */
+@keyframes quickLightFlash {
+  0% {
+    opacity: 0;
+    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.4) 40%, transparent 70%);
+  }
+  20% {
+    opacity: 1;
+    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.2) 50%, transparent 80%);
+  }
+  100% {
+    opacity: 0;
+    background: transparent;
+  }
+}
+
+@keyframes instantContentReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes quickSparkle {
+  0% {
+    opacity: 0;
+    transform: scale(0.3) rotate(0deg);
+  }
+  40% {
+    opacity: 0.6;
+    transform: scale(1) rotate(120deg);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.8) rotate(180deg);
+  }
+}
+
+/* Quick light flash overlay */
+.light-entrance-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  pointer-events: none;
+  animation: quickLightFlash 0.6s ease-out forwards;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.4) 40%, transparent 70%);
+}
+
+.light-entrance-overlay::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 150px;
+  height: 150px;
+  margin: -75px 0 0 -75px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.1) 50%, transparent 80%);
+  border-radius: 50%;
+  animation: quickSparkle 0.6s ease-out forwards;
+}
+
+/* Instant content reveal animation */
+.content-reveal {
+  animation: instantContentReveal 0.4s ease-out forwards;
+  opacity: 0;
+}
+
+/* Page wrapper for light entrance effect */
+.page-light-entrance {
+  position: relative;
+  min-height: 100vh;
+}
+
 /* Reduced motion for accessibility */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -259,5 +339,14 @@ html {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+  
+  .light-entrance-overlay {
+    display: none;
+  }
+  
+  .content-reveal {
+    opacity: 1;
+    animation: none;
   }
 }

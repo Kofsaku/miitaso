@@ -13,6 +13,10 @@ export const metadata: Metadata = {
   icons: {
     icon: "/fav.png",
   },
+  metadataBase: new URL('https://miitaso.com'),
+  alternates: {
+    canonical: 'https://miitaso.com',
+  },
 }
 
 export default function RootLayout({

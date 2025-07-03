@@ -111,10 +111,12 @@ export default function Home() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen page-light-entrance">
+      <div className="light-entrance-overlay" />
       <Toaster position="top-center" />
-      <Header />
-      <main className="flex-1">
+      <div className="content-reveal">
+        <Header />
+        <main className="flex-1">
         <section className="w-full py-8 md:py-12 lg:py-16 xl:py-20 bg-white overflow-hidden">
           <div className="container px-4 md:px-6">
             <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 xl:grid-cols-2">
@@ -1198,6 +1200,7 @@ export default function Home() {
         </section>
       </main>
       <Footer />
+      </div>
     </div>
   )
 }

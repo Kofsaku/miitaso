@@ -1,12 +1,19 @@
-"use client"
-
 import React from "react"
+import { Metadata } from "next"
 import { Header } from "@/components/header"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Footer } from "@/components/footer"
 import { Building2, Users, Target, Award } from "lucide-react"
+
+export const metadata: Metadata = {
+  title: "会社概要 - miitaso",
+  description: "miitasoの会社概要。私たちのミッション、ビジョン、チームについてご紹介します。",
+  alternates: {
+    canonical: 'https://miitaso.com/about',
+  },
+}
 
 export default function AboutPage() {
   return (
