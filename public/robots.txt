@@ -1,0 +1,17 @@
+User-agent: *
+Allow: /
+
+# Block old/non-existent pages that shouldn't be indexed
+Disallow: /features/
+Disallow: /home-2/
+Disallow: /our-story/
+Disallow: /contact-us/
+Disallow: /about-us/
+Disallow: /careers
+
+# Block admin and development URLs
+Disallow: /admin/
+Disallow: /api/
+Disallow: /preview/
+
+Sitemap: https://miitaso.com/sitemap.xml
