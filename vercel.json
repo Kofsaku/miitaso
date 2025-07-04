@@ -4,7 +4,6 @@
       "maxDuration": 30
     }
   },
-  "regions": ["hnd1"],
   "redirects": [
     {
       "source": "http://miitaso.com/(.*)",
