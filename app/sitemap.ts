@@ -3,7 +3,7 @@ import { MetadataRoute } from 'next'
 async function getBlogPosts() {
   try {
     const response = await fetch(`${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/api/blog/posts?limit=1000`, {
-      cache: 'no-store'
+      next: { revalidate: 3600 }
     })
     
     if (!response.ok) {
