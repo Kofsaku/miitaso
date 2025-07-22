@@ -141,11 +141,6 @@ export function DevelopmentFlow() {
                 </div>
               )}
               
-              {index === 3 && (
-                <div className="hidden lg:block absolute -bottom-3 left-1/2 transform -translate-x-1/2 rotate-90">
-                  <ArrowRight className="h-6 w-6 text-primary/30" />
-                </div>
-              )}
             </div>
           ))}
         </div>
