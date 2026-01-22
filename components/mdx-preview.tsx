@@ -1,6 +1,6 @@
 'use client'
 
-import { MDXRemote } from 'next-mdx-remote/rsc'
+import { MDXRemote } from 'next-mdx-remote'
 import { Suspense, memo, useMemo, useEffect, useState } from 'react'
 import remarkGfm from 'remark-gfm'
 
