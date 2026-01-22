@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from "react"
+import React, { useState, useRef } from "react"
 import { Header } from "@/components/header"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { toast, Toaster } from "sonner"
 import Head from "next/head"
+import ReCAPTCHA from "react-google-recaptcha"
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -19,6 +20,8 @@ export default function ContactPage() {
     message: "",
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null)
+  const recaptchaRef = useRef<ReCAPTCHA>(null)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target
@@ -28,8 +31,18 @@ export default function ContactPage() {
     }))
   }
 
+  const handleRecaptchaChange = (token: string | null) => {
+    setRecaptchaToken(token)
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    
+    if (!recaptchaToken) {
+      toast.error("reCAPTCHAを完了してください")
+      return
+    }
+
     setIsSubmitting(true)
 
     try {
@@ -38,7 +51,10 @@ export default function ContactPage() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          recaptchaToken
+        }),
       })
 
       const data = await response.json()
@@ -56,6 +72,8 @@ export default function ContactPage() {
         service: "",
         message: "",
       })
+      setRecaptchaToken(null)
+      recaptchaRef.current?.reset()
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "送信に失敗しました")
     } finally {
@@ -190,7 +208,14 @@ export default function ContactPage() {
                         required
                       />
                     </div>
-                    <Button type="submit" className="w-full" disabled={isSubmitting}>
+                    <div className="flex justify-center">
+                      <ReCAPTCHA
+                        ref={recaptchaRef}
+                        sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""}
+                        onChange={handleRecaptchaChange}
+                      />
+                    </div>
+                    <Button type="submit" className="w-full" disabled={isSubmitting || !recaptchaToken}>
                       {isSubmitting ? "送信中..." : "無料相談を申し込む"}
                     </Button>
                   </div>

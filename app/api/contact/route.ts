@@ -3,12 +3,37 @@ import nodemailer from 'nodemailer';
 
 export async function POST(request: Request) {
   try {
-    const { name, company, email, phone, service, message } = await request.json();
+    const { name, company, email, phone, service, message, recaptchaToken } = await request.json();
 
     // バリデーション
     if (!name || !email || !message) {
       return NextResponse.json(
         { error: '必須項目が入力されていません' },
+        { status: 400 }
+      );
+    }
+
+    // reCAPTCHA verification
+    if (!recaptchaToken) {
+      return NextResponse.json(
+        { error: 'reCAPTCHAが完了されていません' },
+        { status: 400 }
+      );
+    }
+
+    const recaptchaResponse = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: `secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${recaptchaToken}`,
+    });
+
+    const recaptchaResult = await recaptchaResponse.json();
+
+    if (!recaptchaResult.success) {
+      return NextResponse.json(
+        { error: 'reCAPTCHA検証に失敗しました' },
         { status: 400 }
       );
     }

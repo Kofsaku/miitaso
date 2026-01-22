@@ -29,7 +29,6 @@ import { useState } from "react"
 import React from "react"
 import ReactMarkdown from "react-markdown"
 import { toast } from "react-hot-toast"
-import ReCAPTCHA from "react-google-recaptcha"
 import { getCaseStudiesByServiceType } from "@/app/data/case-studies"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -56,8 +55,6 @@ export default function Home() {
     service: "product",
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null)
-  const recaptchaRef = useRef<ReCAPTCHA>(null)
 
   const currentCaseStudies = getCaseStudiesByServiceType(selectedCaseStudy)
 
@@ -76,18 +73,8 @@ export default function Home() {
     }))
   }
 
-  const handleRecaptchaChange = (token: string | null) => {
-    setRecaptchaToken(token)
-  }
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    
-    if (!recaptchaToken) {
-      toast.error("reCAPTCHAを完了してください")
-      return
-    }
-    
     setIsSubmitting(true)
 
     try {
@@ -99,7 +86,6 @@ export default function Home() {
         body: JSON.stringify({
           ...formData,
           source: "top_page",
-          recaptchaToken
         }),
       })
 
@@ -118,8 +104,6 @@ export default function Home() {
         message: "",
         service: "product",
       })
-      setRecaptchaToken(null)
-      recaptchaRef.current?.reset()
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "送信に失敗しました")
     } finally {
@@ -1206,14 +1190,7 @@ export default function Home() {
                           required
                         />
                       </div>
-                      <div className="flex justify-center">
-                        <ReCAPTCHA
-                          ref={recaptchaRef}
-                          sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""}
-                          onChange={handleRecaptchaChange}
-                        />
-                      </div>
-                      <Button type="submit" className="w-full" disabled={isSubmitting || !recaptchaToken}>
+                      <Button type="submit" className="w-full" disabled={isSubmitting}>
                         {isSubmitting ? "送信中..." : "送信する"}
                       </Button>
                     </form>
