@@ -33,14 +33,18 @@ export default function ContactPage() {
 
     try {
       // reCAPTCHA v3でトークン取得
-      if (typeof window !== 'undefined' && (window as any).grecaptcha) {
-        await (window as any).grecaptcha.ready()
-      }
-      
-      const recaptchaToken = await (window as any).grecaptcha.execute(
-        process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY,
-        { action: 'contact_form' }
-      )
+      const recaptchaToken = await new Promise<string>((resolve, reject) => {
+        if (typeof window === 'undefined' || !(window as any).grecaptcha) {
+          reject(new Error('reCAPTCHAが読み込まれていません'))
+          return
+        }
+        (window as any).grecaptcha.ready(() => {
+          (window as any).grecaptcha
+            .execute(process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY, { action: 'contact_form' })
+            .then(resolve)
+            .catch(reject)
+        })
+      })
 
       const response = await fetch("/api/contact", {
         method: "POST",
