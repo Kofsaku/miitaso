@@ -38,6 +38,14 @@ export async function POST(request: Request) {
       );
     }
 
+    // reCAPTCHA v3: スコアチェック (0.5以上を人間と判定)
+    if (recaptchaResult.score < 0.5) {
+      return NextResponse.json(
+        { error: 'セキュリティチェックに失敗しました。再度お試しください。' },
+        { status: 400 }
+      );
+    }
+
     // SMTPトランスポーターの設定
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,

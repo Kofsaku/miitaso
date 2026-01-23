@@ -28,6 +28,11 @@ export default function RootLayout({
     <html lang="ja" suppressHydrationWarning>
       <body className={inter.className} suppressHydrationWarning>
         <GoogleAnalytics gaId="G-ZNH7T9XEWK" />
+        <script
+          src={`https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`}
+          async
+          defer
+        />
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
           {children}
           <Toaster position="top-right" />

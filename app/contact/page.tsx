@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useRef } from "react"
+import React, { useState } from "react"
 import { Header } from "@/components/header"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { toast, Toaster } from "sonner"
 import Head from "next/head"
-import ReCAPTCHA from "react-google-recaptcha"
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -20,9 +19,6 @@ export default function ContactPage() {
     message: "",
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null)
-  const recaptchaRef = useRef<ReCAPTCHA>(null)
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target
     setFormData(prev => ({
@@ -31,21 +27,21 @@ export default function ContactPage() {
     }))
   }
 
-  const handleRecaptchaChange = (token: string | null) => {
-    setRecaptchaToken(token)
-  }
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    
-    if (!recaptchaToken) {
-      toast.error("reCAPTCHAを完了してください")
-      return
-    }
-
     setIsSubmitting(true)
 
     try {
+      // reCAPTCHA v3でトークン取得
+      if (typeof window !== 'undefined' && (window as any).grecaptcha) {
+        await (window as any).grecaptcha.ready()
+      }
+      
+      const recaptchaToken = await (window as any).grecaptcha.execute(
+        process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY,
+        { action: 'contact_form' }
+      )
+
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: {
@@ -72,8 +68,6 @@ export default function ContactPage() {
         service: "",
         message: "",
       })
-      setRecaptchaToken(null)
-      recaptchaRef.current?.reset()
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "送信に失敗しました")
     } finally {
@@ -208,14 +202,7 @@ export default function ContactPage() {
                         required
                       />
                     </div>
-                    <div className="flex justify-center">
-                      <ReCAPTCHA
-                        ref={recaptchaRef}
-                        sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""}
-                        onChange={handleRecaptchaChange}
-                      />
-                    </div>
-                    <Button type="submit" className="w-full" disabled={isSubmitting || !recaptchaToken}>
+                    <Button type="submit" className="w-full" disabled={isSubmitting}>
                       {isSubmitting ? "送信中..." : "無料相談を申し込む"}
                     </Button>
                   </div>
