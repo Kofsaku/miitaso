@@ -65,12 +65,79 @@ module.exports = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: 0 },
         },
+        "blob-move-1": {
+          "0%": {
+            top: "10%",
+            left: "10%",
+            transform: "scale(1)",
+          },
+          "25%": {
+            top: "60%",
+            left: "70%",
+            transform: "scale(1.2)",
+          },
+          "50%": {
+            top: "80%",
+            left: "20%",
+            transform: "scale(0.9)",
+          },
+          "75%": {
+            top: "20%",
+            left: "80%",
+            transform: "scale(1.1)",
+          },
+          "100%": {
+            top: "10%",
+            left: "10%",
+            transform: "scale(1)",
+          },
+        },
+        "blob-move-2": {
+          "0%": {
+            top: "70%",
+            right: "10%",
+            transform: "scale(1)",
+          },
+          "25%": {
+            top: "20%",
+            right: "60%",
+            transform: "scale(0.9)",
+          },
+          "50%": {
+            top: "10%",
+            right: "20%",
+            transform: "scale(1.15)",
+          },
+          "75%": {
+            top: "50%",
+            right: "70%",
+            transform: "scale(1.05)",
+          },
+          "100%": {
+            top: "70%",
+            right: "10%",
+            transform: "scale(1)",
+          },
+        },
+        "fade-in-up": {
+          "0%": {
+            opacity: "0",
+            transform: "translateY(30px)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translateY(0)",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "blob-move-1": "blob-move-1 20s ease-in-out infinite",
+        "blob-move-2": "blob-move-2 25s ease-in-out infinite",
+        "fade-in-up": "fade-in-up 0.8s ease-out forwards",
       },
     },
   },
   plugins: [require("tailwindcss-animate")],
-} 
+}

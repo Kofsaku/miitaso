@@ -11,7 +11,7 @@ import {
 const faqs = [
   {
     question: "費用の目安を教えてください",
-    answer: "プロジェクトの規模や要件によって異なりますが、MVPであれば100万円〜、本格的なアプリ開発であれば300万円〜が目安です。まずはご相談いただければ、要件をお聞きした上で概算をお伝えします。",
+    answer: "プロジェクトの規模や要件によって異なりますが、MVPであれば30万円〜、本格的なアプリ開発であれば300万円〜が目安です。まずはご相談いただければ、要件をお聞きした上で概算をお伝えします。",
   },
   {
     question: "開発期間はどのくらいですか？",
@@ -49,7 +49,7 @@ export function FaqSection() {
   }, [])
 
   return (
-    <section ref={ref} className="py-20 md:py-28">
+    <section id="faq" ref={ref} className="py-20 md:py-28">
       <div className="container px-4 md:px-6">
         <div className="text-center mb-12">
           <p className="text-sky-600 font-medium mb-2">FAQ</p>

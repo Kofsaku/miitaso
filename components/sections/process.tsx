@@ -52,7 +52,7 @@ export function ProcessSection() {
   }, [])
 
   return (
-    <section ref={ref} className="py-20 md:py-28 bg-slate-50">
+    <section id="process" ref={ref} className="py-20 md:py-28 bg-slate-50">
       <div className="container px-4 md:px-6">
         <div className="text-center mb-12">
           <p className="text-sky-600 font-medium mb-2">PROCESS</p>

@@ -6,16 +6,18 @@ import Link from "next/link"
 import { useState } from "react"
 import { Menu, X } from "lucide-react"
 
+const navItems = [
+  { label: "サービス", id: "services" },
+  { label: "選ばれる理由", id: "reasons" },
+  { label: "開発の流れ", id: "process" },
+  { label: "FAQ", id: "faq" },
+]
+
 export function Header() {
   const [isOpen, setIsOpen] = useState(false)
 
-  const scrollToContact = () => {
-    document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })
-    setIsOpen(false)
-  }
-
-  const scrollToServices = () => {
-    document.getElementById("services")?.scrollIntoView({ behavior: "smooth" })
+  const scrollTo = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" })
     setIsOpen(false)
   }
 
@@ -33,15 +35,18 @@ export function Header() {
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-8">
-          <button
-            onClick={scrollToServices}
-            className="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors"
-          >
-            サービス
-          </button>
+        <nav className="hidden md:flex items-center gap-6">
+          {navItems.map((item) => (
+            <button
+              key={item.id}
+              onClick={() => scrollTo(item.id)}
+              className="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors"
+            >
+              {item.label}
+            </button>
+          ))}
           <Button
-            onClick={scrollToContact}
+            onClick={() => scrollTo("contact")}
             className="bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700 text-white"
           >
             無料相談
@@ -60,16 +65,19 @@ export function Header() {
       {/* Mobile Navigation */}
       {isOpen && (
         <div className="md:hidden border-t border-slate-100 bg-white">
-          <nav className="container px-4 py-4 flex flex-col gap-4">
-            <button
-              onClick={scrollToServices}
-              className="text-left py-2 text-sm font-medium text-slate-600 hover:text-slate-900"
-            >
-              サービス
-            </button>
+          <nav className="container px-4 py-4 flex flex-col gap-2">
+            {navItems.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => scrollTo(item.id)}
+                className="text-left py-2 text-sm font-medium text-slate-600 hover:text-slate-900"
+              >
+                {item.label}
+              </button>
+            ))}
             <Button
-              onClick={scrollToContact}
-              className="w-full bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700 text-white"
+              onClick={() => scrollTo("contact")}
+              className="w-full mt-2 bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700 text-white"
             >
               無料相談
             </Button>
