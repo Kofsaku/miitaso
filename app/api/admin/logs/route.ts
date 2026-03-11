@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
   const perPage = 50
   const offset = page * perPage
 
-  const logs = await sql`SELECT id, access_time, ip, user_agent, url, domain, (created_at AT TIME ZONE 'UTC' AT TIME ZONE 'Asia/Tokyo')::text as created_at FROM access_logs ORDER BY created_at DESC LIMIT ${perPage} OFFSET ${offset}`
+  const logs = await sql`SELECT id, access_time, domain, (created_at AT TIME ZONE 'UTC' AT TIME ZONE 'Asia/Tokyo')::text as created_at FROM access_logs ORDER BY created_at DESC LIMIT ${perPage} OFFSET ${offset}`
   const countResult = await sql`SELECT COUNT(*) as total FROM access_logs`
   const total = Number(countResult[0].total)
 

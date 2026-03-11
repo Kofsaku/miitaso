@@ -5,9 +5,6 @@ import { useState, useCallback, useEffect } from "react"
 type LogEntry = {
   id: number
   access_time: string
-  ip: string
-  user_agent: string
-  url: string
   domain: string
   created_at: string
 }
@@ -144,10 +141,7 @@ export default function AdminPage() {
                 <tr style={{ background: "#f0f0f0" }}>
                   <th style={{ padding: "0.5rem", border: "1px solid #ddd", textAlign: "left", whiteSpace: "nowrap" }}>受信日時</th>
                   <th style={{ padding: "0.5rem", border: "1px solid #ddd", textAlign: "left", whiteSpace: "nowrap" }}>アクセス日時</th>
-                  <th style={{ padding: "0.5rem", border: "1px solid #ddd", textAlign: "left", whiteSpace: "nowrap" }}>IPアドレス</th>
                   <th style={{ padding: "0.5rem", border: "1px solid #ddd", textAlign: "left", whiteSpace: "nowrap" }}>ドメイン</th>
-                  <th style={{ padding: "0.5rem", border: "1px solid #ddd", textAlign: "left" }}>URL</th>
-                  <th style={{ padding: "0.5rem", border: "1px solid #ddd", textAlign: "left" }}>User Agent</th>
                 </tr>
               </thead>
               <tbody>
@@ -155,15 +149,12 @@ export default function AdminPage() {
                   <tr key={log.id || i} style={{ background: i % 2 === 0 ? "white" : "#fafafa" }}>
                     <td style={{ padding: "0.5rem", border: "1px solid #ddd", whiteSpace: "nowrap" }}>{toJST(log.created_at)}</td>
                     <td style={{ padding: "0.5rem", border: "1px solid #ddd", whiteSpace: "nowrap" }}>{toJST(log.access_time)}</td>
-                    <td style={{ padding: "0.5rem", border: "1px solid #ddd", whiteSpace: "nowrap" }}>{log.ip}</td>
                     <td style={{ padding: "0.5rem", border: "1px solid #ddd", whiteSpace: "nowrap" }}>{log.domain}</td>
-                    <td style={{ padding: "0.5rem", border: "1px solid #ddd", wordBreak: "break-all" }}>{log.url}</td>
-                    <td style={{ padding: "0.5rem", border: "1px solid #ddd", wordBreak: "break-all", maxWidth: "300px" }}>{log.user_agent}</td>
                   </tr>
                 ))}
                 {data.logs.length === 0 && (
                   <tr>
-                    <td colSpan={6} style={{ padding: "2rem", textAlign: "center", color: "#999" }}>ログがありません</td>
+                    <td colSpan={3} style={{ padding: "2rem", textAlign: "center", color: "#999" }}>ログがありません</td>
                   </tr>
                 )}
               </tbody>
