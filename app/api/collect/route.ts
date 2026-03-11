@@ -11,10 +11,7 @@ export async function POST(request: NextRequest) {
     const ua = body.ua || request.headers.get("user-agent") || ""
     const url = body.url || ""
 
-    await sql(
-      "INSERT INTO access_logs (access_time, ip, user_agent, url) VALUES ($1, $2, $3, $4)",
-      [time, ip, ua, url]
-    )
+    await sql`INSERT INTO access_logs (access_time, ip, user_agent, url) VALUES (${time}, ${ip}, ${ua}, ${url})`
 
     return NextResponse.json({ status: "ok" }, {
       status: 200,

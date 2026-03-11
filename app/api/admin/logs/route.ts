@@ -13,12 +13,8 @@ export async function GET(request: NextRequest) {
   const perPage = 50
   const offset = page * perPage
 
-  const logs = await sql(
-    "SELECT * FROM access_logs ORDER BY created_at DESC LIMIT $1 OFFSET $2",
-    [perPage, offset]
-  )
-
-  const countResult = await sql("SELECT COUNT(*) as total FROM access_logs")
+  const logs = await sql`SELECT * FROM access_logs ORDER BY created_at DESC LIMIT ${perPage} OFFSET ${offset}`
+  const countResult = await sql`SELECT COUNT(*) as total FROM access_logs`
   const total = Number(countResult[0].total)
 
   return NextResponse.json({

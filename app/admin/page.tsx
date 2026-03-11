@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useCallback } from "react"
+import { useState, useCallback, useEffect } from "react"
 
 type LogEntry = {
   id: number
@@ -27,17 +27,23 @@ export default function AdminPage() {
   const [error, setError] = useState("")
   const [currentPage, setCurrentPage] = useState(0)
 
+  const getStoredPassword = () => {
+    try { return sessionStorage.getItem("admin_pwd") || "" } catch { return "" }
+  }
+
   const fetchLogs = useCallback(
     async (page: number, pwd?: string) => {
+      const usePwd = pwd || password || getStoredPassword()
       setLoading(true)
       setError("")
       try {
         const res = await fetch(`/api/admin/logs?page=${page}`, {
-          headers: { "x-admin-password": pwd || password },
+          headers: { "x-admin-password": usePwd },
         })
         if (!res.ok) {
           if (res.status === 401) {
             setAuthenticated(false)
+            sessionStorage.removeItem("admin_pwd")
             setError("パスワードが正しくありません")
             return
           }
@@ -47,6 +53,8 @@ export default function AdminPage() {
         setData(json)
         setCurrentPage(page)
         setAuthenticated(true)
+        setPassword(usePwd)
+        sessionStorage.setItem("admin_pwd", usePwd)
       } catch {
         setError("ログの取得に失敗しました")
       } finally {
@@ -55,6 +63,14 @@ export default function AdminPage() {
     },
     [password]
   )
+
+  useEffect(() => {
+    const stored = getStoredPassword()
+    if (stored) {
+      setPassword(stored)
+      fetchLogs(0, stored)
+    }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault()
@@ -99,7 +115,7 @@ export default function AdminPage() {
             {loading ? "更新中..." : "更新"}
           </button>
           <button
-            onClick={() => { setAuthenticated(false); setData(null); setPassword("") }}
+            onClick={() => { setAuthenticated(false); setData(null); setPassword(""); sessionStorage.removeItem("admin_pwd") }}
             style={{ padding: "0.5rem 1rem", background: "#999", color: "white", border: "none", borderRadius: "4px", cursor: "pointer" }}
           >
             ログアウト
