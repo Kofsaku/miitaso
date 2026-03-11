@@ -19,6 +19,14 @@ type LogResponse = {
   totalPages: number
 }
 
+function toJST(dateStr: string) {
+  try {
+    return new Date(dateStr).toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" })
+  } catch {
+    return dateStr
+  }
+}
+
 export default function AdminPage() {
   const [password, setPassword] = useState("")
   const [authenticated, setAuthenticated] = useState(false)
@@ -143,8 +151,8 @@ export default function AdminPage() {
               <tbody>
                 {data.logs.map((log, i) => (
                   <tr key={log.id || i} style={{ background: i % 2 === 0 ? "white" : "#fafafa" }}>
-                    <td style={{ padding: "0.5rem", border: "1px solid #ddd", whiteSpace: "nowrap" }}>{log.created_at}</td>
-                    <td style={{ padding: "0.5rem", border: "1px solid #ddd", whiteSpace: "nowrap" }}>{log.access_time}</td>
+                    <td style={{ padding: "0.5rem", border: "1px solid #ddd", whiteSpace: "nowrap" }}>{toJST(log.created_at)}</td>
+                    <td style={{ padding: "0.5rem", border: "1px solid #ddd", whiteSpace: "nowrap" }}>{toJST(log.access_time)}</td>
                     <td style={{ padding: "0.5rem", border: "1px solid #ddd", whiteSpace: "nowrap" }}>{log.ip}</td>
                     <td style={{ padding: "0.5rem", border: "1px solid #ddd", wordBreak: "break-all" }}>{log.url}</td>
                     <td style={{ padding: "0.5rem", border: "1px solid #ddd", wordBreak: "break-all", maxWidth: "300px" }}>{log.user_agent}</td>
