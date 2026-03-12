@@ -19,7 +19,11 @@ type LogResponse = {
 
 function toJST(dateStr: string) {
   try {
-    return new Date(dateStr).toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" })
+    // タイムゾーン情報がない場合はUTCとして扱う
+    const str = dateStr.includes("T") || dateStr.includes("Z") || dateStr.includes("+")
+      ? dateStr
+      : dateStr.replace(" ", "T") + "Z"
+    return new Date(str).toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" })
   } catch {
     return dateStr
   }
