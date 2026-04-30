@@ -312,7 +312,7 @@ function CaseStudySection() {
 
         {/* Profile */}
         <FadeIn>
-          <div className="bg-[#F5F7FA] rounded-xl p-6 md:p-8">
+          <div className="bg-[#F5F7FA] rounded-xl p-6 md:p-8 mt-12 md:mt-16">
             <h3 className="text-lg md:text-xl font-bold text-[#333] text-center mb-6">
               代表プロフィール
             </h3>
