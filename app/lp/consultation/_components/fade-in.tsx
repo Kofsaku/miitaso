@@ -4,9 +4,11 @@ import { useEffect, useRef, useState, type ReactNode } from "react"
 
 export function FadeIn({ children, className = "" }: { children: ReactNode; className?: string }) {
   const ref = useRef<HTMLDivElement>(null)
+  const [hasJs, setHasJs] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
+    setHasJs(true)
     if (!ref.current) return
 
     const observer = new IntersectionObserver(
@@ -26,8 +28,8 @@ export function FadeIn({ children, className = "" }: { children: ReactNode; clas
   return (
     <div
       ref={ref}
-      className={`transition-all duration-700 ease-out ${
-        isVisible
+      className={`${hasJs ? "transition-all duration-700 ease-out" : ""} ${
+        !hasJs || isVisible
           ? "opacity-100 translate-y-0"
           : "opacity-0 translate-y-6"
       } ${className}`}
