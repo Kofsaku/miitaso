@@ -287,7 +287,7 @@ function CredibilitySection() {
     "物流系テック企業にてフルスタックエンジニアとして開発を経験",
     "大手IT企業にてプロダクトマネージャーとして複数の事業開発に従事",
     "ITコンサルタントとして大手印刷企業の地方自治体向け電子通貨開発プロジェクトに参画",
-    "2024年にmiitaso Inc.を創業",
+    "2024年に株式会社miitasoを創業",
     "160社超の新規事業支援と50件超のMVP開発を実施",
     "創業半年で売上3,000万円を突破",
   ]
@@ -364,7 +364,7 @@ function CredibilitySection() {
                     </span>
                   </h4>
                   <p className="text-sm text-[#555] font-medium">
-                    miitaso Inc. 代表
+                    株式会社miitaso 代表
                   </p>
                 </div>
                 <p className="text-sm font-medium text-[#333]">
@@ -670,7 +670,7 @@ function LPFooter() {
   return (
     <footer className="bg-[#0F2847] text-white py-10">
       <div className="max-w-4xl mx-auto px-4 text-center space-y-4">
-        <p className="font-bold text-lg">miitaso Inc.</p>
+        <p className="font-bold text-lg">株式会社miitaso</p>
         <p className="text-sm text-blue-200">代表：津端 晃作</p>
         <p className="text-sm text-blue-200">
           〒104-0061 東京都中央区銀座1丁目12番4号 N&E BLD.6F
@@ -685,7 +685,7 @@ function LPFooter() {
           </a>
         </div>
         <p className="text-xs text-blue-400 pt-4">
-          &copy; 2026 miitaso Inc. All rights reserved.
+          &copy; 2026 株式会社miitaso All rights reserved.
         </p>
       </div>
     </footer>

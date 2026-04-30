@@ -11,11 +11,11 @@ const notoSansJP = Noto_Sans_JP({
 const PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID || "YOUR_PIXEL_ID"
 
 export const metadata: Metadata = {
-  title: "30分無料相談 | miitaso Inc. - 新規事業の専門家に相談する",
+  title: "30分無料相談 | 株式会社miitaso - 新規事業の専門家に相談する",
   description:
     "戦略立案からMVP開発まで一気通貫で支援。160社超の実績を持つ専門家が、あなたの課題を30分で整理します。",
   openGraph: {
-    title: "30分無料相談 | miitaso Inc.",
+    title: "30分無料相談 | 株式会社miitaso",
     description:
       "戦略立案からMVP開発まで一気通貫で支援。160社超の実績を持つ専門家が、あなたの課題を30分で整理します。",
     type: "website",
@@ -26,13 +26,13 @@ export const metadata: Metadata = {
         url: "https://miitaso.com/og-consultation.png",
         width: 1200,
         height: 630,
-        alt: "miitaso Inc. 30分無料相談",
+        alt: "株式会社miitaso 30分無料相談",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "30分無料相談 | miitaso Inc.",
+    title: "30分無料相談 | 株式会社miitaso",
     description:
       "戦略立案からMVP開発まで一気通貫で支援。160社超の実績を持つ専門家が、あなたの課題を30分で整理します。",
   },

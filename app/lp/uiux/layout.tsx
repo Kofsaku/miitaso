@@ -10,11 +10,11 @@ const notoSansJP = Noto_Sans_JP({
 
 export const metadata: Metadata = {
   title:
-    "システムUI改善・UI/UXデザイン刷新 | 30分無料UI診断 - miitaso Inc.",
+    "システムUI改善・UI/UXデザイン刷新 | 30分無料UI診断 - 株式会社miitaso",
   description:
     "システムのUIが古い、使いにくい──そんな課題を解決します。エンジニア出身のUIデザイナーが、既存システムを壊さずにUIだけを刷新。React/Next.js等のフロントエンド実装まで一貫対応。まずは30分無料UI診断から。",
   openGraph: {
-    title: "システムUI改善 | 30分無料UI診断 - miitaso Inc.",
+    title: "システムUI改善 | 30分無料UI診断 - 株式会社miitaso",
     description:
       "既存システムを壊さずにUIだけを刷新。エンジニア出身のUIデザイナーが、デザインからフロントエンド実装まで一貫対応します。",
     type: "website",
@@ -25,13 +25,13 @@ export const metadata: Metadata = {
         url: "https://miitaso.com/og-uiux.png",
         width: 1200,
         height: 630,
-        alt: "miitaso Inc. UI/UX改善サービス",
+        alt: "株式会社miitaso UI/UX改善サービス",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "システムUI改善 | 30分無料UI診断 - miitaso Inc.",
+    title: "システムUI改善 | 30分無料UI診断 - 株式会社miitaso",
     description:
       "既存システムを壊さずにUIだけを刷新。デザインからフロントエンド実装まで一貫対応。",
   },
