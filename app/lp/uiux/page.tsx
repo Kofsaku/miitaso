@@ -306,13 +306,11 @@ function CaseStudySection() {
         <div className="w-12 h-1 bg-[#2E75B6] mx-auto rounded-full mb-10 md:mb-12" />
 
         {/* Case Studies Carousel */}
-        <FadeIn>
-          <CaseCarousel />
-        </FadeIn>
+        <CaseCarousel />
 
         {/* Profile */}
-        <FadeIn>
-          <div className="bg-[#F5F7FA] rounded-xl p-6 md:p-8 mt-12 md:mt-16">
+        <div className="mt-12 md:mt-16">
+          <div className="bg-[#F5F7FA] rounded-xl p-6 md:p-8">
             <h3 className="text-lg md:text-xl font-bold text-[#333] text-center mb-6">
               代表プロフィール
             </h3>
@@ -364,7 +362,7 @@ function CaseStudySection() {
               </div>
             </div>
           </div>
-        </FadeIn>
+        </div>
 
         {/* CTA 2 */}
         <div className="text-center mt-10">
