@@ -14,7 +14,6 @@ import {
 import { CTAButton } from "./_components/cta-button"
 import { FAQSection } from "./_components/faq-section"
 import { StickyMobileCTA } from "./_components/sticky-mobile-cta"
-import { FadeIn } from "../consultation/_components/fade-in"
 import { DemoMockups } from "./_components/demo-mockups"
 import { CaseCarousel } from "./_components/case-carousel"
 
@@ -94,7 +93,6 @@ function PainPointsSection() {
         <div className="w-12 h-1 bg-[#2E75B6] mx-auto rounded-full mb-10" />
 
         {/* Direct Client Problems */}
-        <FadeIn>
           <div className="space-y-3 md:space-y-4 mb-10">
             {clientProblems.map((problem, i) => (
               <div
@@ -108,10 +106,8 @@ function PainPointsSection() {
               </div>
             ))}
           </div>
-        </FadeIn>
 
         {/* SIer / Partner Problems */}
-        <FadeIn>
           <div className="bg-[#F0F6FF] rounded-xl p-5 md:p-8 border border-[#2E75B6]/10">
             <h3 className="text-lg md:text-xl font-bold text-[#1A3C6E] mb-5">
               開発会社・SIerの方へ
@@ -130,7 +126,6 @@ function PainPointsSection() {
               ))}
             </div>
           </div>
-        </FadeIn>
       </div>
     </section>
   )
@@ -208,7 +203,6 @@ function SolutionSection() {
         </p>
 
         {/* 3-Column Strengths */}
-        <FadeIn>
           <div className="grid md:grid-cols-3 gap-5 md:gap-6 mb-12 md:mb-16">
             {strengths.map((item, i) => (
               <div
@@ -227,10 +221,8 @@ function SolutionSection() {
               </div>
             ))}
           </div>
-        </FadeIn>
 
         {/* Comparison Matrix */}
-        <FadeIn>
           <div className="bg-white rounded-xl p-5 md:p-8 shadow-sm border border-gray-100">
             <h3 className="text-lg md:text-xl font-bold text-[#333] text-center mb-6">
               一般的なデザイン会社・開発会社との違い
@@ -279,7 +271,6 @@ function SolutionSection() {
               </table>
             </div>
           </div>
-        </FadeIn>
       </div>
     </section>
   )
@@ -422,7 +413,6 @@ function ServiceFlowSection() {
         </p>
 
         {/* 4-Step Flow */}
-        <FadeIn>
           <div className="space-y-4 md:space-y-0 md:grid md:grid-cols-4 md:gap-4 mb-12">
             {steps.map((item, i) => (
               <div key={i} className="relative">
@@ -477,10 +467,8 @@ function ServiceFlowSection() {
               </div>
             ))}
           </div>
-        </FadeIn>
 
         {/* Free UI Review Details */}
-        <FadeIn>
           <div className="bg-white rounded-xl p-6 md:p-8 border border-gray-100">
             <h3 className="text-base md:text-lg font-bold text-[#1A3C6E] mb-4">
               無料UI診断について
@@ -497,7 +485,6 @@ function ServiceFlowSection() {
               ))}
             </div>
           </div>
-        </FadeIn>
       </div>
     </section>
   )
@@ -549,7 +536,6 @@ function PricingSection() {
         </p>
 
         {/* Pricing Cards */}
-        <FadeIn>
           <div className="grid md:grid-cols-3 gap-5 md:gap-6 mb-10">
             {plans.map((plan, i) => (
               <div
@@ -578,10 +564,8 @@ function PricingSection() {
               </div>
             ))}
           </div>
-        </FadeIn>
 
         {/* What's Included */}
-        <FadeIn>
           <div className="bg-[#F5F7FA] rounded-xl p-6 md:p-8 mb-6">
             <h3 className="text-base md:text-lg font-bold text-[#333] mb-4">
               料金に含まれるもの
@@ -595,7 +579,6 @@ function PricingSection() {
               ))}
             </div>
           </div>
-        </FadeIn>
 
         {/* Supplementary Notes */}
         <div className="space-y-2 text-sm text-[#888] mb-8">
