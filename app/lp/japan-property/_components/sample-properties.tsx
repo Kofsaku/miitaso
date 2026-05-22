@@ -2,6 +2,7 @@
 
 import { useI18n } from "./i18n-context";
 import { MapPin, Sparkles, Star } from "lucide-react";
+import { PropertyVisual, PropertyVisualType } from "./visuals";
 
 type Sample = {
   id: string;
@@ -9,8 +10,7 @@ type Sample = {
   cityJa: string;
   prefecture: string;
   prefectureJa: string;
-  emoji: string;
-  bgGradient: string;
+  visual: PropertyVisualType;
   type: string;
   typeJa: string;
   priceManYen: number;
@@ -33,8 +33,7 @@ const samples: Sample[] = [
     cityJa: "東伊豆町",
     prefecture: "Shizuoka",
     prefectureJa: "静岡県",
-    emoji: "🌊",
-    bgGradient: "from-sky-100 via-blue-50 to-cyan-100",
+    visual: "coastal",
     type: "4DK Coastal House",
     typeJa: "4DK 海近一戸建て",
     priceManYen: 350,
@@ -55,8 +54,7 @@ const samples: Sample[] = [
     cityJa: "南房総市",
     prefecture: "Chiba",
     prefectureJa: "千葉県",
-    emoji: "🌅",
-    bgGradient: "from-orange-100 via-amber-50 to-yellow-100",
+    visual: "coastal",
     type: "House w/ Pacific view",
     typeJa: "太平洋ビュー戸建て",
     priceManYen: 800,
@@ -77,8 +75,7 @@ const samples: Sample[] = [
     cityJa: "笠間市",
     prefecture: "Ibaraki",
     prefectureJa: "茨城県",
-    emoji: "🏯",
-    bgGradient: "from-emerald-100 via-green-50 to-teal-100",
+    visual: "farmhouse",
     type: "Traditional Farmhouse",
     typeJa: "伝統的農家住宅",
     priceManYen: 600,
@@ -89,7 +86,7 @@ const samples: Sample[] = [
     fitFor: ["Retiree", "Renovator"],
     fitForJa: ["退職者", "リノベ愛好家"],
     strategy: "reno-sell",
-    highlight: "Pottery town, large garden, ¥1.9M projected profit",
+    highlight: "Pottery town, large garden, ¥19M projected profit",
     highlightJa: "陶芸の街、広い庭、粗利1,925万見込み",
     url: "https://kasama-c08216.akiya-athome.jp/",
   },
@@ -99,8 +96,7 @@ const samples: Sample[] = [
     cityJa: "湯河原町",
     prefecture: "Kanagawa",
     prefectureJa: "神奈川県",
-    emoji: "♨️",
-    bgGradient: "from-pink-100 via-rose-50 to-amber-100",
+    visual: "onsen",
     type: "Hot Spring Town House",
     typeJa: "温泉街の戸建て",
     priceManYen: 880,
@@ -121,8 +117,7 @@ const samples: Sample[] = [
     cityJa: "北杜市",
     prefecture: "Yamanashi",
     prefectureJa: "山梨県",
-    emoji: "⛰️",
-    bgGradient: "from-purple-100 via-violet-50 to-indigo-100",
+    visual: "mountain",
     type: "Yatsugatake Cottage",
     typeJa: "八ヶ岳南麓コテージ",
     priceManYen: 680,
@@ -143,8 +138,7 @@ const samples: Sample[] = [
     cityJa: "小田原市",
     prefecture: "Kanagawa",
     prefectureJa: "神奈川県",
-    emoji: "🏯",
-    bgGradient: "from-stone-200 via-stone-100 to-amber-100",
+    visual: "onsen",
     type: "Suburban Family House",
     typeJa: "郊外ファミリーハウス",
     priceManYen: 1300,
@@ -160,6 +154,18 @@ const samples: Sample[] = [
     url: "https://odawara-c14206.akiya-athome.jp/",
   },
 ];
+
+function formatYen(manYen: number, locale: "en" | "ja"): string {
+  if (locale === "ja") {
+    return `¥${manYen.toLocaleString("ja-JP")}万`;
+  }
+  if (manYen >= 100) {
+    const m = manYen / 100;
+    const formatted = Number.isInteger(m) ? m.toString() : m.toFixed(1);
+    return `¥${formatted}M`;
+  }
+  return `¥${(manYen * 10).toLocaleString("en-US")}K`;
+}
 
 export function SamplePropertiesSection() {
   const { locale } = useI18n();
@@ -183,23 +189,24 @@ export function SamplePropertiesSection() {
         </div>
         <div className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {samples.map((s) => (
-            <div
+            <article
               key={s.id}
               className="group overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm transition hover:border-stone-300 hover:shadow-lg"
             >
-              <div
-                className={`relative aspect-[4/3] bg-gradient-to-br ${s.bgGradient} flex items-center justify-center text-7xl`}
-              >
-                {s.emoji}
-                <div className="absolute left-3 top-3 inline-flex items-center gap-1 rounded-full bg-white/90 px-2.5 py-1 text-xs font-semibold text-stone-900 backdrop-blur">
+              <div className="relative aspect-[4/3] overflow-hidden">
+                <PropertyVisual
+                  type={s.visual}
+                  className="absolute inset-0 h-full w-full transition duration-500 group-hover:scale-105"
+                />
+                <div className="absolute left-3 top-3 inline-flex items-center gap-1 rounded-full bg-white/95 px-2.5 py-1 text-xs font-semibold text-stone-900 shadow-sm backdrop-blur">
                   {s.strategy === "reno-sell" ? (
                     <>
-                      <Sparkles className="h-3 w-3" />
+                      <Sparkles className="h-3 w-3" aria-hidden="true" />
                       {locale === "en" ? "Reno + Resell" : "リノベ売却向き"}
                     </>
                   ) : (
                     <>
-                      <Star className="h-3 w-3" />
+                      <Star className="h-3 w-3" aria-hidden="true" />
                       {locale === "en" ? "Ready Match" : "紹介向き"}
                     </>
                   )}
@@ -207,7 +214,7 @@ export function SamplePropertiesSection() {
               </div>
               <div className="p-5">
                 <div className="flex items-center gap-1.5 text-xs font-medium text-stone-500">
-                  <MapPin className="h-3 w-3" />
+                  <MapPin className="h-3 w-3" aria-hidden="true" />
                   <span>
                     {locale === "en" ? `${s.city}, ${s.prefecture}` : `${s.prefectureJa} ${s.cityJa}`}
                   </span>
@@ -217,7 +224,7 @@ export function SamplePropertiesSection() {
                 </h3>
                 <div className="mt-3 flex items-baseline gap-2">
                   <span className="text-2xl font-bold text-stone-900">
-                    ¥{(s.priceManYen / 100).toFixed(2)}M
+                    {formatYen(s.priceManYen, locale)}
                   </span>
                   <span className="text-xs text-stone-500">
                     ({s.area} · {locale === "en" ? "Built " : "築"}
@@ -241,7 +248,7 @@ export function SamplePropertiesSection() {
                   ))}
                 </div>
               </div>
-            </div>
+            </article>
           ))}
         </div>
       </div>

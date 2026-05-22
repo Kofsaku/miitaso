@@ -272,27 +272,73 @@ export function WhyUsSection() {
 
 export function AboutSection() {
   const { locale } = useI18n();
+  const credentials = [
+    {
+      label: { en: "Years in software", ja: "ソフトウェア経験" } as const,
+      value: "15+",
+    },
+    {
+      label: { en: "Founded company", ja: "代表企業" } as const,
+      value: "miitaso",
+    },
+    {
+      label: { en: "Based in", ja: "拠点" } as const,
+      value: { en: "Tokyo", ja: "東京" } as const,
+    },
+    {
+      label: { en: "Languages", ja: "対応言語" } as const,
+      value: "EN / JP",
+    },
+  ];
   return (
     <section id="about" className="bg-white py-20 lg:py-28">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-5">
-            <div className="aspect-[4/5] overflow-hidden rounded-2xl bg-gradient-to-br from-stone-200 via-amber-50 to-stone-100 shadow-xl">
-              <div className="flex h-full items-center justify-center text-8xl">
-                🚗
+            <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-gradient-to-br from-stone-900 via-stone-800 to-amber-900 shadow-xl">
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,_rgba(245,158,11,0.18),_transparent_55%)]" />
+              <div className="absolute inset-0 flex flex-col justify-end p-7 text-white">
+                <span className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-300">
+                  {locale === "en" ? "Founder" : "代表"}
+                </span>
+                <p className="mt-2 text-3xl font-bold leading-tight">
+                  Kosaku Tsubata
+                </p>
+                <p className="mt-1 text-sm text-stone-300">
+                  {locale === "en"
+                    ? "Software Engineer · Property Advisor"
+                    : "ソフトウェアエンジニア・物件アドバイザー"}
+                </p>
               </div>
+              <svg
+                viewBox="0 0 100 100"
+                className="absolute right-6 top-6 h-12 w-12 text-amber-300/30"
+                aria-hidden="true"
+              >
+                <path
+                  d="M50 10 L60 40 L90 50 L60 60 L50 90 L40 60 L10 50 L40 40 Z"
+                  fill="currentColor"
+                />
+              </svg>
             </div>
-            <div className="mt-4 grid grid-cols-3 gap-3 text-center text-xs">
-              <div className="rounded-lg bg-stone-100 px-3 py-2 font-medium text-stone-700">
-                Tesla Model Y
-              </div>
-              <div className="rounded-lg bg-stone-100 px-3 py-2 font-medium text-stone-700">
-                miitaso CEO
-              </div>
-              <div className="rounded-lg bg-stone-100 px-3 py-2 font-medium text-stone-700">
-                15+ years
-              </div>
-            </div>
+            <dl className="mt-5 grid grid-cols-2 gap-3 text-xs sm:grid-cols-4">
+              {credentials.map((c) => {
+                const value = typeof c.value === "string" ? c.value : c.value[locale];
+                return (
+                  <div
+                    key={c.label.en}
+                    className="rounded-lg border border-stone-200 bg-stone-50 px-3 py-2"
+                  >
+                    <dt className="text-[10px] font-medium uppercase tracking-wider text-stone-500">
+                      {c.label[locale]}
+                    </dt>
+                    <dd className="mt-0.5 text-sm font-semibold text-stone-900">
+                      {value}
+                    </dd>
+                  </div>
+                );
+              })}
+            </dl>
           </div>
           <div className="lg:col-span-7">
             <span className="text-xs font-semibold uppercase tracking-wider text-amber-700">

@@ -19,7 +19,7 @@ export const content = {
     contact: { en: "Contact", ja: "お問い合わせ" } as T,
   },
   hero: {
-    badge: { en: "🇯🇵 Trusted by international buyers", ja: "🇯🇵 海外バイヤーから信頼" } as T,
+    badge: { en: "Trusted by international buyers", ja: "海外バイヤーから信頼" } as T,
     title: {
       en: "Find Your Authentic Japanese Home",
       ja: "あなただけの、本物の日本の家を見つける",
@@ -95,8 +95,8 @@ export const content = {
       {
         title: { en: "On-the-Ground Inspection", ja: "現地視察を私自身が実行" } as T,
         body: {
-          en: "I drive my Tesla to every shortlisted property — checking foundations, water access, neighborhood feel, and the things photos never show.",
-          ja: "テスラで全候補物件を視察。基礎・水道・近隣の雰囲気など、写真では絶対わからないことを確認します。",
+          en: "I personally drive to every shortlisted property — checking foundations, water access, neighborhood feel, and the things photos never show.",
+          ja: "私自身が全候補物件を現地視察。基礎・水道・近隣の雰囲気など、写真では絶対わからないことを確認します。",
         } as T,
       },
       {

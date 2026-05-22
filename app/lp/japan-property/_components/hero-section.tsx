@@ -2,7 +2,8 @@
 
 import { useI18n } from "./i18n-context";
 import { content, pick } from "./content";
-import { ArrowRight, MapPin } from "lucide-react";
+import { ArrowRight, MapPin, Star } from "lucide-react";
+import { VillaHeroIllustration } from "./visuals";
 
 export function HeroSection() {
   const { locale } = useI18n();
@@ -16,6 +17,7 @@ export function HeroSection() {
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
           <div className="lg:col-span-7">
             <span className="inline-flex items-center gap-2 rounded-full border border-stone-200 bg-white px-3 py-1 text-xs font-medium text-stone-600 shadow-sm">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
               {pick(content.hero.badge, locale)}
             </span>
             <h1 className="mt-6 text-4xl font-bold leading-tight tracking-tight text-stone-900 sm:text-5xl lg:text-6xl">
@@ -28,13 +30,15 @@ export function HeroSection() {
               <a
                 href="#contact"
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-stone-900 px-6 py-3 text-base font-semibold text-white shadow-md transition hover:bg-stone-800 hover:shadow-lg"
+                aria-label={pick(content.hero.ctaPrimary, locale)}
               >
                 {pick(content.hero.ctaPrimary, locale)}
-                <ArrowRight className="h-4 w-4" />
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </a>
               <a
                 href="#properties"
                 className="inline-flex items-center justify-center gap-2 rounded-full border border-stone-300 bg-white px-6 py-3 text-base font-semibold text-stone-700 transition hover:bg-stone-100"
+                aria-label={pick(content.hero.ctaSecondary, locale)}
               >
                 {pick(content.hero.ctaSecondary, locale)}
               </a>
@@ -42,20 +46,38 @@ export function HeroSection() {
           </div>
 
           <div className="lg:col-span-5">
-            <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-gradient-to-br from-amber-100 via-stone-100 to-stone-200 shadow-xl">
-              <div className="absolute inset-0 flex items-center justify-center text-9xl">
-                🏡
-              </div>
+            <div className="relative aspect-[4/5] overflow-hidden rounded-2xl shadow-xl ring-1 ring-stone-200/50">
+              <VillaHeroIllustration className="absolute inset-0 h-full w-full" />
               <div className="absolute bottom-6 left-6 right-6 rounded-xl bg-white/95 p-5 shadow-lg backdrop-blur">
-                <div className="flex items-center gap-2 text-xs font-medium text-stone-500">
-                  <MapPin className="h-3 w-3" />
-                  <span>Higashi-Izu, Shizuoka</span>
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-1.5 text-xs font-medium text-stone-500">
+                    <MapPin className="h-3 w-3" aria-hidden="true" />
+                    <span>
+                      {locale === "en"
+                        ? "Higashi-Izu, Shizuoka"
+                        : "静岡県 東伊豆町"}
+                    </span>
+                  </div>
+                  <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-amber-700">
+                    <Star className="h-2.5 w-2.5 fill-current" aria-hidden="true" />
+                    {locale === "en" ? "Featured" : "注目"}
+                  </span>
                 </div>
-                <p className="mt-1 text-base font-semibold text-stone-900">
-                  4DK Coastal House · ¥3.5M
+                <p className="mt-2 text-base font-semibold text-stone-900">
+                  {locale === "en"
+                    ? "Coastal Onsen Villa"
+                    : "海近 温泉一戸建て"}
                 </p>
-                <p className="mt-1 text-xs text-stone-500">
-                  ★ {locale === "en" ? "MUST-VISIT" : "MUST視察"} · 13min walk to Inatori Station
+                <div className="mt-1 flex items-baseline gap-2">
+                  <span className="text-lg font-bold text-stone-900">¥6.8M</span>
+                  <span className="text-xs text-stone-500">
+                    · 110m² · {locale === "en" ? "Built 1988" : "築1988"}
+                  </span>
+                </div>
+                <p className="mt-2 text-xs text-stone-500">
+                  {locale === "en"
+                    ? "11min walk to Inatori Station · Pacific view"
+                    : "稲取駅 徒歩11分 · 太平洋眺望"}
                 </p>
               </div>
             </div>
