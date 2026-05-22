@@ -43,6 +43,7 @@ next-env.d.ts
 # IDE
 .idea/
 .vscode/
+.claude/
 *.swp
 *.swo
 
@@ -59,3 +60,21 @@ next-env.d.ts
 
 # Cache
 .cache/
+
+# Business / strategy documents (keep local only — public repo)
+docs/akiya-japan-*.md
+docs/*-broker-outreach-emails.md
+docs/year1-pmf-action-plan.md
+docs/cleanup-proposal.md
+/lp-improvement-plan.md
+*.xlsx
+*.docx
+*.pptx
+/スクリーンショット*.png
+/営業準備/
+
+# Internal-only docs viewer (hardcoded local paths; cannot run on Vercel)
+/app/internal/
+/app/api/internal/
+/middleware.ts
+/lib/docs.ts
