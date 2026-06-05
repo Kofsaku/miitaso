@@ -3,6 +3,7 @@
 import ReactMarkdown from "react-markdown"
 import type { Components } from "react-markdown"
 import remarkGfm from "remark-gfm"
+import remarkCjkFriendly from "remark-cjk-friendly"
 import rehypeSlug from "rehype-slug"
 import rehypeHighlight from "rehype-highlight"
 import "highlight.js/styles/github.css"
@@ -167,7 +168,7 @@ export function ReportMarkdown({ source }: { source: string }) {
   return (
     <div className="text-zinc-800">
       <ReactMarkdown
-        remarkPlugins={[remarkGfm]}
+        remarkPlugins={[remarkGfm, remarkCjkFriendly]}
         rehypePlugins={[rehypeSlug, rehypeHighlight]}
         components={components}
       >
