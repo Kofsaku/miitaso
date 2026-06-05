@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation"
 import type { Metadata } from "next"
 import { getDb } from "@/lib/db"
-import { MarkdownView } from "@/app/internal/_components/MarkdownView"
+import { ReportMarkdown } from "@/app/research/_components/ReportMarkdown"
 
 // リクエストごとにDBから取得する（静的化しない）
 export const dynamic = "force-dynamic"
@@ -56,7 +56,7 @@ export default async function ResearchReportPage({
       <div className="mx-auto max-w-3xl px-5 py-12">
         {done ? (
           <>
-            <MarkdownView source={report.report_md as string} />
+            <ReportMarkdown source={report.report_md as string} />
             <CtaFooter />
           </>
         ) : (
