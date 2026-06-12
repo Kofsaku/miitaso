@@ -8,28 +8,25 @@ const inter = Inter({ subsets: ["latin"] })
 export const metadata: Metadata = {
   title: "miitaso | アイデアを、動くプロダクトに。",
   description:
-    "新規事業の立ち上げからアプリ開発まで。企画・設計・開発・運用をワンストップでサポートします。",
+    "AI導入支援・ソフトウェア開発・新規事業支援。自らAIプロダクトを開発・運用する開発会社が、構想から運用まで伴走します。",
   icons: {
     icon: "/fav.png",
   },
   metadataBase: new URL("https://miitaso.com"),
-  alternates: {
-    canonical: "https://miitaso.com",
-  },
   openGraph: {
     title: "miitaso | アイデアを、動くプロダクトに。",
     description:
-      "新規事業の立ち上げからアプリ開発まで。企画・設計・開発・運用をワンストップでサポートします。",
+      "AI導入支援・ソフトウェア開発・新規事業支援。自らAIプロダクトを開発・運用する開発会社が、構想から運用まで伴走します。",
     url: "https://miitaso.com",
     siteName: "miitaso",
     locale: "ja_JP",
     type: "website",
   },
   twitter: {
-    card: "summary_large_image",
+    card: "summary",
     title: "miitaso | アイデアを、動くプロダクトに。",
     description:
-      "新規事業の立ち上げからアプリ開発まで。企画・設計・開発・運用をワンストップでサポートします。",
+      "AI導入支援・ソフトウェア開発・新規事業支援。自らAIプロダクトを開発・運用する開発会社が、構想から運用まで伴走します。",
   },
 }
 

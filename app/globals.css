@@ -36,9 +36,11 @@
   }
 }
 
-/* Smooth scrolling */
-html {
-  scroll-behavior: smooth;
+/* Smooth scrolling（prefers-reduced-motion 利用者には適用しない） */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 /* Selection color */
@@ -62,4 +64,81 @@ html {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* === corporate dark site === */
+
+/* マーキー（components/corporate/marquee.tsx）
+   コンテンツを2回複製した親要素を -50% 移動してシームレスにループする */
+@keyframes corp-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.corp-marquee {
+  animation: corp-marquee 30s linear infinite;
+}
+.corp-marquee-reverse {
+  animation-direction: reverse;
+}
+.corp-marquee-group:hover .corp-marquee {
+  animation-play-state: paused;
+}
+
+/* ターミナルのカーソル点滅（components/corporate/terminal.tsx） */
+@keyframes corp-blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+.corp-cursor-blink {
+  animation: corp-blink 1s step-end infinite;
+}
+
+/* フェードイン（CSSのみで出現させたい要素用） */
+@keyframes corp-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes corp-fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.corp-fade-in {
+  animation: corp-fade-in 0.8s ease-out both;
+}
+.corp-fade-in-up {
+  animation: corp-fade-in-up 0.8s ease-out both;
+}
+
+/* 発光ブロブのゆらぎ（components/corporate/backgrounds.tsx の Glow に任意で付与） */
+@keyframes corp-pulse-glow {
+  0%,
+  100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+.corp-pulse-glow {
+  animation: corp-pulse-glow 6s ease-in-out infinite;
 }

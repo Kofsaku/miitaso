@@ -1,230 +1,221 @@
 import { Metadata } from "next"
-import { Header } from "@/components/header"
 import Image from "next/image"
-import { Footer } from "@/components/footer"
+import { SiteHeader } from "@/components/corporate/site-header"
+import { SiteFooter } from "@/components/corporate/site-footer"
+import { Section, SectionHeading } from "@/components/corporate/section"
+import { GridBackground, Glow } from "@/components/corporate/backgrounds"
+import { Reveal } from "@/components/corporate/reveal"
+import { CtaBand } from "@/components/corporate/service-page"
 
 export const metadata: Metadata = {
-  title: "会社概要 - miitaso",
-  description: "miitasoの会社概要。私たちのミッション、ビジョン、チームについてご紹介します。",
+  title: "会社概要 | miitaso",
+  description:
+    "miitasoの会社概要。エンジニア出身の代表・津端晃作のプロフィール、事業内容、所在地をご紹介します。",
   alternates: {
-    canonical: 'https://miitaso.com/about',
+    canonical: "https://miitaso.com/about",
+  },
+  openGraph: {
+    title: "会社概要 | miitaso",
+    description:
+      "miitasoの会社概要。エンジニア出身の代表・津端晃作のプロフィール、事業内容、所在地をご紹介します。",
+    url: "https://miitaso.com/about",
+    siteName: "miitaso",
+    locale: "ja_JP",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "会社概要 | miitaso",
+    description:
+      "miitasoの会社概要。エンジニア出身の代表・津端晃作のプロフィール、事業内容、所在地をご紹介します。",
   },
 }
 
+const approach = [
+  {
+    title: "自分たちで作る",
+    description:
+      "AIエージェントを開発の現場で使い、自社プロダクトを企画から実装まで自分たちの手で作っています。",
+  },
+  {
+    title: "本番で運用する",
+    description:
+      "作って終わりではなく、AI市場調査botなどの自社プロダクトを実際に本番環境で動かし続けています。",
+  },
+  {
+    title: "その知見で支援する",
+    description:
+      "日々の開発と運用で得た実践知をもとに、クライアントのAI導入・プロダクト開発を支援します。",
+  },
+]
+
+const companyInfo = [
+  { label: "社名", value: "miitaso" },
+  { label: "代表", value: "津端 晃作" },
+  { label: "設立", value: "2024年12月" },
+  {
+    label: "所在地",
+    value: "〒104-0061 東京都中央区銀座1丁目12番4号 N&E BLD.6F",
+  },
+  {
+    label: "事業内容",
+    value: "AI導入支援・ソフトウェア開発・新規事業支援",
+  },
+]
+
 export default function AboutPage() {
   return (
-    <div className="flex flex-col min-h-screen">
-      <Header />
+    <div className="flex min-h-screen flex-col bg-[#030712] text-slate-300">
+      <SiteHeader />
       <main className="flex-1">
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-b from-background to-muted">
-          <div className="container px-4 md:px-6">
-            <div className="flex flex-col items-center justify-center space-y-4 text-center">
-              <div className="space-y-2">
-                <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl">
+        {/* Hero */}
+        <section className="relative overflow-hidden bg-[#030712] pb-20 pt-36 md:pb-28 md:pt-44">
+          <GridBackground fade />
+          <Glow className="-top-24 left-1/4 h-80 w-80" />
+          <div className="container relative px-4 md:px-6">
+            <div className="mx-auto max-w-6xl">
+              <div className="corp-fade-in-up max-w-3xl">
+                <p className="font-mono text-xs uppercase tracking-[0.25em] text-sky-400">
+                  ABOUT
+                </p>
+                <h1 className="mt-5 text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl">
                   会社概要
                 </h1>
-                <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  革新的なプロダクト開発で、あなたのビジョンを現実に
+                <p className="mt-7 max-w-2xl text-lg leading-relaxed text-slate-400">
+                  テクノロジーで、挑戦する人の事業を
+                  <span className="bg-gradient-to-r from-sky-400 via-blue-500 to-violet-500 bg-clip-text font-semibold text-transparent">
+                    前に進める
+                  </span>
+                  。<br className="hidden sm:block" />
+                  miitasoは、AIとソフトウェアの力で事業づくりに伴走する開発会社です。
                 </p>
               </div>
             </div>
           </div>
         </section>
 
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-background">
-          <div className="container px-4 md:px-6">
-            <div className="grid gap-6 lg:grid-cols-2 lg:gap-12">
-              <div className="space-y-4">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">私たちについて</h2>
-                <p className="text-muted-foreground md:text-xl">
-                  miitasoは、革新的なプロダクト開発を専門とする会社です。私たちは最先端の技術とデザインを駆使して、クライアントのビジョンを現実のプロダクトへと変換します。
-                </p>
-                <p className="text-muted-foreground md:text-xl">
-                  2022年の設立以来、様々な業界のクライアントと協力し、ユーザー中心の革新的なソリューションを提供してきました。私たちのチームは、経験豊富な開発者、デザイナー、プロダクトマネージャーで構成されており、クライアントのニーズに合わせた最適なソリューションを提供します。
-                </p>
-              </div>
-              <div className="flex items-center justify-center">
-                <Image
-                  src="/we.png?height=400&width=600"
-                  width={400}
-                  height={267}
-                  alt="Company Office"
-                  className="rounded-lg object-cover"
-                />
-              </div>
+        {/* 私たちについて */}
+        <Section
+          variant="alt"
+          decoration={<Glow className="-top-24 right-0 h-72 w-72" />}
+        >
+          <SectionHeading
+            label="WHO WE ARE"
+            title={
+              <>
+                AIで
+                <span className="bg-gradient-to-r from-sky-400 via-blue-500 to-violet-500 bg-clip-text text-transparent">
+                  作り
+                </span>
+                、AIを届ける会社
+              </>
+            }
+            lead="miitasoは、エンジニア出身の代表が立ち上げたソフトウェア開発会社です。自分たちでAIプロダクトを作って本番で運用し、そこで得た知見をクライアントの支援に還元しています。"
+          />
+          <Reveal>
+            <div className="max-w-3xl space-y-5 leading-relaxed text-slate-300">
+              <p>
+                私たちは「AIを語る」前に「AIで作る」ことを大切にしています。LINEに事業アイデアを送るとAIエージェントが市場調査レポートを自動生成するbotをはじめ、自社プロダクトを企画から開発、運用まで自分たちの手で回しています。
+              </p>
+              <p>
+                要件定義から設計、実装、運用まで一気通貫で担えることが私たちの強みです。日々の開発で実際に使い、動かし続けているからこそ、AI導入やプロダクト開発の現実的な勘所をお伝えできると考えています。
+              </p>
             </div>
+          </Reveal>
+          <div className="mt-12 grid gap-6 md:grid-cols-3">
+            {approach.map((item, i) => (
+              <Reveal key={item.title} delay={i * 80} className="h-full">
+                <div className="h-full rounded-2xl border border-white/10 bg-white/[0.03] p-8 backdrop-blur transition hover:-translate-y-1 hover:border-sky-400/40 hover:bg-white/[0.06]">
+                  <p className="font-mono text-xs tracking-[0.25em] text-sky-400">
+                    {String(i + 1).padStart(2, "0")}
+                  </p>
+                  <h3 className="mt-4 text-lg font-semibold text-white">
+                    {item.title}
+                  </h3>
+                  <p className="mt-3 text-sm leading-relaxed text-slate-400">
+                    {item.description}
+                  </p>
+                </div>
+              </Reveal>
+            ))}
           </div>
-        </section>
+        </Section>
 
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-muted">
-          <div className="container px-4 md:px-6">
-            <div className="flex flex-col items-center justify-center space-y-4 text-center">
-              <div className="space-y-2">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">ミッション</h2>
-                <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  テクノロジーの力で、ビジネスと社会に革新をもたらす
-                </p>
-              </div>
-            </div>
-            <div className="mx-auto mt-12 grid max-w-5xl gap-8 md:grid-cols-3">
-              <div className="flex flex-col items-center space-y-2 text-center">
-                <div className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-background">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="h-8 w-8 text-primary"
-                  >
-                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10" />
-                  </svg>
-                </div>
-                <h3 className="text-xl font-bold">信頼性</h3>
-                <p className="text-sm text-muted-foreground">
-                  クライアントとの信頼関係を最も重視し、約束を守り、期待を超える成果を提供します。
-                </p>
-              </div>
-              <div className="flex flex-col items-center space-y-2 text-center">
-                <div className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-background">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="h-8 w-8 text-primary"
-                  >
-                    <path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3H6a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 3 3 0 0 0-3-3z"></path>
-                  </svg>
-                </div>
-                <h3 className="text-xl font-bold">革新</h3>
-                <p className="text-sm text-muted-foreground">
-                  常に最新の技術とトレンドを取り入れ、革新的なソリューションを提供します。
-                </p>
-              </div>
-              <div className="flex flex-col items-center space-y-2 text-center">
-                <div className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-background">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="h-8 w-8 text-primary"
-                  >
-                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-                    <circle cx="9" cy="7" r="4"></circle>
-                    <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
-                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                  </svg>
-                </div>
-                <h3 className="text-xl font-bold">協働</h3>
-                <p className="text-sm text-muted-foreground">
-                  クライアントとの密接な協力関係を築き、共に成功を目指します。
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-background">
-          <div className="container px-4 md:px-6">
-            <div className="flex flex-col items-center justify-center space-y-4 text-center">
-              <div className="space-y-2">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">創業者挨拶</h2>
-                <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  テクノロジーの力で、より良い社会を創造する
-                </p>
-              </div>
-            </div>
-            <div className="mx-auto mt-12 max-w-5xl">
-              <div className="flex flex-col md:flex-row gap-8 items-center">
-                <div className="w-full md:w-1/3">
+        {/* 代表プロフィール */}
+        <Section
+          decoration={<Glow className="-bottom-24 left-0 h-72 w-72 bg-violet-500/20" />}
+        >
+          <SectionHeading
+            label="FOUNDER"
+            title="代表プロフィール"
+            lead="営業からエンジニアへ。現場で手を動かし続けてきた代表が、開発のすべての工程に責任を持ちます。"
+          />
+          <div className="grid items-start gap-12 lg:grid-cols-[auto_1fr]">
+            <Reveal className="mx-auto lg:mx-0">
+              <div className="relative w-fit">
+                <div className="rounded-3xl bg-gradient-to-br from-sky-400/60 via-blue-500/40 to-violet-500/60 p-[1px]">
                   <Image
-                    src="/tsubata.png?height=400&width=300"
-                    width={300}
-                    height={400}
-                    alt="津端晃作"
-                    className="rounded-lg object-cover"
+                    src="/tsubata.png"
+                    width={288}
+                    height={288}
+                    alt="代表 津端 晃作"
+                    className="h-64 w-64 rounded-3xl object-cover ring-1 ring-white/10 md:h-72 md:w-72"
                   />
                 </div>
-                <div className="w-full md:w-2/3 space-y-4">
-                  <h3 className="text-2xl font-bold">代表取締役 津端晃作</h3>
-                  <p className="text-muted-foreground">
-                    私たちmiitasoは、テクノロジーの力で社会に革新をもたらすことを使命として設立されました。
-                    デジタル化が進む現代において、企業や組織が直面する課題は複雑化しています。
-                    私たちは、最新の技術と豊富な経験を活かし、お客様のビジネスを次のステージへと導きます。
-                  </p>
-                  <p className="text-muted-foreground">
-                    創業以来、多くの企業様と共に歩み、デジタル変革を実現してまいりました。
-                    これからも、お客様の成功を第一に考え、最高のサービスを提供し続けてまいります。
-                  </p>
-                </div>
               </div>
-            </div>
+            </Reveal>
+            <Reveal delay={120}>
+              <p className="font-mono text-xs uppercase tracking-[0.25em] text-slate-500">
+                FOUNDER / ENGINEER
+              </p>
+              <h3 className="mt-3 text-2xl font-bold tracking-tight text-white md:text-3xl">
+                津端 晃作
+              </h3>
+              <div className="mt-6 space-y-5 leading-relaxed text-slate-300">
+                <p>
+                  自動車部品商社で海外調達・開発営業を経験したのち、運送・物流SaaSのスタートアップへ。営業職からエンジニアに転身し、Ruby・JavaScript・AWSを用いたSalesforce
+                  API連携やスクレイピング基盤を、要件定義から運用まで単独で構築しました。このデータ連携基盤により、車両掲載台数を業界8位から2位に引き上げています。
+                </p>
+                <p>
+                  2021年からはフリーランスとして開発・PM案件を多数担当。ベトナム・バングラデシュなど多国籍のオフショア開発チームのプロジェクトマネジメントも経験しました。
+                </p>
+                <p>
+                  2024年12月、miitasoを創業。現在のメインスタックはNext.js / React /
+                  TypeScriptで、ClaudeやOpenAIを使ったAI機能の実装実績が多数あります。
+                </p>
+              </div>
+            </Reveal>
           </div>
-        </section>
+        </Section>
 
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-muted">
-          <div className="container px-4 md:px-6">
-            <div className="flex flex-col items-center justify-center space-y-4 text-center">
-              <div className="space-y-2">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">会社概要</h2>
-              </div>
+        {/* 会社概要テーブル */}
+        <Section variant="alt">
+          <SectionHeading label="COMPANY" title="会社情報" />
+          <Reveal>
+            <div className="overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur">
+              <dl className="divide-y divide-white/10">
+                {companyInfo.map((row) => (
+                  <div
+                    key={row.label}
+                    className="grid gap-1 px-6 py-5 sm:grid-cols-[10rem_1fr] sm:gap-6 md:px-8"
+                  >
+                    <dt className="text-sm font-medium text-slate-500">
+                      {row.label}
+                    </dt>
+                    <dd className="text-sm leading-relaxed text-slate-200 sm:text-base">
+                      {row.value}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
             </div>
-            <div className="mx-auto mt-12 max-w-3xl">
-              <div className="overflow-x-auto">
-                <table className="w-full border-collapse">
-                  <tbody>
-                    <tr className="border-b">
-                      <th className="py-4 px-6 text-left bg-muted/50 font-semibold">会社名</th>
-                      <td className="py-4 px-6">株式会社miitaso</td>
-                    </tr>
-                    <tr className="border-b">
-                      <th className="py-4 px-6 text-left bg-muted/50 font-semibold">事業内容</th>
-                      <td className="py-4 px-6">ソフトウェア開発、新規事業コンサルティング</td>
-                    </tr>
-                    <tr className="border-b">
-                      <th className="py-4 px-6 text-left bg-muted/50 font-semibold">所在地</th>
-                      <td className="py-4 px-6">東京都中央区銀座1丁目12番4号N&E BLD.6F</td>
-                    </tr>
-                    <tr className="border-b">
-                      <th className="py-4 px-6 text-left bg-muted/50 font-semibold">設立</th>
-                      <td className="py-4 px-6">2024年12月</td>
-                    </tr>
-                    <tr className="border-b">
-                      <th className="py-4 px-6 text-left bg-muted/50 font-semibold">代表者</th>
-                      <td className="py-4 px-6">津端晃作</td>
-                    </tr>
-                    <tr className="border-b">
-                      <th className="py-4 px-6 text-left bg-muted/50 font-semibold">スタッフ数</th>
-                      <td className="py-4 px-6">10名（業務委託を含む）</td>
-                    </tr>
-                    <tr>
-                      <th className="py-4 px-6 text-left bg-muted/50 font-semibold">運営サービス</th>
-                      <td className="py-4 px-6">多数</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </section>
+          </Reveal>
+        </Section>
+
+        {/* CTA */}
+        <CtaBand />
       </main>
-      <Footer />
+      <SiteFooter />
     </div>
   )
 }

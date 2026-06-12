@@ -1,38 +1,15 @@
 import { MetadataRoute } from 'next'
 
-async function getBlogPosts() {
-  try {
-    const response = await fetch(`${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/api/blog/posts?limit=1000`, {
-      next: { revalidate: 3600 }
-    })
-    
-    if (!response.ok) {
-      return []
-    }
-    
-    const data = await response.json()
-    return data.posts || []
-  } catch (error) {
-    console.error('Failed to fetch blog posts for sitemap:', error)
-    return []
-  }
-}
-
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const posts = await getBlogPosts()
-  
-  const blogUrls = posts.map((post: any) => ({
-    url: `https://miitaso.com/blog/${post.slug}`,
-    lastModified: new Date(post.publishedAt || post.updatedAt || new Date()),
-    changeFrequency: 'weekly' as const,
-    priority: 0.8,
-  }))
-
+/**
+ * サイトマップ。実在する公開ルートのみを列挙する
+ * （存在しないルートを載せると404をクローラーに宣伝することになる）。
+ */
+export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
       url: 'https://miitaso.com',
       lastModified: new Date(),
-      changeFrequency: 'yearly' as const,
+      changeFrequency: 'monthly' as const,
       priority: 1,
     },
     {
@@ -42,53 +19,34 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     },
     {
-      url: 'https://miitaso.com/services',
+      url: 'https://miitaso.com/services/ai',
       lastModified: new Date(),
       changeFrequency: 'monthly' as const,
       priority: 0.8,
     },
     {
-      url: 'https://miitaso.com/blog',
-      lastModified: new Date(),
-      changeFrequency: 'daily' as const,
-      priority: 0.9,
-    },
-    {
-      url: 'https://miitaso.com/contact',
+      url: 'https://miitaso.com/services/development',
       lastModified: new Date(),
       changeFrequency: 'monthly' as const,
-      priority: 0.7,
+      priority: 0.8,
     },
     {
-      url: 'https://miitaso.com/tools',
+      url: 'https://miitaso.com/services/new-business',
       lastModified: new Date(),
       changeFrequency: 'monthly' as const,
-      priority: 0.7,
+      priority: 0.8,
     },
     {
-      url: 'https://miitaso.com/resources',
+      url: 'https://miitaso.com/minecraft-english',
       lastModified: new Date(),
       changeFrequency: 'monthly' as const,
-      priority: 0.7,
+      priority: 0.5,
     },
     {
-      url: 'https://miitaso.com/case-studies',
+      url: 'https://miitaso.com/privacy',
       lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
-      priority: 0.7,
+      changeFrequency: 'yearly' as const,
+      priority: 0.3,
     },
-    {
-      url: 'https://miitaso.com/faq',
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
-      priority: 0.6,
-    },
-    {
-      url: 'https://miitaso.com/pricing',
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
-      priority: 0.6,
-    },
-    ...blogUrls,
   ]
 }
