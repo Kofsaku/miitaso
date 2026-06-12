@@ -15,6 +15,7 @@ export const metadata: Metadata = {
     canonical: "https://miitaso.com/about",
   },
   openGraph: {
+    images: [{ url: "/og.png", width: 1200, height: 630 }],
     title: "会社概要 | miitaso",
     description:
       "miitasoの会社概要。エンジニア出身の代表・津端晃作のプロフィール、事業内容、所在地をご紹介します。",
@@ -24,7 +25,8 @@ export const metadata: Metadata = {
     type: "website",
   },
   twitter: {
-    card: "summary",
+    images: ["/og.png"],
+    card: "summary_large_image",
     title: "会社概要 | miitaso",
     description:
       "miitasoの会社概要。エンジニア出身の代表・津端晃作のプロフィール、事業内容、所在地をご紹介します。",

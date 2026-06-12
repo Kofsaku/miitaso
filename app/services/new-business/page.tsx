@@ -19,6 +19,7 @@ export const metadata: Metadata = {
     canonical: "https://miitaso.com/services/new-business",
   },
   openGraph: {
+    images: [{ url: "/og.png", width: 1200, height: 630 }],
     title: "新規事業支援 | miitaso",
     description:
       "アイデアの壁打ち・市場調査からMVP開発、グロースまで。エンジニアが企画段階から伴走し、作りながら確かめる新規事業の立ち上げを支援します。",
@@ -28,7 +29,8 @@ export const metadata: Metadata = {
     type: "website",
   },
   twitter: {
-    card: "summary",
+    images: ["/og.png"],
+    card: "summary_large_image",
     title: "新規事業支援 | miitaso",
     description:
       "アイデアの壁打ち・市場調査からMVP開発、グロースまで。エンジニアが企画段階から伴走し、作りながら確かめる新規事業の立ち上げを支援します。",

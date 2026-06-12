@@ -19,6 +19,7 @@ export const metadata: Metadata = {
     canonical: "https://miitaso.com",
   },
   openGraph: {
+    images: [{ url: "/og.png", width: 1200, height: 630 }],
     title: "miitaso | 考えるだけでも、作るだけでもない。",
     description:
       "提案書で終わるコンサルと、言われた通りに作る開発会社の間。経営課題の定義からシステムの実装・運用まで、エンジニア出身のコンサルタントが成果に伴走します。AI導入支援・ソフトウェア開発・新規事業支援。",
@@ -28,7 +29,8 @@ export const metadata: Metadata = {
     type: "website",
   },
   twitter: {
-    card: "summary",
+    images: ["/og.png"],
+    card: "summary_large_image",
     title: "miitaso | 考えるだけでも、作るだけでもない。",
     description:
       "提案書で終わるコンサルと、言われた通りに作る開発会社の間。経営課題の定義からシステムの実装・運用まで、エンジニア出身のコンサルタントが成果に伴走します。AI導入支援・ソフトウェア開発・新規事業支援。",

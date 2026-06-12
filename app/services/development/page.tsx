@@ -25,6 +25,7 @@ export const metadata: Metadata = {
     canonical: "https://miitaso.com/services/development",
   },
   openGraph: {
+    images: [{ url: "/og.png", width: 1200, height: 630 }],
     title: pageTitle,
     description: pageDescription,
     url: "https://miitaso.com/services/development",
@@ -33,7 +34,8 @@ export const metadata: Metadata = {
     type: "website",
   },
   twitter: {
-    card: "summary",
+    images: ["/og.png"],
+    card: "summary_large_image",
     title: pageTitle,
     description: pageDescription,
   },
