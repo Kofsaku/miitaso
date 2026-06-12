@@ -65,7 +65,7 @@ export function Products() {
             </span>
           </>
         }
-        lead="受託開発だけでなく、自分たちのプロダクトを作り、本番で運用しています。その経験をクライアントワークにも還元しています。"
+        lead="助言だけで終わらない証拠に。自分たちでも事業とプロダクトを作り、本番で運用しています。その経験をクライアントワークに還元しています。"
       />
       <div className="grid gap-6 md:grid-cols-2">
         {products.map((product, i) => (

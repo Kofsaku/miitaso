@@ -12,16 +12,16 @@ import { Faq } from "@/components/home/faq"
 import { Contact } from "@/components/home/contact"
 
 export const metadata: Metadata = {
-  title: "miitaso | アイデアを、動くプロダクトに。",
+  title: "miitaso | 考えるだけでも、作るだけでもない。",
   description:
-    "AI導入支援・ソフトウェア開発・新規事業支援の miitaso。自らAIプロダクトを開発・運用する開発会社が、構想から運用まで伴走します。",
+    "提案書で終わるコンサルと、言われた通りに作る開発会社の間。経営課題の定義からシステムの実装・運用まで、エンジニア出身のコンサルタントが成果に伴走します。AI導入支援・ソフトウェア開発・新規事業支援。",
   alternates: {
     canonical: "https://miitaso.com",
   },
   openGraph: {
-    title: "miitaso | アイデアを、動くプロダクトに。",
+    title: "miitaso | 考えるだけでも、作るだけでもない。",
     description:
-      "AI導入支援・ソフトウェア開発・新規事業支援の miitaso。自らAIプロダクトを開発・運用する開発会社が、構想から運用まで伴走します。",
+      "提案書で終わるコンサルと、言われた通りに作る開発会社の間。経営課題の定義からシステムの実装・運用まで、エンジニア出身のコンサルタントが成果に伴走します。AI導入支援・ソフトウェア開発・新規事業支援。",
     url: "https://miitaso.com",
     siteName: "miitaso",
     locale: "ja_JP",
@@ -29,9 +29,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary",
-    title: "miitaso | アイデアを、動くプロダクトに。",
+    title: "miitaso | 考えるだけでも、作るだけでもない。",
     description:
-      "AI導入支援・ソフトウェア開発・新規事業支援の miitaso。自らAIプロダクトを開発・運用する開発会社が、構想から運用まで伴走します。",
+      "提案書で終わるコンサルと、言われた通りに作る開発会社の間。経営課題の定義からシステムの実装・運用まで、エンジニア出身のコンサルタントが成果に伴走します。AI導入支援・ソフトウェア開発・新規事業支援。",
   },
 }
 

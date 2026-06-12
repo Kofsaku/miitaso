@@ -29,17 +29,17 @@ export function Hero() {
           {/* コピー */}
           <div className="corp-fade-in-up">
             <p className="font-mono text-xs uppercase tracking-[0.25em] text-sky-400">
-              AI-NATIVE PRODUCT STUDIO
+              CONSULTING × ENGINEERING
             </p>
             <h1 className="mt-6 text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl">
-              アイデアを、
+              考えるだけでも、
               <br />
               <span className="bg-gradient-to-r from-sky-400 via-blue-500 to-violet-500 bg-clip-text text-transparent">
-                動くプロダクトに。
+                作るだけでもない。
               </span>
             </h1>
             <p className="mt-6 max-w-xl leading-relaxed text-slate-400">
-              AI導入支援からソフトウェア開発、新規事業の立ち上げまで。自らAIプロダクトを開発・運用する開発会社が、構想から運用まで伴走します。
+              提案書で終わるコンサルと、言われた通りに作る開発会社。その間を埋めるのが私たちです。経営課題の定義から、システムの実装・運用まで、エンジニア出身のコンサルタントが一貫して成果に伴走します。
             </p>
             <div className="mt-10 flex flex-col gap-4 sm:flex-row">
               <Link
@@ -62,7 +62,7 @@ export function Hero() {
           <div className="corp-fade-in-up" style={{ animationDelay: "180ms" }}>
             <Terminal title="miitaso — research bot" lines={terminalLines} />
             <p className="mt-3 text-center text-xs text-slate-500">
-              自社プロダクト「research」の実際の処理フロー
+              口だけにしない証拠に——自社で本番運用しているAIエージェント「research」の実際の処理フロー
             </p>
           </div>
         </div>

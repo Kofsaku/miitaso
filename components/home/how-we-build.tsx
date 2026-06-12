@@ -33,9 +33,9 @@ const notes = [
       "LINEのWebhook受信と署名検証、ジョブ管理、Claudeによる調査・執筆、レポートの自動公開まで。この図の構成は、実際に本番で運用しているものです。",
   },
   {
-    title: "開発プロセスもAI駆動",
+    title: "課題定義が9割",
     description:
-      "ClaudeをはじめとするAIを開発プロセスに常用し、設計・実装・検証のサイクルを高速に回しています。クライアントワークの開発も、同じ進め方で行います。",
+      "AI導入の成否は、モデルの性能ではなく「どの業務に、何のために入れるか」でほぼ決まります。私たちは技術の手前にある業務分析と課題定義から入り、効かない場所には「AIを入れない」提案もします。",
   },
 ]
 
@@ -46,16 +46,17 @@ export function HowWeBuild() {
   return (
     <Section decoration={<GridBackground fade />}>
       <SectionHeading
-        label="HOW WE BUILD"
+        label="OUR APPROACH"
         title={
           <>
-            私たちは、自分たちのプロダクトを
+            AIは、
             <span className="bg-gradient-to-r from-sky-400 via-blue-500 to-violet-500 bg-clip-text text-transparent">
-              AIで作っています
+              道具
             </span>
+            にすぎません
           </>
         }
-        lead="自社プロダクト『research』は、LINEに事業アイデアを送ると、AIエージェントが市場調査してレポートを自動公開するbotです。その実際のアーキテクチャを公開します。"
+        lead="成果を分けるのは、どの業務に・何のために組み込むかという課題定義です。そのうえで、使い切る技術力は証拠でお見せします。LINEに事業アイデアを送るとAIエージェントが市場調査レポートを自動公開する自社bot『research』——本番運用中の構成です。"
       />
 
       {/* アーキテクチャ図 */}

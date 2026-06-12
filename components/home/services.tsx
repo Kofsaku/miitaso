@@ -61,7 +61,7 @@ export function Services() {
             </span>
           </>
         }
-        lead="AIの導入から、プロダクト開発、新規事業の立ち上げまで。どの段階のご相談でも、要件定義から運用まで一気通貫で対応します。"
+        lead="「AIで何かしたい」も、「業務が回らない」も、「新しい事業を作りたい」も。どの入り口からのご相談でも、まず課題の定義に立ち返り、そのうえで最適な手段を選びます。"
       />
       <div className="grid gap-6 md:grid-cols-3">
         {services.map((service, i) => (

@@ -35,9 +35,9 @@ export function SiteFooter() {
                 />
               </Link>
               <p className="max-w-xs text-sm leading-relaxed text-slate-400">
-                AIで作り、AIを届ける会社。
+                考えるだけでも、作るだけでもない。
                 <br />
-                アイデアを、動くプロダクトに。
+                課題の定義から実装・運用まで、一貫して伴走します。
               </p>
               <div className="flex items-start gap-2 text-sm text-slate-500">
                 <MapPin className="mt-0.5 h-4 w-4 flex-shrink-0" />
