@@ -165,14 +165,14 @@ export function Contact() {
 
             <div className="space-y-2">
               <label htmlFor="message" className="text-sm font-medium text-slate-300">
-                ご相談内容 <span className="text-rose-400">*</span>
+                お問い合わせ内容 <span className="text-rose-400">*</span>
               </label>
               <Textarea
                 id="message"
                 name="message"
                 value={formData.message}
                 onChange={handleChange}
-                placeholder="ご相談内容をお書きください"
+                placeholder="お問い合わせ内容をご記入ください"
                 rows={5}
                 required
                 className={textareaClass}

@@ -3,7 +3,7 @@ import nodemailer from 'nodemailer';
 
 export async function POST(request: Request) {
   try {
-    const { name, company, email, phone, service, message, recaptchaToken } = await request.json();
+    const { name, email, service, message, recaptchaToken } = await request.json();
 
     // バリデーション
     if (!name || !email || !message) {
@@ -57,30 +57,31 @@ export async function POST(request: Request) {
       },
     });
 
+    // フォームが実際に送ってきた項目だけを描画する。
+    // 会社名・電話番号はどのフォームも収集していないため出力しない。
+    // service（ご相談内容）は japan-property LP のみ送信するため、値がある時だけ表示する。
+    const detailsText = [
+      `お名前: ${name}`,
+      `メールアドレス: ${email}`,
+      ...(service ? [`ご相談内容: ${service}`] : []),
+      `お問い合わせ内容:\n${message}`,
+    ].join('\n');
+
+    const detailsHtml = [
+      `<p><strong>お名前:</strong> ${name}</p>`,
+      `<p><strong>メールアドレス:</strong> ${email}</p>`,
+      ...(service ? [`<p><strong>ご相談内容:</strong> ${service}</p>`] : []),
+      `<p><strong>お問い合わせ内容:</strong></p>`,
+      `<p>${message.replace(/\n/g, '<br>')}</p>`,
+    ].join('\n');
+
     // 担当者へのメール
     const adminMailOptions = {
       from: process.env.SMTP_FROM,
       to: process.env.SMTP_TO,
       subject: `【お問い合わせ】${name}様より`,
-      text: `
-お名前: ${name}
-会社名: ${company || '未入力'}
-メールアドレス: ${email}
-電話番号: ${phone || '未入力'}
-ご相談内容: ${service || '未選択'}
-お問い合わせ内容:
-${message}
-      `,
-      html: `
-<h2>お問い合わせ内容</h2>
-<p><strong>お名前:</strong> ${name}</p>
-<p><strong>会社名:</strong> ${company || '未入力'}</p>
-<p><strong>メールアドレス:</strong> ${email}</p>
-<p><strong>電話番号:</strong> ${phone || '未入力'}</p>
-<p><strong>ご相談内容:</strong> ${service || '未選択'}</p>
-<p><strong>お問い合わせ内容:</strong></p>
-<p>${message.replace(/\n/g, '<br>')}</p>
-      `,
+      text: detailsText,
+      html: `<h2>お問い合わせ内容</h2>\n${detailsHtml}`,
     };
 
     // 自動返信メール
@@ -96,13 +97,7 @@ ${name} 様
 
 以下の内容で承りました：
 --------------------------------------------------
-お名前: ${name}
-会社名: ${company || '未入力'}
-メールアドレス: ${email}
-電話番号: ${phone || '未入力'}
-ご相談内容: ${service || '未選択'}
-お問い合わせ内容:
-${message}
+${detailsText}
 --------------------------------------------------
 
 担当者より3日以内にご連絡させていただきます。
@@ -129,13 +124,7 @@ URL: https://miitaso.com
 
   <div style="background-color: #f5f5f5; padding: 20px; border-radius: 5px; margin-bottom: 20px;">
     <h3 style="color: #333; margin-bottom: 15px;">お問い合わせ内容</h3>
-    <p><strong>お名前:</strong> ${name}</p>
-    <p><strong>会社名:</strong> ${company || '未入力'}</p>
-    <p><strong>メールアドレス:</strong> ${email}</p>
-    <p><strong>電話番号:</strong> ${phone || '未入力'}</p>
-    <p><strong>ご相談内容:</strong> ${service || '未選択'}</p>
-    <p><strong>お問い合わせ内容:</strong></p>
-    <p>${message.replace(/\n/g, '<br>')}</p>
+    ${detailsHtml}
   </div>
 
   <p style="margin-bottom: 20px;">
