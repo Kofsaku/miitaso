@@ -26,6 +26,11 @@ class SceneErrorBoundary extends Component<
   static getDerivedStateFromError() {
     return { failed: true }
   }
+  componentDidCatch() {
+    // クラッシュ時もstatic経路と同じ状態に収束させる（中途半端なイントロ値を残さない）
+    storyState.intro = 1
+    storyState.heroConverge = 1
+  }
   render() {
     return this.state.failed ? this.props.fallback : this.props.children
   }
