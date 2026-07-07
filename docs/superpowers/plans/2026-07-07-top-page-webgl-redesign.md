@@ -13,7 +13,7 @@
 - **React 18.3.1 固定** → `@react-three/fiber` は **v8系**（v9はReact 19必須）。`@react-three/postprocessing` は v2系
 - **テキストコンテンツ・セクション順序・id（`services` `products` `works` `faq` `contact`）・メタデータは変更禁止**
 - 下層ページ（services/about/lp等）に影響を出さない：共有コンポーネント（`Section` `StepFlow`）の既存デフォルト挙動を変えない（新propの追加のみ可）
-- `components/home/` と `app/page.tsx` と共有コンポーネントへのprop追加以外、既存ファイルを触らない。Contactフォームのロジックは変更禁止
+- 既存ファイルの変更は `package.json` / `app/page.tsx` / `app/globals.css`（末尾追記のみ） / `components/home/` / 共有コンポーネント（`Section`・`StepFlow`）へのprop追加、に限る。Contactフォームのロジックは変更禁止
 - WebGL関連は `next/dynamic` + `ssr: false` で遅延読込。コピー・CTAはSSRのまま
 - `prefers-reduced-motion: reduce` 時：Canvas非表示・Lenis無効・イントロスキップ・カスタムカーソル無効
 - 粒子数: デスクトップ24,000 / 劣化時12,000→4,500 / モバイル(coarse pointer)4,500。FPS 45未満で自動劣化
