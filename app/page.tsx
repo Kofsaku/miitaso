@@ -11,6 +11,8 @@ import { Process } from "@/components/home/process"
 import { Faq } from "@/components/home/faq"
 import { Contact } from "@/components/home/contact"
 import { StageLoader } from "@/components/webgl/stage-loader"
+import { SmoothScroll } from "@/components/webgl/smooth-scroll"
+import { ScrollProgress } from "@/components/webgl/scroll-progress"
 
 export const metadata: Metadata = {
   title: "miitaso | 考えるだけでも、作るだけでもない。",
@@ -42,6 +44,8 @@ export default function Home() {
   return (
     <div className="bg-[#030712] text-white">
       <StageLoader />
+      <SmoothScroll />
+      <ScrollProgress />
       <SiteHeader />
       <main className="relative z-10">
         <div data-story-chapter="0">
