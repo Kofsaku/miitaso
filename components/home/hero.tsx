@@ -1,6 +1,5 @@
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
-import { GridBackground, Glow } from "@/components/corporate/backgrounds"
 import { Terminal, type TerminalLine } from "@/components/corporate/terminal"
 
 const terminalLines: TerminalLine[] = [
@@ -20,10 +19,7 @@ const terminalLines: TerminalLine[] = [
  */
 export function Hero() {
   return (
-    <section className="relative overflow-hidden bg-[#030712] pb-20 pt-32 md:pb-28 md:pt-40 lg:pt-44">
-      <GridBackground fade />
-      <Glow className="-top-24 left-1/4 h-96 w-96" />
-      <Glow className="-bottom-24 right-0 h-80 w-80 bg-violet-500/10" />
+    <section className="relative overflow-hidden pb-20 pt-32 md:pb-28 md:pt-40 lg:pt-44">
       <div className="container relative px-4 md:px-6">
         <div className="mx-auto grid max-w-6xl items-center gap-14 lg:grid-cols-[1.1fr_1fr] lg:gap-12">
           {/* コピー */}

@@ -10,6 +10,7 @@ import { TrackRecord } from "@/components/home/track-record"
 import { Process } from "@/components/home/process"
 import { Faq } from "@/components/home/faq"
 import { Contact } from "@/components/home/contact"
+import { StageLoader } from "@/components/webgl/stage-loader"
 
 export const metadata: Metadata = {
   title: "miitaso | 考えるだけでも、作るだけでもない。",
@@ -40,17 +41,32 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <div className="bg-[#030712] text-white">
+      <StageLoader />
       <SiteHeader />
-      <main>
-        <Hero />
+      <main className="relative z-10">
+        <div data-story-chapter="0">
+          <Hero />
+        </div>
         <TechMarquee />
-        <Services />
-        <HowWeBuild />
-        <Products />
-        <TrackRecord />
-        <Process />
-        <Faq />
-        <Contact />
+        <div data-story-chapter="1">
+          <Services />
+        </div>
+        <div data-story-chapter="2">
+          <HowWeBuild />
+        </div>
+        <div data-story-chapter="3">
+          <Products />
+        </div>
+        <div data-story-chapter="4">
+          <TrackRecord />
+        </div>
+        <div data-story-chapter="5">
+          <Process />
+        </div>
+        <div data-story-chapter="6">
+          <Faq />
+          <Contact />
+        </div>
       </main>
       <SiteFooter />
     </div>

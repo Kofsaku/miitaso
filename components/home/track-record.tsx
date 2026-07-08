@@ -79,7 +79,7 @@ const cases = [
  */
 export function TrackRecord() {
   return (
-    <Section id="works" className="scroll-mt-16">
+    <Section id="works" variant="transparent" chapter="04 実績" className="scroll-mt-16">
       <SectionHeading
         label="TRACK RECORD"
         title={

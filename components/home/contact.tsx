@@ -97,7 +97,7 @@ export function Contact() {
       {isSubmitted ? (
         <Section
           id="contact"
-          variant="alt"
+          variant="transparent"
           className="scroll-mt-16"
           decoration={<Glow className="-top-24 left-1/2 -translate-x-1/2" />}
         >
@@ -120,7 +120,7 @@ export function Contact() {
       ) : (
         <Section
           id="contact"
-          variant="alt"
+          variant="transparent"
           className="scroll-mt-16"
           decoration={<Glow className="-top-24 left-1/2 -translate-x-1/2" />}
         >

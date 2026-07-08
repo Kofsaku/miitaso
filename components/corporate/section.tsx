@@ -2,12 +2,23 @@ import type { ReactNode } from "react"
 
 type SectionProps = {
   id?: string
-  /** default = bg-[#030712] / alt = bg-[#070b14]（交互セクション用） */
-  variant?: "default" | "alt"
+  /**
+   * default = bg-[#030712] / alt = bg-[#070b14]（交互セクション用）
+   * transparent = 背景なし（トップページのWebGLキャンバスを透かす）
+   */
+  variant?: "default" | "alt" | "transparent"
   className?: string
   /** セクション全幅に重ねる装飾（GridBackground / Glow 等の絶対配置要素） */
   decoration?: ReactNode
+  /** 章ラベル（例: "01 設計"）。トップページのスクロール物語用 */
+  chapter?: string
   children: ReactNode
+}
+
+const VARIANT_BG: Record<NonNullable<SectionProps["variant"]>, string> = {
+  default: "bg-[#030712]",
+  alt: "bg-[#070b14]",
+  transparent: "",
 }
 
 /**
@@ -19,18 +30,30 @@ export function Section({
   variant = "default",
   className = "",
   decoration,
+  chapter,
   children,
 }: SectionProps) {
   return (
     <section
       id={id}
-      className={`relative overflow-hidden py-24 md:py-32 ${
-        variant === "alt" ? "bg-[#070b14]" : "bg-[#030712]"
-      } ${className}`}
+      className={`relative overflow-hidden py-24 md:py-32 ${VARIANT_BG[variant]} ${className}`}
     >
       {decoration}
       <div className="container relative px-4 md:px-6">
-        <div className="mx-auto max-w-6xl">{children}</div>
+        <div className="mx-auto max-w-6xl">
+          {chapter ? (
+            <div className="mb-10 flex items-center gap-4 md:mb-14">
+              <p className="font-mono text-xs tracking-[0.3em] text-sky-400/80">
+                / {chapter}
+              </p>
+              <span
+                aria-hidden
+                className="h-px flex-1 bg-gradient-to-r from-sky-400/30 to-transparent"
+              />
+            </div>
+          ) : null}
+          {children}
+        </div>
       </div>
     </section>
   )

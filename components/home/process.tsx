@@ -33,6 +33,8 @@ export function Process() {
       title="進め方"
       lead="同じチームが、ヒアリングから運用まで一気通貫で担当します。"
       steps={steps}
+      variant="transparent"
+      chapter="05 進め方"
     />
   )
 }

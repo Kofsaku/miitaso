@@ -184,6 +184,10 @@ type StepFlowProps = {
   title?: ReactNode
   lead?: ReactNode
   steps: Step[]
+  /** セクション背景。トップページでは "transparent" を渡す */
+  variant?: "default" | "alt" | "transparent"
+  /** 章ラベル（トップページ用） */
+  chapter?: string
 }
 
 const stepColsMap: Record<number, string> = {
@@ -198,10 +202,12 @@ export function StepFlow({
   title = "進め方",
   lead,
   steps,
+  variant = "alt",
+  chapter,
 }: StepFlowProps) {
   const cols = stepColsMap[steps.length] ?? "lg:grid-cols-4"
   return (
-    <Section variant="alt">
+    <Section variant={variant} chapter={chapter}>
       <SectionHeading label={label} title={title} lead={lead} />
       <div className={`grid gap-10 md:grid-cols-2 ${cols}`}>
         {steps.map((step, i) => (
