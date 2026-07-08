@@ -44,7 +44,7 @@ const notes = [
  */
 export function HowWeBuild() {
   return (
-    <Section decoration={<GridBackground fade />}>
+    <Section variant="transparent" chapter="02 実装" decoration={<GridBackground fade />}>
       <SectionHeading
         label="OUR APPROACH"
         title={

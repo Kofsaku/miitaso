@@ -7,9 +7,9 @@ const statValueClass = "text-3xl font-bold tracking-tight text-white sm:text-4xl
 /** 事実シート「数値実績」の4つのみ */
 const stats = [
   {
-    value: "500",
-    suffix: "万円",
-    label: "他社見積2,000万円の開発を実現（Flutter製SNSアプリ）",
+    value: "1/4",
+    suffix: "",
+    label: "他社見積の1/4のコストで開発を実現（Flutter製SNSアプリ）",
   },
   {
     value: "8位 → 2位",
@@ -60,7 +60,7 @@ const cases = [
   {
     tag: "ペットオーナー向けSNS",
     title: "Flutterアプリ開発",
-    description: "他社見積2,000万円の開発を500万円で実現しました。",
+    description: "他社見積の1/4のコストで開発を実現しました。",
   },
   {
     tag: "AIライブ配信",
@@ -79,7 +79,7 @@ const cases = [
  */
 export function TrackRecord() {
   return (
-    <Section id="works" className="scroll-mt-16">
+    <Section id="works" variant="transparent" chapter="04 実績" className="scroll-mt-16">
       <SectionHeading
         label="TRACK RECORD"
         title={

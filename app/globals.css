@@ -142,3 +142,101 @@
 .corp-pulse-glow {
   animation: corp-pulse-glow 6s ease-in-out infinite;
 }
+
+/* === Lenis smooth scroll === */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* === トップページ演出 === */
+
+/* コピーのライン単位マスクリビール */
+@keyframes corp-mask-up {
+  from {
+    transform: translateY(110%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+.corp-mask-line {
+  display: block;
+  overflow: hidden;
+}
+.corp-mask-line > span {
+  display: block;
+  transform: translateY(110%);
+  animation: corp-mask-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: var(--mask-delay, 0ms);
+}
+
+/* イントロ中はDOMコンテンツを隠し、粒子ワードマークだけ見せる */
+body.intro-active main,
+body.intro-active header,
+body.intro-active footer {
+  opacity: 0;
+}
+body.intro-done main,
+body.intro-done header,
+body.intro-done footer {
+  animation: corp-fade-in 0.8s ease-out both;
+}
+
+/* スクロールキューの明滅 */
+@keyframes corp-cue {
+  0%, 100% {
+    opacity: 0.25;
+    transform: scaleY(0.6);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+.corp-scroll-cue {
+  transform-origin: top;
+  animation: corp-cue 2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .corp-mask-line > span {
+    transform: none;
+    animation: none;
+  }
+  body.intro-active main,
+  body.intro-active header,
+  body.intro-active footer {
+    opacity: 1;
+  }
+}
+
+/* === カスタムカーソル・グレイン === */
+@media (pointer: fine) {
+  body.corp-custom-cursor,
+  body.corp-custom-cursor a,
+  body.corp-custom-cursor button {
+    cursor: none;
+  }
+}
+
+/* 微細フィルムグレイン（SVG feTurbulence） */
+.corp-grain::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 55;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}

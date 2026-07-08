@@ -47,7 +47,8 @@ export function Services() {
   return (
     <Section
       id="services"
-      variant="alt"
+      variant="transparent"
+      chapter="01 設計"
       className="scroll-mt-16"
       decoration={<Glow className="-top-24 right-0" />}
     >

@@ -51,7 +51,8 @@ export function Products() {
   return (
     <Section
       id="products"
-      variant="alt"
+      variant="transparent"
+      chapter="03 成果物"
       className="scroll-mt-16"
       decoration={<Glow className="-top-24 left-0 bg-violet-500/15" />}
     >

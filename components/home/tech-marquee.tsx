@@ -27,7 +27,7 @@ const techs = [
  */
 export function TechMarquee() {
   return (
-    <section aria-label="使用技術" className="border-y border-white/5 bg-[#030712] py-10">
+    <section aria-label="使用技術" className="border-y border-white/5 py-10">
       <p className="mb-6 text-center font-mono text-xs uppercase tracking-[0.25em] text-slate-500">
         TECH STACK
       </p>

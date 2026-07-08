@@ -16,7 +16,7 @@ import {
 
 const pageTitle = "ソフトウェア開発 | miitaso"
 const pageDescription =
-  "要件定義から運用まで、一気通貫。Webアプリ・業務システム・モバイルアプリを、成果から逆算して速く・確かに開発します。他社見積2,000万円の開発を500万円で実現した実例があります。"
+  "要件定義から運用まで、一気通貫。Webアプリ・業務システム・モバイルアプリを、成果から逆算して速く・確かに開発します。他社見積の1/4のコストで実現した実例があります。"
 
 export const metadata: Metadata = {
   title: pageTitle,
@@ -119,7 +119,7 @@ const strengths = [
   {
     title: "実例のあるコスト効率",
     description:
-      "他社から2,000万円の見積もりが出ていたペットオーナー向けSNSアプリ（Flutter）を、500万円で実現した実例があります。本当に必要な機能の見極めと無駄のない体制で、品質を保ちながらコストを抑えます。",
+      "他社見積の1/4のコストでペットオーナー向けSNSアプリ（Flutter）を実現した実例があります。本当に必要な機能の見極めと無駄のない体制で、品質を保ちながらコストを抑えます。",
   },
   {
     title: "代表自身がエンジニア",
@@ -133,8 +133,8 @@ const cases = [
     category: "モバイル / Flutter",
     title: "ペットオーナー向けSNSアプリ",
     description:
-      "他社では2,000万円の見積もりだったSNSアプリを、Flutter の採用とスコープの見極めにより500万円で開発しました。",
-    result: "他社見積2,000万円 → 500万円で実現",
+      "他社見積の1/4のコストで、Flutter の採用とスコープの見極めによりSNSアプリを開発しました。",
+    result: "他社見積の1/4のコストで実現",
   },
   {
     category: "業務システム / DX",
@@ -229,7 +229,7 @@ export default function DevelopmentServicePage() {
           lead="成果から逆算して、速く・確かに作ります。代表自身がエンジニアとして要件定義から設計・開発・運用までを一貫して担うため、窓口と作り手が分かれず、認識のずれなくプロジェクトが進みます。"
           bullets={[
             "本当に必要な機能の見極めから入り、作らない判断もご提案します",
-            "他社見積2,000万円の開発を500万円で実現した実例があります",
+            "他社見積の1/4のコストで開発を実現した実例があります",
             "代表自身がエンジニア。要件定義から運用まで一気通貫で担います",
           ]}
         />
@@ -274,9 +274,9 @@ export default function DevelopmentServicePage() {
           <div className="mt-16 grid gap-10 border-t border-white/10 pt-12 text-center sm:grid-cols-3">
             <Reveal>
               <Stat
-                value="500"
-                suffix="万円"
-                label="他社見積2,000万円のアプリ開発を実現"
+                value="1/4"
+                suffix=""
+                label="他社見積の1/4のコストでアプリ開発を実現"
               />
             </Reveal>
             <Reveal delay={100}>
