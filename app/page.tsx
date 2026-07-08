@@ -13,6 +13,7 @@ import { Contact } from "@/components/home/contact"
 import { StageLoader } from "@/components/webgl/stage-loader"
 import { SmoothScroll } from "@/components/webgl/smooth-scroll"
 import { ScrollProgress } from "@/components/webgl/scroll-progress"
+import { IntroOverlay } from "@/components/webgl/intro-overlay"
 
 export const metadata: Metadata = {
   title: "miitaso | 考えるだけでも、作るだけでもない。",
@@ -46,6 +47,7 @@ export default function Home() {
       <StageLoader />
       <SmoothScroll />
       <ScrollProgress />
+      <IntroOverlay />
       <SiteHeader />
       <main className="relative z-10">
         <div data-story-chapter="0">

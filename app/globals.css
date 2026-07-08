@@ -157,3 +157,65 @@ html.lenis body {
 .lenis.lenis-stopped {
   overflow: hidden;
 }
+
+/* === トップページ演出 === */
+
+/* コピーのライン単位マスクリビール */
+@keyframes corp-mask-up {
+  from {
+    transform: translateY(110%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+.corp-mask-line {
+  display: block;
+  overflow: hidden;
+}
+.corp-mask-line > span {
+  display: block;
+  transform: translateY(110%);
+  animation: corp-mask-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: var(--mask-delay, 0ms);
+}
+
+/* イントロ中はDOMコンテンツを隠し、粒子ワードマークだけ見せる */
+body.intro-active main,
+body.intro-active header,
+body.intro-active footer {
+  opacity: 0;
+}
+body.intro-done main,
+body.intro-done header,
+body.intro-done footer {
+  animation: corp-fade-in 0.8s ease-out both;
+}
+
+/* スクロールキューの明滅 */
+@keyframes corp-cue {
+  0%, 100% {
+    opacity: 0.25;
+    transform: scaleY(0.6);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+.corp-scroll-cue {
+  transform-origin: top;
+  animation: corp-cue 2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .corp-mask-line > span {
+    transform: none;
+    animation: none;
+  }
+  body.intro-active main,
+  body.intro-active header,
+  body.intro-active footer {
+    opacity: 1;
+  }
+}
