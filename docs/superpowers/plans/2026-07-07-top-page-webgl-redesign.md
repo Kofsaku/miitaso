@@ -6,7 +6,7 @@
 
 **Architecture:** 固定配置のR3F Canvasが背後で粒子を描画し、コンテンツ（既存セクション、テキスト不変）がその上をスクロールする。粒子の形状は章ごとの目標座標をBufferAttributeとして持ち、頂点シェーダーがスクロール進行度uniformで補間する。スクロール状態はモジュールシングルトン`storyState`を介してDOM側（Lenis/GSAP）とWebGL側（useFrame）が共有する。
 
-**Tech Stack:** Next.js 15 (App Router) / React 18 / three + @react-three/fiber v8 / @react-three/postprocessing / lenis / gsap / vitest（純ロジックのみ）
+**Tech Stack:** Next.js 15 (App Router) / React 19（Next 15がクライアントに実際にバンドルするバージョン。詳細はGlobal Constraints・末尾のTask 11節参照） / three + @react-three/fiber v9 / @react-three/postprocessing v3 / lenis / gsap / vitest（純ロジックのみ）
 
 ## Global Constraints
 
@@ -76,11 +76,13 @@ app/globals.css         … 追記: マスクリビール・Lenis・カーソル
 
 ```bash
 cd /Users/kt/miitaso
-npm install three@^0.169.0 @react-three/fiber@^8.17.10 @react-three/postprocessing@^2.16.3 lenis@^1.1.14 gsap@^3.12.5
+npm install three@^0.169.0 @react-three/fiber@^9.0.0 @react-three/postprocessing@^3.0.0 lenis@^1.1.14 gsap@^3.12.5
 npm install -D vitest@^2.1.8 @types/three@^0.169.0
 ```
 
-Expected: エラーなく完了。`@react-three/fiber` がv8系で入ることを `npm ls @react-three/fiber` で確認（**v9が入ったら失敗**。React 18と非互換のため `npm install @react-three/fiber@8` で入れ直す）。
+Expected: エラーなく完了。`@react-three/fiber` がv9系で入ることを `npm ls @react-three/fiber` で確認する。
+
+> **【2026-07-08訂正】** 本ステップは元々「React 18固定→v8系を明示的に入れる」という指示だったが、Next.js 15はクライアントに実際にはReact 19をバンドルするため誤りだった（Task 11で実機検証により発覚、詳細は末尾のTask 11節）。v8系（react-reconciler@0.27依存）はReact 19下で`ReactCurrentBatchConfig`未定義エラーを起こし常時クラッシュする。**v9系を入れること。v8を入れ直してはいけない。**
 
 - [ ] **Step 2: testスクリプトを追加**
 
