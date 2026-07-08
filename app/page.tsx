@@ -14,6 +14,7 @@ import { StageLoader } from "@/components/webgl/stage-loader"
 import { SmoothScroll } from "@/components/webgl/smooth-scroll"
 import { ScrollProgress } from "@/components/webgl/scroll-progress"
 import { IntroOverlay } from "@/components/webgl/intro-overlay"
+import { CursorFx } from "@/components/webgl/cursor-fx"
 
 export const metadata: Metadata = {
   title: "miitaso | 考えるだけでも、作るだけでもない。",
@@ -43,11 +44,12 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <div className="bg-[#030712] text-white">
+    <div className="corp-grain bg-[#030712] text-white">
       <StageLoader />
       <SmoothScroll />
       <ScrollProgress />
       <IntroOverlay />
+      <CursorFx />
       <SiteHeader />
       <main className="relative z-10">
         <div data-story-chapter="0">

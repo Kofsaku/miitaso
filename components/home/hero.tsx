@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 import { Terminal, type TerminalLine } from "@/components/corporate/terminal"
+import { Magnetic } from "@/components/webgl/magnetic"
 
 const terminalLines: TerminalLine[] = [
   { prompt: "$", text: 'LINE: "research 食品ECに参入したい"', done: true },
@@ -58,19 +59,23 @@ export function Hero() {
               className="corp-fade-in-up mt-10 flex flex-col gap-4 sm:flex-row"
               style={{ animationDelay: "1000ms" }}
             >
-              <Link
-                href="#contact"
-                className="inline-flex h-12 items-center justify-center rounded-full bg-white px-8 text-sm font-semibold text-gray-950 transition hover:bg-slate-200"
-              >
-                無料相談する
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-              <Link
-                href="#services"
-                className="inline-flex h-12 items-center justify-center rounded-full border border-white/20 px-8 text-sm font-medium text-white transition hover:bg-white/10"
-              >
-                サービスを見る
-              </Link>
+              <Magnetic>
+                <Link
+                  href="#contact"
+                  className="inline-flex h-12 w-full items-center justify-center rounded-full bg-white px-8 text-sm font-semibold text-gray-950 transition hover:bg-slate-200 sm:w-auto"
+                >
+                  無料相談する
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Magnetic>
+              <Magnetic>
+                <Link
+                  href="#services"
+                  className="inline-flex h-12 w-full items-center justify-center rounded-full border border-white/20 px-8 text-sm font-medium text-white transition hover:bg-white/10 sm:w-auto"
+                >
+                  サービスを見る
+                </Link>
+              </Magnetic>
             </div>
           </div>
 
