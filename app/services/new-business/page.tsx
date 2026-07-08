@@ -161,7 +161,7 @@ const cases = [
     title: "ペットオーナー向けSNSアプリ",
     description:
       "ペットオーナー向けのSNSアプリをFlutterで開発しました。",
-    result: "他社見積の1/4のコストで実現",
+    result: "他社見積の25%のコストで実現",
   },
   {
     category: "受託開発",

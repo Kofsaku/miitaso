@@ -7,9 +7,9 @@ const statValueClass = "text-3xl font-bold tracking-tight text-white sm:text-4xl
 /** 事実シート「数値実績」の4つのみ */
 const stats = [
   {
-    value: "1/4",
-    suffix: "",
-    label: "他社見積の1/4のコストで開発を実現（Flutter製SNSアプリ）",
+    value: "25",
+    suffix: "%",
+    label: "他社見積の25%のコストで開発を実現（Flutter製SNSアプリ）",
   },
   {
     value: "8位 → 2位",
@@ -60,7 +60,7 @@ const cases = [
   {
     tag: "ペットオーナー向けSNS",
     title: "Flutterアプリ開発",
-    description: "他社見積の1/4のコストで開発を実現しました。",
+    description: "他社見積の25%のコストで開発を実現しました。",
   },
   {
     tag: "AIライブ配信",
