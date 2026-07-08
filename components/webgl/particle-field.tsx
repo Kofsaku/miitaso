@@ -51,7 +51,7 @@ export function ParticleField({ count }: { count: number }) {
       uMouse: { value: new THREE.Vector3(0, 0, 0) },
       uMouseActive: { value: 0 },
       uPixelRatio: { value: 1 },
-      uSize: { value: 40 },
+      uSize: { value: 3.5 },
       uColorA: { value: COLOR_A },
       uColorB: { value: COLOR_B },
     }),
