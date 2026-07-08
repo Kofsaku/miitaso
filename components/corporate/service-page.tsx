@@ -39,7 +39,7 @@ export function ServiceHero({ label, title, lead, bullets, cta }: ServiceHeroPro
             <p className="font-mono text-xs uppercase tracking-[0.25em] text-sky-400">
               {label}
             </p>
-            <h1 className="mt-5 max-w-3xl text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl">
+            <h1 className="mt-5 max-w-4xl text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl">
               {title}
             </h1>
             <p className="mt-6 max-w-2xl leading-relaxed text-slate-400">{lead}</p>

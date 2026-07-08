@@ -161,7 +161,7 @@ const cases = [
     title: "ペットオーナー向けSNSアプリ",
     description:
       "ペットオーナー向けのSNSアプリをFlutterで開発しました。",
-    result: "他社見積2,000万円 → 500万円で実現",
+    result: "他社見積の1/4のコストで実現",
   },
   {
     category: "受託開発",
@@ -209,6 +209,7 @@ export default function NewBusinessPage() {
           title={
             <>
               作りながら、
+              <br className="hidden sm:block" />
               <span className="bg-gradient-to-r from-sky-400 via-blue-500 to-violet-500 bg-clip-text text-transparent">
                 確かめる
               </span>

@@ -23,7 +23,7 @@ export function Hero() {
   return (
     <section className="relative flex min-h-[100svh] items-center overflow-hidden pb-20 pt-32 md:pt-36">
       <div className="container relative px-4 md:px-6">
-        <div className="mx-auto grid max-w-6xl items-center gap-14 lg:grid-cols-[1.1fr_1fr] lg:gap-12">
+        <div className="mx-auto grid max-w-6xl items-center gap-14 xl:grid-cols-[1.1fr_1fr] xl:gap-12">
           {/* コピー */}
           <div>
             <span className="corp-mask-line">
@@ -34,7 +34,7 @@ export function Hero() {
                 CONSULTING × ENGINEERING
               </span>
             </span>
-            <h1 className="mt-6 text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl">
+            <h1 className="mt-6 whitespace-nowrap text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl xl:text-7xl">
               <span className="corp-mask-line">
                 <span style={{ "--mask-delay": "350ms" } as React.CSSProperties}>
                   考えるだけでも、
