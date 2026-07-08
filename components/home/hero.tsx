@@ -86,9 +86,6 @@ export function Hero() {
             data-terminal-anchor
           >
             <Terminal title="miitaso — research bot" lines={terminalLines} />
-            <p className="mt-3 text-center text-xs text-slate-500">
-              口だけにしない証拠に——自社で本番運用しているAIエージェント「research」の実際の処理フロー
-            </p>
           </div>
         </div>
       </div>
