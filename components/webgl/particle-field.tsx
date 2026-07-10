@@ -6,6 +6,7 @@ import { useFrame } from "@react-three/fiber"
 import { CHAPTER_SHAPES, generateShape, mulberry32 } from "./morph-targets"
 import { avoidZones, runtimeTargets, storyState } from "./story-state"
 import { packVisibleRects } from "./content-avoid"
+import { advanceWordEnvelope, wordBell, type WordEnvelope } from "./scroll-story"
 import { chapterWordTarget } from "./runtime-targets"
 import { particleFragmentShader, particleVertexShader } from "./shaders"
 
@@ -25,6 +26,7 @@ export function ParticleField({ count }: { count: number }) {
   const burstSeq = useRef(storyState.burst.seq)
   const burstSlot = useRef(0)
   const wordChapter = useRef(-1)
+  const wordEnv = useRef<WordEnvelope>({ mix: 0, hold: 0 })
   const prevMouse = useRef(new THREE.Vector2(0, 0))
 
   const attributes = useMemo(() => {
@@ -69,6 +71,7 @@ export function ParticleField({ count }: { count: number }) {
       uBurstTime: { value: new Float32Array(4).fill(-100) },
       uVelocity: { value: 0 },
       uWordActive: { value: 0 },
+      uWordMix: { value: 0 },
       uMouseVel: { value: new THREE.Vector2(0, 0) },
     }),
     []
@@ -172,8 +175,10 @@ export function ParticleField({ count }: { count: number }) {
     mv.x += (instX - mv.x) * Math.min(1, delta * 8)
     mv.y += (instY - mv.y) * Math.min(1, delta * 8)
 
-    // 章境界タイポグラフィ: 到達章が変わったら描く単語を差し替える
-    if (storyState.to !== wordChapter.current) {
+    // 章境界タイポグラフィ: 帯域に一度触れたら完全形成し、離れても保持→残像で溶ける
+    // ワンショット・エンベロープ。バーっとスクロールしても単語が読める滞在時間を確保する。
+    // 単語の差し替えは形成量が下がってから行う（文字が突然入れ替わるのを防ぐ）
+    if (storyState.to !== wordChapter.current && wordEnv.current.mix < 0.15) {
       wordChapter.current = storyState.to
       const target = chapterWordTarget(storyState.to, count)
       if (target && geometryRef.current) {
@@ -184,7 +189,15 @@ export function ParticleField({ count }: { count: number }) {
       } else {
         u.uWordActive.value = 0
       }
+      wordEnv.current.hold = 0
     }
+    wordEnv.current = advanceWordEnvelope(
+      wordEnv.current,
+      wordBell(storyState.mix),
+      storyState.to !== wordChapter.current,
+      delta
+    )
+    u.uWordMix.value = wordEnv.current.mix
 
     // スクロール速度 → ゆらぎ増幅（Lenisが書き、ここで減衰させる）
     u.uVelocity.value += (storyState.scrollVelocity - u.uVelocity.value) * Math.min(1, delta * 5)

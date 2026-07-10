@@ -86,6 +86,7 @@ uniform vec3 uBurstPos[4];
 uniform float uBurstTime[4];
 uniform float uVelocity;
 uniform float uWordActive;
+uniform float uWordMix;
 uniform vec2 uMouseVel;
 
 varying float vAlpha;
@@ -145,9 +146,9 @@ void main() {
   float m = smoothstep(0.0, 1.0, stag);
   vec3 base = mix(chapterPos(uFrom), chapterPos(uTo), m);
 
-  // 章境界タイポグラフィ: 遷移の中間で粒子が次章の英単語を描いて溶ける
-  float bell = smoothstep(0.18, 0.5, uMix) * (1.0 - smoothstep(0.5, 0.82, uMix));
-  float wordMix = bell * uWordActive * step(aRandom, 0.65);
+  // 章境界タイポグラフィ: 遷移の中間で粒子が次章の英単語を描いて溶ける。
+  // 形成量はCPU側（particle-field）が台形ベル＋残像リンガーで計算して渡す
+  float wordMix = uWordMix * uWordActive * step(aRandom, 0.65);
   base = mix(base, aWord, wordMix);
 
   // イントロ: ワードマーク → 物語へ
