@@ -62,7 +62,7 @@ export function Faq() {
             <AccordionItem
               key={index}
               value={`item-${index}`}
-              className="rounded-xl border border-white/10 bg-white/[0.03] px-6 backdrop-blur"
+              className="rounded-xl border border-white/10 bg-[#050a18]/70 px-6 backdrop-blur"
             >
               <AccordionTrigger className="py-5 text-left font-medium text-white hover:no-underline">
                 {faq.question}

@@ -61,8 +61,8 @@ export function HowWeBuild() {
 
       {/* アーキテクチャ図 */}
       <Reveal>
-        <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5 backdrop-blur md:p-8">
-          <p className="mb-6 font-mono text-xs text-slate-500">
+        <div className="rounded-2xl border border-white/10 bg-[#050a18]/70 p-5 backdrop-blur md:p-8">
+          <p className="mb-6 font-mono text-xs text-slate-400">
             research — production architecture
           </p>
           <div className="flex flex-col gap-2 lg:flex-row lg:items-stretch lg:gap-3">
@@ -85,7 +85,7 @@ export function HowWeBuild() {
                     {node.caption}
                   </p>
                   <p className="mt-1.5 text-sm font-semibold text-white">{node.name}</p>
-                  <p className="mt-1 text-xs text-slate-500">{node.sub}</p>
+                  <p className="mt-1 text-xs text-slate-400">{node.sub}</p>
                 </div>
               </Fragment>
             ))}
@@ -97,7 +97,7 @@ export function HowWeBuild() {
       <div className="mt-6 grid gap-6 md:grid-cols-2">
         {notes.map((note, i) => (
           <Reveal key={note.title} delay={i * 80} className="h-full">
-            <div className="h-full rounded-2xl border border-white/10 bg-white/[0.03] p-8 backdrop-blur">
+            <div className="h-full rounded-2xl border border-white/10 bg-[#050a18]/70 p-8 backdrop-blur">
               <h3 className="text-lg font-semibold text-white">{note.title}</h3>
               <p className="mt-3 text-sm leading-relaxed text-slate-400">{note.description}</p>
             </div>

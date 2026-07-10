@@ -64,6 +64,7 @@ attribute vec3 aPath;
 attribute vec3 aLattice;
 attribute vec3 aTerminal;
 attribute vec3 aWordmark;
+attribute vec3 aWord;
 attribute float aRandom;
 
 uniform float uTime;
@@ -78,15 +79,40 @@ uniform float uPixelRatio;
 uniform float uSize;
 uniform vec3 uColorA;
 uniform vec3 uColorB;
+uniform vec2 uResolution;
+uniform vec4 uAvoidRects[8];
+uniform int uAvoidCount;
+uniform vec3 uBurstPos[4];
+uniform float uBurstTime[4];
+uniform float uVelocity;
+uniform float uWordActive;
+uniform vec2 uMouseVel;
 
 varying float vAlpha;
 varying vec3 vColor;
+varying float vBurst;
+varying float vVel;
 
 ${simplexNoise}
 
+// ヒーローのネビュラ: カオスを半径依存の速度でゆっくり渦巻かせる
+vec3 heroNebula() {
+  vec3 p = position;
+  float ang = uTime * (0.03 + 0.05 * aRandom);
+  float c = cos(ang);
+  float s = sin(ang);
+  p.xy = mat2(c, -s, s, c) * p.xy;
+  return p;
+}
+
+// この粒子がターミナル枠へ収束する係数（32%だけ収束し、残りはネビュラに残る）
+float convergeAmount() {
+  return uHeroConverge * step(aRandom, 0.32);
+}
+
 vec3 chapterPos(int idx) {
-  // 章0はカオス(position)とターミナル枠の合成（ヒーロー収束演出）
-  if (idx == 0) return mix(position, aTerminal, uHeroConverge);
+  // 章0はネビュラとターミナル枠の合成（一部の粒子だけ収束する）
+  if (idx == 0) return mix(heroNebula(), aTerminal, convergeAmount());
   if (idx == 1) return aConstellation;
   if (idx == 2) return aPipeline;
   if (idx == 3) return aWireframe;
@@ -96,7 +122,7 @@ vec3 chapterPos(int idx) {
 }
 
 float noiseAmpFor(int idx) {
-  if (idx == 0) return mix(1.0, 0.12, uHeroConverge); // 収束中はゆらぎを絞る
+  if (idx == 0) return mix(1.0, 0.05, convergeAmount()); // 収束粒子だけゆらぎを絞る
   if (idx == 1) return 0.35;
   if (idx == 2) return 0.5;
   if (idx == 3) return 0.22;
@@ -105,16 +131,32 @@ float noiseAmpFor(int idx) {
   return 0.1;
 }
 
+// スクリーン座標(CSS px, 左上原点)での矩形への符号付き距離
+float rectDistance(vec2 p, vec4 rect) {
+  vec2 center = rect.xy + rect.zw * 0.5;
+  vec2 hs = rect.zw * 0.5;
+  vec2 d = abs(p - center) - hs;
+  return length(max(d, 0.0)) + min(max(d.x, d.y), 0.0);
+}
+
 void main() {
   // 粒子ごとに開始をずらした有機的なモーフ
   float stag = clamp(uMix * 1.3 - aRandom * 0.3, 0.0, 1.0);
   float m = smoothstep(0.0, 1.0, stag);
   vec3 base = mix(chapterPos(uFrom), chapterPos(uTo), m);
 
+  // 章境界タイポグラフィ: 遷移の中間で粒子が次章の英単語を描いて溶ける
+  float bell = smoothstep(0.18, 0.5, uMix) * (1.0 - smoothstep(0.5, 0.82, uMix));
+  float wordMix = bell * uWordActive * step(aRandom, 0.65);
+  base = mix(base, aWord, wordMix);
+
   // イントロ: ワードマーク → 物語へ
   base = mix(aWordmark, base, smoothstep(0.0, 1.0, uIntro));
 
-  float amp = mix(noiseAmpFor(uFrom), noiseAmpFor(uTo), m);
+  // スクロール速度でゆらぎを増幅（速く動かすほど粒子が乱れる）。
+  // 単語形成中はゆらぎを絞って文字を鮮明に保つ
+  float amp = mix(noiseAmpFor(uFrom), noiseAmpFor(uTo), m)
+    * (1.0 + uVelocity * 1.4) * (1.0 - wordMix * 0.8);
   vec3 noisePos = base * 0.35 + uTime * 0.06;
   vec3 wobble = vec3(
     snoise(noisePos),
@@ -123,21 +165,55 @@ void main() {
   ) * amp;
   vec3 pos = base + wobble;
 
-  // マウス斥力
+  // クリック衝撃波: 直近4発のバースト地点から球状リングが減衰しながら伝播する
+  float wave = 0.0;
+  for (int i = 0; i < 4; i++) {
+    float bt = uTime - uBurstTime[i];
+    vec3 bd = pos - uBurstPos[i];
+    float bdist = length(bd);
+    float w = exp(-pow((bdist - bt * 5.5) * 1.8, 2.0)) * exp(-bt * 1.8)
+      * step(0.0, bt) * step(bt, 3.0);
+    pos += (bd / max(bdist, 0.0001)) * w * 1.5;
+    wave += w;
+  }
+  vBurst = min(wave, 1.5);
+
+  // マウス斥力＋移動渦（カーソルが通ると粒子が彗星の尾のように巻き上がる）
   vec3 diff = pos - uMouse;
   float dist = length(diff);
   float push = smoothstep(2.2, 0.0, dist) * 0.9 * uMouseActive;
   pos += (diff / max(dist, 0.0001)) * push;
+  float swirl = smoothstep(2.6, 0.0, dist) * uMouseActive
+    * clamp(length(uMouseVel) * 0.12, 0.0, 0.5);
+  pos.xy += vec2(-diff.y, diff.x) / max(dist, 0.0001) * swirl;
 
   vec4 mv = modelViewMatrix * vec4(pos, 1.0);
   gl_Position = projectionMatrix * mv;
 
-  float size = uSize * (0.6 + aRandom * 0.8);
+  float size = uSize * (0.6 + aRandom * 0.8)
+    * (1.0 + wave * 1.2) * (1.0 + uVelocity * 0.35) * (1.0 + wordMix * 0.4);
   gl_PointSize = size * uPixelRatio * (14.0 / -mv.z);
 
-  // 奥行きで減衰（被写界深度風）
+  // 奥行きで減衰（被写界深度風）。単語形成・ターミナル収束は増光する
   float depth = clamp((-mv.z - 4.0) / 14.0, 0.0, 1.0);
-  vAlpha = mix(0.9, 0.22, depth);
+  float glowBoost = 1.0 + wordMix * 0.5
+    + convergeAmount() * step(float(uFrom), 0.5) * (1.0 - m) * 0.4;
+  vAlpha = mix(0.72, 0.18, depth) * glowBoost;
+  vVel = uVelocity;
+
+  // テキストゾーン回避: 見出し・本文の矩形に重なる粒子を減光する
+  vec2 ndc = gl_Position.xy / max(gl_Position.w, 0.0001);
+  vec2 screenPos = vec2(
+    (ndc.x * 0.5 + 0.5) * uResolution.x,
+    (1.0 - (ndc.y * 0.5 + 0.5)) * uResolution.y
+  );
+  float avoid = 1.0;
+  for (int i = 0; i < 8; i++) {
+    if (i >= uAvoidCount) break;
+    avoid = min(avoid, smoothstep(-32.0, 96.0, rectDistance(screenPos, uAvoidRects[i])));
+  }
+  vAlpha *= mix(0.1, 1.0, avoid);
+
   float hue = clamp(base.x * 0.12 + 0.5 + (aRandom - 0.5) * 0.3, 0.0, 1.0);
   vColor = mix(uColorA, uColorB, hue);
 }
@@ -146,13 +222,17 @@ void main() {
 export const particleFragmentShader = /* glsl */ `
 varying float vAlpha;
 varying vec3 vColor;
+varying float vBurst;
+varying float vVel;
 
 void main() {
   vec2 uv = gl_PointCoord - 0.5;
+  // スクロール速度で縦に伸びるストリーク（モーションブラー風）
+  uv.y /= (1.0 + vVel * 1.6);
   float d = length(uv);
   float mask = smoothstep(0.5, 0.12, d);
-  float core = smoothstep(0.18, 0.0, d) * 0.85;
-  vec3 col = vColor * (0.7 + core);
-  gl_FragColor = vec4(col, (mask * 0.55 + core) * vAlpha);
+  float core = smoothstep(0.18, 0.0, d) * 0.7;
+  vec3 col = vColor * (0.7 + core) + vec3(0.5, 0.7, 1.0) * vBurst;
+  gl_FragColor = vec4(col, (mask * 0.42 + core) * vAlpha + vBurst * 0.3 * mask);
 }
 `

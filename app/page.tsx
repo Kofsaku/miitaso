@@ -15,6 +15,7 @@ import { SmoothScroll } from "@/components/webgl/smooth-scroll"
 import { ScrollProgress } from "@/components/webgl/scroll-progress"
 import { IntroOverlay } from "@/components/webgl/intro-overlay"
 import { CursorFx } from "@/components/webgl/cursor-fx"
+import { ChapterHud } from "@/components/webgl/chapter-hud"
 
 export const metadata: Metadata = {
   title: "miitaso | 考えるだけでも、作るだけでもない。",
@@ -50,6 +51,7 @@ export default function Home() {
       <ScrollProgress />
       <IntroOverlay />
       <CursorFx />
+      <ChapterHud />
       <SiteHeader />
       <main className="relative z-10">
         <div data-story-chapter="0">

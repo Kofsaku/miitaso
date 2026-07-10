@@ -209,7 +209,7 @@ export function StepFlow({
   return (
     <Section variant={variant} chapter={chapter}>
       <SectionHeading label={label} title={title} lead={lead} />
-      <div className={`grid gap-10 md:grid-cols-2 ${cols}`}>
+      <div data-particle-avoid className={`grid gap-10 md:grid-cols-2 ${cols}`}>
         {steps.map((step, i) => (
           <Reveal key={step.title} delay={i * 100} className="h-full">
             <div className="h-full">

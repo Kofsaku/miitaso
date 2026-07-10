@@ -92,7 +92,7 @@ export function Stat({
 
   const valueCls =
     valueClassName ?? "text-4xl font-bold tracking-tight text-white md:text-5xl"
-  const labelCls = labelClassName ?? "mt-2 text-sm text-slate-500"
+  const labelCls = labelClassName ?? "mt-2 text-sm text-slate-400"
 
   const formatted = parsed
     ? display.toLocaleString("ja-JP", {

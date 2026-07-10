@@ -69,12 +69,13 @@ export function Services() {
           <Reveal key={service.href} delay={i * 80} className="h-full">
             <Link
               href={service.href}
-              className="group flex h-full flex-col rounded-2xl border border-white/10 bg-white/[0.03] p-8 backdrop-blur transition hover:-translate-y-1 hover:border-sky-400/40 hover:bg-white/[0.06]"
+              data-cursor-label="VIEW"
+              className="group flex h-full flex-col rounded-2xl border border-white/10 bg-[#050a18]/70 p-8 backdrop-blur transition hover:-translate-y-1 hover:border-sky-400/40 hover:bg-[#0a1226]/70"
             >
               <div className="flex h-11 w-11 items-center justify-center rounded-lg border border-sky-400/30 bg-sky-400/10">
                 <service.icon className="h-5 w-5 text-sky-400" />
               </div>
-              <p className="mt-6 font-mono text-xs uppercase tracking-[0.2em] text-slate-500">
+              <p className="mt-6 font-mono text-xs uppercase tracking-[0.2em] text-slate-400">
                 {service.label}
               </p>
               <h3 className="mt-2 text-xl font-semibold text-white">{service.title}</h3>

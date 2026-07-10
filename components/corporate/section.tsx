@@ -1,4 +1,5 @@
 import type { ReactNode } from "react"
+import { ScrambleText } from "@/components/webgl/scramble-text"
 
 type SectionProps = {
   id?: string
@@ -39,12 +40,20 @@ export function Section({
       className={`relative overflow-hidden py-24 md:py-32 ${VARIANT_BG[variant]} ${className}`}
     >
       {decoration}
+      {variant === "transparent" ? (
+        // 粒子キャンバスを透かすセクションでは、テキスト域の背景輝度を
+        // 安定させる薄いスクリムを敷く（粒子の気配は周縁に残す）
+        <div
+          aria-hidden
+          className="absolute inset-0 bg-[radial-gradient(80%_70%_at_50%_45%,rgba(3,7,18,0.62)_0%,rgba(3,7,18,0.28)_62%,transparent_100%)]"
+        />
+      ) : null}
       <div className="container relative px-4 md:px-6">
         <div className="mx-auto max-w-6xl">
           {chapter ? (
             <div className="mb-10 flex items-center gap-4 md:mb-14">
               <p className="font-mono text-xs tracking-[0.3em] text-sky-400/80">
-                / {chapter}
+                / <ScrambleText text={chapter} />
               </p>
               <span
                 aria-hidden
@@ -82,14 +91,19 @@ export function SectionHeading({
 }: SectionHeadingProps) {
   const centered = align === "center"
   return (
-    <div className={`mb-12 md:mb-16 ${centered ? "text-center" : ""} ${className}`}>
-      <p className="font-mono text-xs uppercase tracking-[0.25em] text-sky-400">{label}</p>
+    <div
+      data-particle-avoid
+      className={`mb-12 md:mb-16 ${centered ? "text-center" : ""} ${className}`}
+    >
+      <p className="font-mono text-xs uppercase tracking-[0.25em] text-sky-400">
+        <ScrambleText text={label} />
+      </p>
       <h2 className="mt-4 text-3xl font-bold tracking-tight text-white sm:text-4xl md:text-5xl">
         {title}
       </h2>
       {lead ? (
         <p
-          className={`mt-5 max-w-2xl leading-relaxed text-slate-400 ${
+          className={`mt-5 max-w-2xl leading-relaxed text-slate-300 ${
             centered ? "mx-auto" : ""
           }`}
         >

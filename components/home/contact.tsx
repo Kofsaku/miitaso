@@ -131,7 +131,7 @@ export function Contact() {
             align="center"
           />
 
-          <form onSubmit={handleSubmit} className="mx-auto max-w-md space-y-6">
+          <form onSubmit={handleSubmit} data-particle-avoid className="mx-auto max-w-md space-y-6">
             <div className="space-y-2">
               <label htmlFor="name" className="text-sm font-medium text-slate-300">
                 お名前 <span className="text-rose-400">*</span>

@@ -2,6 +2,7 @@ import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 import { Terminal, type TerminalLine } from "@/components/corporate/terminal"
 import { Magnetic } from "@/components/webgl/magnetic"
+import { ScrambleText } from "@/components/webgl/scramble-text"
 
 const terminalLines: TerminalLine[] = [
   { prompt: "$", text: 'LINE: "research 食品ECに参入したい"', done: true },
@@ -9,7 +10,7 @@ const terminalLines: TerminalLine[] = [
   {
     text: "⠿ Claude agent: 市場規模・競合・参入障壁を調査中…",
     instant: true,
-    className: "text-slate-500",
+    className: "text-slate-400",
   },
   { text: "✓ レポート生成完了（数分）", instant: true, className: "text-emerald-400" },
   { text: "✓ 公開 → miitaso.com/research/****", instant: true, className: "text-sky-400" },
@@ -31,7 +32,7 @@ export function Hero() {
                 className="font-mono text-xs uppercase tracking-[0.25em] text-sky-400"
                 style={{ "--mask-delay": "150ms" } as React.CSSProperties}
               >
-                CONSULTING × ENGINEERING
+                <ScrambleText text="CONSULTING × ENGINEERING" />
               </span>
             </span>
             <h1 className="mt-6 whitespace-nowrap text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl xl:text-7xl">
@@ -50,7 +51,8 @@ export function Hero() {
               </span>
             </h1>
             <p
-              className="corp-fade-in-up mt-6 max-w-xl leading-relaxed text-slate-400"
+              data-particle-avoid
+              className="corp-fade-in-up mt-6 max-w-xl leading-relaxed text-slate-300"
               style={{ animationDelay: "800ms" }}
             >
               提案書で終わるコンサルと、言われた通りに作る開発会社。その間を埋めるのが私たちです。経営課題の定義から、システムの実装・運用まで、エンジニア出身のコンサルタントが一貫して成果に伴走します。
@@ -62,6 +64,7 @@ export function Hero() {
               <Magnetic>
                 <Link
                   href="#contact"
+                  data-cursor-label="GO"
                   className="inline-flex h-12 w-full items-center justify-center rounded-full bg-white px-8 text-sm font-semibold text-gray-950 transition hover:bg-slate-200 sm:w-auto"
                 >
                   無料相談する
@@ -96,7 +99,7 @@ export function Hero() {
         className="corp-fade-in absolute bottom-8 left-1/2 -translate-x-1/2 text-center"
         style={{ animationDelay: "2200ms" }}
       >
-        <p className="font-mono text-[10px] tracking-[0.35em] text-slate-500">SCROLL</p>
+        <p className="font-mono text-[10px] tracking-[0.35em] text-slate-400">SCROLL</p>
         <span className="corp-scroll-cue mx-auto mt-2 block h-8 w-px bg-gradient-to-b from-sky-400/80 to-transparent" />
       </div>
     </section>

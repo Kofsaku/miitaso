@@ -71,7 +71,7 @@ export function Products() {
       <div className="grid gap-6 md:grid-cols-2">
         {products.map((product, i) => (
           <Reveal key={product.name} delay={i * 80} className="h-full">
-            <div className="flex h-full flex-col rounded-2xl border border-white/10 bg-white/[0.03] p-8 backdrop-blur transition hover:-translate-y-1 hover:border-sky-400/40 hover:bg-white/[0.06]">
+            <div className="flex h-full flex-col rounded-2xl border border-white/10 bg-[#050a18]/70 p-8 backdrop-blur transition hover:-translate-y-1 hover:border-sky-400/40 hover:bg-[#0a1226]/70">
               <span className="font-mono text-xs uppercase tracking-[0.2em] text-sky-400">
                 {product.tag}
               </span>
@@ -82,6 +82,7 @@ export function Products() {
               {product.href ? (
                 <Link
                   href={product.href}
+                  data-cursor-label="VIEW"
                   className="mt-6 inline-flex items-center text-sm font-medium text-sky-400 transition hover:text-sky-300"
                 >
                   {product.linkLabel}

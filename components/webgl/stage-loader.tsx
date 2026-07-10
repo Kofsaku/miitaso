@@ -65,6 +65,14 @@ export function StageLoader() {
       return
     }
     setMode("webgl")
+    // GPUコンテキストロスト（ドライバ再起動等）→ 静的背景へ切替
+    const onLost = () => {
+      storyState.intro = 1
+      storyState.heroConverge = 1
+      setMode("static")
+    }
+    window.addEventListener("miitaso:webgl-lost", onLost)
+    return () => window.removeEventListener("miitaso:webgl-lost", onLost)
   }, [])
 
   if (mode === "pending") return <StaticBackdrop />
