@@ -8,6 +8,23 @@ import { webglSupported } from "./stage-loader"
 
 const SEEN_KEY = "miitaso-intro-seen"
 
+// Safariプライベートモード等でストレージが例外を投げても
+// イントロ進行（＝コンテンツ再表示）を止めないための安全ラッパ
+function safeGetSeen(): boolean {
+  try {
+    return sessionStorage.getItem(SEEN_KEY) === "1"
+  } catch {
+    return false
+  }
+}
+function safeSetSeen(): void {
+  try {
+    sessionStorage.setItem(SEEN_KEY, "1")
+  } catch {
+    /* 記憶できないだけ（毎回イントロが出る）で害はない */
+  }
+}
+
 const BOOT_LINES = [
   "BOOT PARTICLE ENGINE — 24,000 UNITS",
   "COMPILING SHADERS … OK",
@@ -25,7 +42,7 @@ export function IntroOverlay() {
 
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    const seen = sessionStorage.getItem(SEEN_KEY) === "1"
+    const seen = safeGetSeen()
 
     const converge = () => {
       applyTerminalTarget()
@@ -55,7 +72,7 @@ export function IntroOverlay() {
     const counter = { v: 0 }
     const tl = gsap.timeline({
       onComplete: () => {
-        sessionStorage.setItem(SEEN_KEY, "1")
+        safeSetSeen()
         document.body.classList.remove("intro-active")
         document.body.classList.add("intro-done")
         setRunning(false)
@@ -74,7 +91,15 @@ export function IntroOverlay() {
     }, 0)
     // カウンター完了後にワードマークが散開して物語へ
     tl.to(storyState, { intro: 1, duration: 0.8, ease: "power2.inOut" }, 1.4)
-    tl.to("#intro-hud", { opacity: 0, duration: 0.35, ease: "power1.out" }, 1.4)
+    // HUDはtween生成時点で未マウントのため、実行時にターゲット解決する
+    tl.call(
+      () => {
+        const el = document.getElementById("intro-hud")
+        if (el) gsap.to(el, { opacity: 0, duration: 0.35, ease: "power1.out" })
+      },
+      undefined,
+      1.4
+    )
     return () => {
       tl.kill()
       document.body.classList.remove("intro-active")

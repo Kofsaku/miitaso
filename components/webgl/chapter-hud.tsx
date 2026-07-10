@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef } from "react"
-import { storyState } from "./story-state"
+import { computeStory, measureChapters } from "./scroll-story"
 
 const CHAPTERS = [
   ["00", "思考"],
@@ -15,8 +15,9 @@ const CHAPTERS = [
 
 /**
  * 画面右端に固定表示するチャプターナビゲーションHUD。
- * storyStateをrAFで読んで現在章をハイライトし、クリックで該当章へスクロールする。
- * lg未満・reduced-motion時は非表示（CSSで制御）。
+ * スクロール位置から現在章を自前で算出するため、WebGL非対応・
+ * reduced-motionの静的フォールバック時もハイライトが機能する。
+ * lg未満は非表示（CSSで制御）。
  */
 export function ChapterHud() {
   const rootRef = useRef<HTMLElement>(null)
@@ -25,27 +26,38 @@ export function ChapterHud() {
     const root = rootRef.current
     if (!root) return
     const items = Array.from(root.querySelectorAll<HTMLElement>("[data-hud-item]"))
-    let raf = 0
+    let anchors = measureChapters()
     let last = -1
-    const tick = () => {
-      const active = storyState.mix > 0.5 ? storyState.to : storyState.from
-      if (active !== last) {
-        last = active
-        items.forEach((item, i) => {
-          item.dataset.active = i === active ? "true" : "false"
-        })
-      }
-      raf = requestAnimationFrame(tick)
+    const update = () => {
+      const s = computeStory(window.scrollY + window.innerHeight / 2, anchors)
+      const active = s.mix > 0.5 ? s.to : s.from
+      if (active === last) return
+      last = active
+      items.forEach((item, i) => {
+        item.dataset.active = i === active ? "true" : "false"
+      })
     }
-    raf = requestAnimationFrame(tick)
-    return () => cancelAnimationFrame(raf)
+    const remeasure = () => {
+      anchors = measureChapters()
+      update()
+    }
+    update()
+    window.addEventListener("scroll", update, { passive: true })
+    window.addEventListener("resize", remeasure)
+    const t = setTimeout(remeasure, 1200)
+    return () => {
+      window.removeEventListener("scroll", update)
+      window.removeEventListener("resize", remeasure)
+      clearTimeout(t)
+    }
   }, [])
 
   const jump = (n: number) => {
     const el = document.querySelector<HTMLElement>(`[data-story-chapter="${n}"]`)
     if (!el) return
     const top = el.getBoundingClientRect().top + window.scrollY - 40
-    window.scrollTo({ top: n === 0 ? 0 : top, behavior: "smooth" })
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    window.scrollTo({ top: n === 0 ? 0 : top, behavior: reduced ? "auto" : "smooth" })
   }
 
   return (

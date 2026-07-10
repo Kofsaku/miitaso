@@ -166,12 +166,14 @@ void main() {
   vec3 pos = base + wobble;
 
   // クリック衝撃波: 直近4発のバースト地点から球状リングが減衰しながら伝播する
+  // 注: powは底が負でGLSL未定義動作(NaN)になるため自乗は手書き、btは有界化する
   float wave = 0.0;
   for (int i = 0; i < 4; i++) {
-    float bt = uTime - uBurstTime[i];
+    float bt = clamp(uTime - uBurstTime[i], -1.0, 4.0);
     vec3 bd = pos - uBurstPos[i];
     float bdist = length(bd);
-    float w = exp(-pow((bdist - bt * 5.5) * 1.8, 2.0)) * exp(-bt * 1.8)
+    float r = (bdist - bt * 5.5) * 1.8;
+    float w = exp(-r * r) * exp(-bt * 1.8)
       * step(0.0, bt) * step(bt, 3.0);
     pos += (bd / max(bdist, 0.0001)) * w * 1.5;
     wave += w;
@@ -212,7 +214,10 @@ void main() {
     if (i >= uAvoidCount) break;
     avoid = min(avoid, smoothstep(-32.0, 96.0, rectDistance(screenPos, uAvoidRects[i])));
   }
-  vAlpha *= mix(0.1, 1.0, avoid);
+  // イントロのワードマーク中・章単語の形成中は回避減光を無効化する
+  // （粒子が描く文字に矩形の欠けが出るのを防ぐ）
+  float avoidApply = smoothstep(0.0, 1.0, uIntro) * (1.0 - wordMix);
+  vAlpha *= mix(1.0, mix(0.1, 1.0, avoid), avoidApply);
 
   float hue = clamp(base.x * 0.12 + 0.5 + (aRandom - 0.5) * 0.3, 0.0, 1.0);
   vColor = mix(uColorA, uColorB, hue);
@@ -227,8 +232,9 @@ varying float vVel;
 
 void main() {
   vec2 uv = gl_PointCoord - 0.5;
-  // スクロール速度で縦に伸びるストリーク（モーションブラー風）
-  uv.y /= (1.0 + vVel * 1.6);
+  // スクロール速度で縦長に見せるストリーク（モーションブラー風）。
+  // gl_PointCoordの矩形外は描けないため、yを伸ばすのではなくxを絞る
+  uv.x *= (1.0 + vVel * 1.6);
   float d = length(uv);
   float mask = smoothstep(0.5, 0.12, d);
   float core = smoothstep(0.18, 0.0, d) * 0.7;

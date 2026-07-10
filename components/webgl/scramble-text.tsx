@@ -33,7 +33,9 @@ export function ScrambleText({
         let out = ""
         for (let i = 0; i < text.length; i++) {
           const ch = text[i]
-          if (i < solved || ch === " " || ch === "/") {
+          // 日本語などの非ASCII文字はスクランブルせず即確定
+          // （等幅でも全角/半角で幅が揺れてジッターになるため）
+          if (i < solved || ch === " " || ch === "/" || ch.charCodeAt(0) > 126) {
             out += ch
           } else {
             out += CHARSET[Math.floor(Math.random() * CHARSET.length)]

@@ -75,8 +75,8 @@ function CameraRig() {
     cam.position.y += (ty - cam.position.y) * k
     cam.position.z += (tz - cam.position.z) * k
     cam.lookAt(0, 0, 0)
-    // スクロール速度FOVキック（疾走感）
-    const fovTarget = 50 + storyState.scrollVelocity * 5
+    // スクロール速度FOVキック（疾走感）。章0はターミナル収束の整合を守るため無効
+    const fovTarget = 50 + storyState.scrollVelocity * 5 * Math.min(1, t)
     if (Math.abs(cam.fov - fovTarget) > 0.02) {
       cam.fov += (fovTarget - cam.fov) * Math.min(1, delta * 4)
       cam.updateProjectionMatrix()
@@ -131,10 +131,19 @@ export default function WebglScene() {
     window.addEventListener("resize", remeasure)
     // フォント読込等でレイアウトが動くため少し遅れて再計測
     const t = setTimeout(remeasure, 1200)
+    // アコーディオン開閉などレイアウト高さの変化にも追従（debounce付き）
+    let debounce: ReturnType<typeof setTimeout> | undefined
+    const ro = new ResizeObserver(() => {
+      clearTimeout(debounce)
+      debounce = setTimeout(remeasure, 200)
+    })
+    ro.observe(document.body)
     return () => {
       window.removeEventListener("scroll", update)
       window.removeEventListener("resize", remeasure)
       clearTimeout(t)
+      clearTimeout(debounce)
+      ro.disconnect()
     }
   }, [])
 

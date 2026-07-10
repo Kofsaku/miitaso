@@ -21,7 +21,8 @@ export function ParticleField({ count }: { count: number }) {
   const geometryRef = useRef<THREE.BufferGeometry>(null)
   const appliedVersion = useRef(-1)
   const mouse = useRef({ x: 0, y: 0 })
-  const burstSeq = useRef(0)
+  // 品質degrade再マウント時に過去クリックが幻発火しないよう現在seqから開始
+  const burstSeq = useRef(storyState.burst.seq)
   const burstSlot = useRef(0)
   const wordChapter = useRef(-1)
   const prevMouse = useRef(new THREE.Vector2(0, 0))
@@ -96,8 +97,9 @@ export function ParticleField({ count }: { count: number }) {
       mouse.current.x = e.clientX
       mouse.current.y = e.clientY
     }
-    // クリック衝撃波（どこをクリックしても粒子に波が走る）
+    // クリック衝撃波（マウス/ペンのみ。タッチはスクロール操作のたびに発火して煩いため除外）
     const onDown = (e: PointerEvent) => {
+      if (e.pointerType === "touch") return
       storyState.burst.x = e.clientX
       storyState.burst.y = e.clientY
       storyState.burst.seq += 1
@@ -109,6 +111,14 @@ export function ParticleField({ count }: { count: number }) {
       window.removeEventListener("pointerdown", onDown)
     }
   }, [])
+
+  // 章ワードを事前ラスタライズしてスクロール中の同期生成ジャンクを防ぐ
+  useEffect(() => {
+    const t = setTimeout(() => {
+      for (let c = 1; c < 7; c++) chapterWordTarget(c, count)
+    }, 800)
+    return () => clearTimeout(t)
+  }, [count])
 
   useFrame((state, delta) => {
     const mat = materialRef.current
