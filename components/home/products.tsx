@@ -29,18 +29,16 @@ const products: Product[] = [
     linkLabel: "サイトを見る",
   },
   {
-    tag: "EDUCATION",
-    name: "マイクラ English",
+    tag: "AI / MUSIC",
+    name: "compo-kun",
     description:
-      "「遊んでたら、英語ができてた。」をコンセプトにした、マインクラフト×英語学習サービスです。",
-    href: "/minecraft-english",
-    linkLabel: "サイトを見る",
+      "AIで作曲から編集までできる音楽制作プロダクトです。楽譜の作成・取り込みにも対応しています。ご希望の方にはデモをご案内しています。",
   },
   {
-    tag: "INTERNAL SYSTEM",
-    name: "物件管理システム",
+    tag: "AI / PICTURE BOOK",
+    name: "picture-book",
     description:
-      "物件・ブローカー情報を一元管理する社内基幹システムです。認証・権限管理を備えています。",
+      "AIでオリジナルの絵本を作れるプロダクトです。実際に動くプロダクトとして運用しています。",
   },
 ]
 

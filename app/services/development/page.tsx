@@ -150,9 +150,9 @@ const cases = [
   },
   {
     category: "自社プロダクト",
-    title: "物件管理システム",
+    title: "picture-book",
     description:
-      "物件・ブローカー情報を一元管理する社内基幹システムを自社開発。認証・権限管理を備え、実際に運用しています。",
+      "AIでオリジナルの絵本を作れるプロダクトを自社開発し、実際に動くプロダクトとして運用しています。",
   },
 ]
 
@@ -282,7 +282,7 @@ export default function DevelopmentServicePage() {
             <Reveal delay={100}>
               <Stat
                 value="8位 → 2位"
-                label="データ連携基盤の構築で車両掲載台数（業界順位）"
+                label="検索順位（自社開発のマーケティングツールでSEO改善を実現）"
               />
             </Reveal>
             <Reveal delay={200}>
