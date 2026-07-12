@@ -6,6 +6,18 @@ const CAMERA_FOV = 50
 const CAMERA_DIST = 9
 
 /**
+ * 現在のビューポートで英単語が横幅に収まる worldWidth を返す。
+ * 広い画面では従来通り8。縦長のスマホ/タブレットでは可視幅に合わせて
+ * 単語を縮め、全文字が画面内に収まるようにする（見切れ防止）。
+ */
+function fitWordWidth(): number {
+  if (typeof window === "undefined") return 8
+  const aspect = window.innerWidth / window.innerHeight
+  const plane = visiblePlaneSize(CAMERA_FOV, CAMERA_DIST, aspect)
+  return Math.min(8, plane.width * 0.82)
+}
+
+/**
  * 任意のテキストを2Dキャンバスにラスタライズして粒子座標に変換する。
  * ブラウザ専用。失敗時は null。
  */
@@ -53,7 +65,7 @@ export function rasterizeText(
  * 「miitaso」ワードマークを粒子目標に変換する（イントロ演出用）。
  */
 export function applyWordmarkTarget(count = 4000): void {
-  const out = rasterizeText("miitaso", count)
+  const out = rasterizeText("miitaso", count, fitWordWidth())
   if (!out) return // ラスタライズ失敗時はワードマークなしで進む
   runtimeTargets.wordmark = out
   runtimeTargets.version += 1
@@ -76,10 +88,12 @@ const wordCache = new Map<string, Float32Array>()
 export function chapterWordTarget(chapter: number, count: number): Float32Array | null {
   const word = CHAPTER_WORDS[chapter]
   if (!word) return null
-  const key = `${word}:${count}`
+  const w = fitWordWidth()
+  // 画面幅バケットをキーに含め、リサイズで別幅になったら再ラスタライズする
+  const key = `${word}:${count}:${Math.round(w * 4)}`
   const cached = wordCache.get(key)
   if (cached) return cached
-  const out = rasterizeText(word, count, 8, 29 + chapter)
+  const out = rasterizeText(word, count, w, 29 + chapter)
   if (!out) return null
   wordCache.set(key, out)
   return out
