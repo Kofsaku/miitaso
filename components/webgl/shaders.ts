@@ -93,6 +93,7 @@ varying float vAlpha;
 varying vec3 vColor;
 varying float vBurst;
 varying float vVel;
+varying float vWord;
 
 ${simplexNoise}
 
@@ -148,7 +149,8 @@ void main() {
 
   // 章境界タイポグラフィ: 遷移の中間で粒子が次章の英単語を描いて溶ける。
   // 形成量はCPU側（particle-field）が台形ベル＋残像リンガーで計算して渡す
-  float wordMix = uWordMix * uWordActive * step(aRandom, 0.65);
+  // 参加率を上げ（0.88）、文字を高密度・鮮明なタイポグラフィとして立たせる
+  float wordMix = uWordMix * uWordActive * step(aRandom, 0.88);
   base = mix(base, aWord, wordMix);
 
   // イントロ: ワードマーク → 物語へ
@@ -157,7 +159,7 @@ void main() {
   // スクロール速度でゆらぎを増幅（速く動かすほど粒子が乱れる）。
   // 単語形成中はゆらぎを絞って文字を鮮明に保つ
   float amp = mix(noiseAmpFor(uFrom), noiseAmpFor(uTo), m)
-    * (1.0 + uVelocity * 1.4) * (1.0 - wordMix * 0.8);
+    * (1.0 + uVelocity * 1.4) * (1.0 - wordMix * 0.92);
   vec3 noisePos = base * 0.35 + uTime * 0.06;
   vec3 wobble = vec3(
     snoise(noisePos),
@@ -193,15 +195,16 @@ void main() {
   vec4 mv = modelViewMatrix * vec4(pos, 1.0);
   gl_Position = projectionMatrix * mv;
 
+  // 単語形成中の粒径は控えめに（小さく密なほど文字が鮮明。過大だと白飛び）
   float size = uSize * (0.6 + aRandom * 0.8)
-    * (1.0 + wave * 1.2) * (1.0 + uVelocity * 0.35) * (1.0 + wordMix * 0.4);
+    * (1.0 + wave * 1.2) * (1.0 + uVelocity * 0.35) * (1.0 + wordMix * 0.45);
   gl_PointSize = size * uPixelRatio * (14.0 / -mv.z);
 
   // 奥行きで減衰（被写界深度風）。単語形成・ターミナル収束は増光する
   float depth = clamp((-mv.z - 4.0) / 14.0, 0.0, 1.0);
-  float glowBoost = 1.0 + wordMix * 0.5
+  float glowBoost = 1.0 + wordMix * 0.85
     + convergeAmount() * step(float(uFrom), 0.5) * (1.0 - m) * 0.4;
-  vAlpha = mix(0.72, 0.18, depth) * glowBoost;
+  vAlpha = mix(0.9, 0.24, depth) * glowBoost;
   vVel = uVelocity;
 
   // テキストゾーン回避: 見出し・本文の矩形に重なる粒子を減光する
@@ -216,12 +219,17 @@ void main() {
     avoid = min(avoid, smoothstep(-32.0, 96.0, rectDistance(screenPos, uAvoidRects[i])));
   }
   // イントロのワードマーク中・章単語の形成中は回避減光を無効化する
-  // （粒子が描く文字に矩形の欠けが出るのを防ぐ）
+  // （粒子が描く文字に矩形の欠けが出るのを防ぐ）。
+  // 減光の底=0.3: 見出し・本文の直下では粒子を抑えて可読性を確保しつつ、
+  // 全体を明るくした分、テキストのない開放領域では演出が沈まない
   float avoidApply = smoothstep(0.0, 1.0, uIntro) * (1.0 - wordMix);
-  vAlpha *= mix(1.0, mix(0.1, 1.0, avoid), avoidApply);
+  vAlpha *= mix(1.0, mix(0.3, 1.0, avoid), avoidApply);
 
   float hue = clamp(base.x * 0.12 + 0.5 + (aRandom - 0.5) * 0.3, 0.0, 1.0);
   vColor = mix(uColorA, uColorB, hue);
+  // 単語形成中は白熱側へ寄せ、暗い背景に鮮明なタイポグラフィとして浮かせる
+  vColor = mix(vColor, vec3(0.82, 0.93, 1.0), wordMix * 0.4);
+  vWord = wordMix;
 }
 `
 
@@ -230,6 +238,7 @@ varying float vAlpha;
 varying vec3 vColor;
 varying float vBurst;
 varying float vVel;
+varying float vWord;
 
 void main() {
   vec2 uv = gl_PointCoord - 0.5;
@@ -238,8 +247,15 @@ void main() {
   uv.x *= (1.0 + vVel * 1.6);
   float d = length(uv);
   float mask = smoothstep(0.5, 0.12, d);
-  float core = smoothstep(0.18, 0.0, d) * 0.7;
-  vec3 col = vColor * (0.7 + core) + vec3(0.5, 0.7, 1.0) * vBurst;
-  gl_FragColor = vec4(col, (mask * 0.42 + core) * vAlpha + vBurst * 0.3 * mask);
+  // 発光コアを広げ、中心を白熱させて「塵」ではなく「光点」に見せる
+  float core = smoothstep(0.24, 0.0, d);
+  vec3 col = vColor * (0.85 + core * 0.7)
+    + mix(vColor, vec3(1.0), 0.6) * core * 0.55   // in-hueの白熱コア
+    + vec3(0.5, 0.7, 1.0) * vBurst;
+  // 単語形成中はソフトなハロを削り、発光する点の集合＝粒子で文字を描く質感にする
+  // （ハロを残すと文字内部が塗り潰れて"すりガラス"化するのを防ぐ）
+  float halo = mask * mix(0.5, 0.16, vWord);
+  float a = (halo + core * 0.9) * vAlpha + vBurst * 0.3 * mask;
+  gl_FragColor = vec4(col, a);
 }
 `

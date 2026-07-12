@@ -42,10 +42,11 @@ export function Section({
       {decoration}
       {variant === "transparent" ? (
         // 粒子キャンバスを透かすセクションでは、テキスト域の背景輝度を
-        // 安定させる薄いスクリムを敷く（粒子の気配は周縁に残す）
+        // 安定させるスクリムを敷く。中心を強め・床(0.22)を広げてテキストの
+        // 可読性を確保しつつ、端はフェードさせて章間ギャップの演出を残す
         <div
           aria-hidden
-          className="absolute inset-0 bg-[radial-gradient(80%_70%_at_50%_45%,rgba(3,7,18,0.62)_0%,rgba(3,7,18,0.28)_62%,transparent_100%)]"
+          className="absolute inset-0 bg-[radial-gradient(96%_82%_at_50%_42%,rgba(3,7,18,0.78)_0%,rgba(3,7,18,0.5)_46%,rgba(3,7,18,0.22)_78%,transparent_100%)]"
         />
       ) : null}
       <div className="container relative px-4 md:px-6">

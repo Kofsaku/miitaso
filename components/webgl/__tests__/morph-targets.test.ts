@@ -61,12 +61,12 @@ describe("generateShape", () => {
       expect(Math.abs(sy / n - centers[c][1])).toBeLessThan(0.4)
     }
   })
-  it("graphは4本の棒（xが±3/±1の近傍に集まる）", () => {
+  it("graphは4本の棒（xが±3.6/±1.2の近傍に集まる）", () => {
     const p = generateShape("graph", 2000)
-    const cols = [-3, -1, 1, 3]
+    const cols = [-3.6, -1.2, 1.2, 3.6]
     for (let i = 0; i < p.length; i += 3) {
       const nearest = Math.min(...cols.map((c) => Math.abs(p[i] - c)))
-      expect(nearest).toBeLessThanOrEqual(0.7)
+      expect(nearest).toBeLessThanOrEqual(0.4)
     }
   })
   it("CHAPTER_SHAPESは7章分", () => {

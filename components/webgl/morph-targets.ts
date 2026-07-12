@@ -119,16 +119,17 @@ function wireframe(count: number, rand: () => number): Float32Array {
   return out
 }
 
-/** 立ち上がる4本の棒グラフ */
+/** 立ち上がる4本の棒グラフ（右肩上がり＝実績の成長）。列を締めてバーを明確に */
 function graph(count: number, rand: () => number): Float32Array {
   const out = new Float32Array(count * 3)
-  const cols = [-3, -1, 1, 3]
-  const heights = [1.4, 2.1, 2.9, 3.7]
+  const cols = [-3.6, -1.2, 1.2, 3.6]
+  const heights = [1.5, 2.4, 3.2, 4.0]
   for (let i = 0; i < count; i++) {
     const c = i % 4
-    out[i * 3] = cols[c] + (rand() * 2 - 1) * 0.55
-    out[i * 3 + 1] = -2.1 + rand() * heights[c]
-    out[i * 3 + 2] = (rand() * 2 - 1) * 0.4
+    // 横方向のジッターを締めて柱として読ませる（端はわずかに柔らかく）
+    out[i * 3] = cols[c] + (rand() * 2 - 1) * 0.34
+    out[i * 3 + 1] = -2.2 + rand() * heights[c]
+    out[i * 3 + 2] = (rand() * 2 - 1) * 0.3
   }
   return out
 }

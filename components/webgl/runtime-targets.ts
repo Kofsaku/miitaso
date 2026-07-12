@@ -29,8 +29,10 @@ export function rasterizeText(
   ctx.fillText(text, 300, 80)
   const img = ctx.getImageData(0, 0, 600, 160).data
   const pts: number[] = []
-  for (let y = 0; y < 160; y += 2) {
-    for (let x = 0; x < 600; x += 2) {
+  // サンプル間隔を広げると、同じ粒子数がより少ない目標点へ集まり、
+  // 文字が「塗り」ではなく「発光する点の集合」として粒子感を保つ
+  for (let y = 0; y < 160; y += 3) {
+    for (let x = 0; x < 600; x += 3) {
       if (img[(y * 600 + x) * 4 + 3] > 128) pts.push(x, y)
     }
   }

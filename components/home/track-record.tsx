@@ -115,7 +115,7 @@ export function TrackRecord() {
         <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {cases.map((item, i) => (
             <Reveal key={item.title} delay={i * 60} className="h-full">
-              <div className="flex h-full flex-col rounded-xl border border-white/10 bg-[#050a18]/70 p-5 backdrop-blur transition hover:border-sky-400/40 hover:bg-[#0a1226]/70">
+              <div className="flex h-full flex-col rounded-xl border border-white/10 bg-[#050a18]/80 p-5 backdrop-blur-md transition hover:border-sky-400/40 hover:bg-[#0a1226]/80">
                 <span className="inline-flex w-fit items-center rounded-full border border-sky-400/20 bg-sky-400/10 px-2.5 py-0.5 text-xs text-sky-300">
                   {item.tag}
                 </span>
