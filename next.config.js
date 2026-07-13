@@ -18,12 +18,12 @@ const nextConfig = {
       // Old page redirects
       {
         source: '/features',
-        destination: '/services',
+        destination: '/services/ai',
         permanent: true,
       },
       {
         source: '/features/',
-        destination: '/services',
+        destination: '/services/ai',
         permanent: true,
       },
       {
@@ -48,12 +48,12 @@ const nextConfig = {
       },
       {
         source: '/contact-us',
-        destination: '/contact',
+        destination: '/#contact',
         permanent: true,
       },
       {
         source: '/contact-us/',
-        destination: '/contact',
+        destination: '/#contact',
         permanent: true,
       },
       {
@@ -68,7 +68,7 @@ const nextConfig = {
       },
       {
         source: '/careers',
-        destination: '/contact',
+        destination: '/#contact',
         permanent: true,
       },
     ]
@@ -92,6 +92,25 @@ const nextConfig = {
           {
             key: 'Permissions-Policy',
             value: 'camera=(), microphone=(), geolocation=(), interest-cohort=()',
+          },
+          // CSP: Next(inline)・reCAPTCHA(google/gstatic)・GA(googletagmanager/google-analytics)
+          // ・WebGL(blob worker)・粒子/グレイン(data:)を許可した実用的ポリシー。
+          {
+            key: 'Content-Security-Policy',
+            value: [
+              "default-src 'self'",
+              "base-uri 'self'",
+              "object-src 'none'",
+              "frame-ancestors 'self'",
+              "form-action 'self'",
+              "img-src 'self' data: blob: https:",
+              "font-src 'self' data:",
+              "style-src 'self' 'unsafe-inline'",
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google.com https://www.gstatic.com https://www.googletagmanager.com https://www.google-analytics.com",
+              "connect-src 'self' https://www.google.com https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://*.google-analytics.com",
+              "frame-src https://www.google.com",
+              "worker-src 'self' blob:",
+            ].join('; '),
           },
         ],
       },

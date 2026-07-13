@@ -37,7 +37,8 @@
     "sonner": "^1.7.4",
     "tailwind-merge": "^2.2.1",
     "tailwindcss-animate": "^1.0.7",
-    "three": "^0.169.0"
+    "three": "^0.169.0",
+    "undici": "^8.7.0"
   },
   "devDependencies": {
     "@types/node": "^20.11.0",

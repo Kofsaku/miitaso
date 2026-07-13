@@ -40,8 +40,9 @@ export async function chat(opts: ChatOpts): Promise<ChatResult> {
       signal: controller.signal,
     })
     if (!res.ok) {
-      const body = await res.text()
-      throw new Error(`openai_${res.status}: ${body.slice(0, 300)}`)
+      // 上流の生レスポンス本文はログに残さない（ステータスのみ）
+      await res.text().catch(() => "")
+      throw new Error(`openai_${res.status}`)
     }
     const data = await res.json()
     const msg = data?.choices?.[0]?.message

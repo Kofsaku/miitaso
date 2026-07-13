@@ -23,8 +23,9 @@ const stats = [
   },
   {
     value: "160",
-    suffix: "社以上",
-    label: "これまでに対応したクライアント・案件数",
+    prefix: "約",
+    suffix: "社",
+    label: "新規事業から開発・改修まで、累計の支援実績",
   },
 ]
 
@@ -55,7 +56,7 @@ const cases = [
     tag: "中古車関連",
     title: "車両在庫管理DX",
     description:
-      "在庫情報の管理・掲載が手作業のボトルネックでした。在庫管理システム・検索・管理画面を複数開発し、Webからの引き合いにつながる状態へ。同業の実績が積み上がり、紹介が業界内で回り始めています。",
+      "在庫情報の管理・掲載が手作業のボトルネックでした。在庫管理システム・検索・管理画面を複数開発し、Webからの引き合いにつながる状態へ。同業の実績が積み上がり、次の商談ではデモをすぐ見せられる状態になっています。",
   },
   {
     tag: "自治体",
@@ -96,6 +97,7 @@ export function TrackRecord() {
           <Reveal key={stat.label} delay={i * 80}>
             <Stat
               value={stat.value}
+              prefix={stat.prefix}
               suffix={stat.suffix}
               label={stat.label}
               valueClassName={statValueClass}

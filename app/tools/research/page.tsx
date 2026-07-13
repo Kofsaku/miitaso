@@ -26,6 +26,7 @@ export default function ResearchToolPage() {
         loadingLabel="調査中"
         resultType="markdown"
         maxLength={500}
+        ariaLabel="事業アイデア"
         recaptchaAction="tool_research"
         samples={[
           "高齢者向けの見守り宅配弁当",

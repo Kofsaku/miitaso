@@ -27,6 +27,8 @@ export type ToolFormProps = {
   maxLength: number
   recaptchaAction: string
   samples?: string[]
+  /** 入力欄のアクセシブルなラベル */
+  ariaLabel?: string
   /** 結果の上に出す注意書き（任意） */
   note?: string
 }
@@ -100,6 +102,7 @@ export function ToolForm(props: ToolFormProps) {
   }
 
   const hasResult = markdown || security
+  const ariaLabel = props.ariaLabel ?? (props.inputName === "url" ? "チェックするURL" : "入力内容")
 
   return (
     <div className="mx-auto max-w-3xl">
@@ -109,6 +112,7 @@ export function ToolForm(props: ToolFormProps) {
             value={value}
             onChange={(e) => setValue(e.target.value.slice(0, props.maxLength))}
             placeholder={props.placeholder}
+            aria-label={ariaLabel}
             rows={4}
             className="w-full resize-y rounded-xl border border-white/10 bg-white/[0.04] p-4 text-white placeholder:text-slate-500 focus:border-sky-400/50 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
           />
@@ -119,6 +123,7 @@ export function ToolForm(props: ToolFormProps) {
             value={value}
             onChange={(e) => setValue(e.target.value.slice(0, props.maxLength))}
             placeholder={props.placeholder}
+            aria-label={ariaLabel}
             className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3.5 text-white placeholder:text-slate-500 focus:border-sky-400/50 focus:outline-none focus:ring-2 focus:ring-sky-400/30"
           />
         )}
@@ -140,7 +145,7 @@ export function ToolForm(props: ToolFormProps) {
         )}
 
         <div className="mt-4 flex items-center justify-between gap-4">
-          <span className="font-mono text-xs text-slate-500">
+          <span className="font-mono text-xs text-slate-400">
             {value.length}/{props.maxLength}
           </span>
           <button
@@ -150,7 +155,7 @@ export function ToolForm(props: ToolFormProps) {
           >
             {loading ? (
               <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                <Loader2 aria-hidden className="mr-2 h-4 w-4 animate-spin" />
                 {props.loadingLabel}
               </>
             ) : (
@@ -158,18 +163,25 @@ export function ToolForm(props: ToolFormProps) {
             )}
           </button>
         </div>
-        {props.note && <p className="mt-4 text-xs leading-relaxed text-slate-500">{props.note}</p>}
+        {props.note && <p className="mt-4 text-xs leading-relaxed text-slate-400">{props.note}</p>}
       </form>
 
       {error && (
-        <div className="mt-4 rounded-xl border border-rose-400/20 bg-rose-400/5 px-4 py-3 text-sm text-rose-200">
+        <div
+          role="alert"
+          className="mt-4 rounded-xl border border-rose-400/20 bg-rose-400/5 px-4 py-3 text-sm text-rose-200"
+        >
           {error}
         </div>
       )}
 
       {loading && !hasResult && (
-        <div className="mt-6 flex items-center gap-3 rounded-2xl border border-white/10 bg-[#050a18]/50 px-6 py-8 text-slate-400">
-          <Loader2 className="h-5 w-5 animate-spin text-sky-400" />
+        <div
+          role="status"
+          aria-live="polite"
+          className="mt-6 flex items-center gap-3 rounded-2xl border border-white/10 bg-[#050a18]/50 px-6 py-8 text-slate-400"
+        >
+          <Loader2 aria-hidden className="h-5 w-5 animate-spin text-sky-400" />
           <span>{props.loadingLabel}（数十秒かかることがあります）</span>
         </div>
       )}

@@ -26,6 +26,7 @@ export default function IdeaCheckToolPage() {
         loadingLabel="診断中"
         resultType="markdown"
         maxLength={600}
+        ariaLabel="事業アイデア"
         recaptchaAction="tool_idea"
         samples={[
           "職人向けのマッチングアプリ",
