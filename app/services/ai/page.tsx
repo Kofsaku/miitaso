@@ -135,10 +135,10 @@ const steps = [
 const cases = [
   {
     category: "自社プロダクト",
-    title: "research — AI市場調査bot",
+    title: "research — AI市場調査ツール",
     description:
-      "LINEで事業アイデアを送ると、AIエージェント（Claude）が市場調査してレポートを自動生成・公開するbot。LINE Webhook（Vercel）から Neon、Claude調査ワーカー、LINE push通知まで、自社で設計・運用しています。",
-    result: "数分でレポートを自動生成",
+      "事業アイデアを入力すると、AIがWeb検索で市場規模・競合・参入障壁・最初に確かめることを調べ、概算金額と出典つきの簡易レポートを生成する自社ツール。サイト上で公開し、どなたでも試せます。",
+    result: "数十秒でレポートを自動生成",
   },
   {
     category: "AIコール領域",
@@ -199,9 +199,9 @@ export default function AiServicePage() {
               AI導入。
             </>
           }
-          lead="AIを業務に取り入れたいが、何から始めるべきか分からない。その段階からのご相談で構いません。業務分析から運用定着まで、自社でAIエージェントを本番運用しているチームが支援します。"
+          lead="AIを業務に取り入れたいが、何から始めるべきか分からない。その段階からのご相談で構いません。業務分析から運用定着まで、自らAIツールを作って公開しているチームが支援します。"
           bullets={[
-            "AIエージェント「research」を自社で開発し、本番運用しています",
+            "AIによる市場調査ツール「research」を自社で開発し、サイトで公開しています",
             "LINE・Salesforce・Gmail など既存システムとのAPI連携実績があります",
             "要件定義から運用まで一気通貫で担当します",
           ]}
@@ -211,7 +211,7 @@ export default function AiServicePage() {
           items={pains}
         />
         <OfferGrid
-          lead="自社プロダクト「research」でAIエージェントを開発・運用している経験をもとに、構想から定着までを4つのフェーズで支援します。"
+          lead="自社でAIツール「research」を開発・公開している経験をもとに、構想から定着までを4つのフェーズで支援します。"
           items={offers}
         />
         <StepFlow

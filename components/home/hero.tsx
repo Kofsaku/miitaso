@@ -5,15 +5,14 @@ import { Magnetic } from "@/components/webgl/magnetic"
 import { ScrambleText } from "@/components/webgl/scramble-text"
 
 const terminalLines: TerminalLine[] = [
-  { prompt: "$", text: 'LINE: "research 食品ECに参入したい"', done: true },
-  { text: "✓ webhook verified", instant: true, className: "text-emerald-400" },
+  { prompt: "$", text: 'research "食品ECに参入したい"', done: true },
   {
-    text: "⠿ Claude agent: 市場規模・競合・参入障壁を調査中…",
+    text: "⠿ Web検索でソースを収集し、市場規模・競合・参入障壁を分析中…",
     instant: true,
     className: "text-slate-400",
   },
-  { text: "✓ レポート生成完了（数分）", instant: true, className: "text-emerald-400" },
-  { text: "✓ 公開 → miitaso.com/research/****", instant: true, className: "text-sky-400" },
+  { text: "✓ 概算金額と出典つきでレポート生成（数十秒）", instant: true, className: "text-emerald-400" },
+  { text: "→ miitaso.com/tools/research で、今すぐ試せます", instant: true, className: "text-sky-400" },
 ]
 
 /**
@@ -95,7 +94,7 @@ export function Hero() {
             style={{ animationDelay: "1600ms" }}
             data-terminal-anchor
           >
-            <Terminal title="miitaso — research bot" lines={terminalLines} />
+            <Terminal title="miitaso — AI市場調査ツール" lines={terminalLines} />
           </div>
         </div>
       </div>
