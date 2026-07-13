@@ -50,7 +50,7 @@ const faqs = [
  */
 export function Faq() {
   return (
-    <Section id="faq" variant="transparent" chapter="06 次はあなた" className="scroll-mt-16">
+    <Section id="faq" variant="transparent" chapter="06 ご相談" className="scroll-mt-16">
       <SectionHeading
         label="FAQ"
         title="よくある質問"

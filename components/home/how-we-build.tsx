@@ -1,4 +1,5 @@
 import { Fragment } from "react"
+import Link from "next/link"
 import { ArrowLeftRight, ArrowRight } from "lucide-react"
 import { GridBackground } from "@/components/corporate/backgrounds"
 import { Reveal } from "@/components/corporate/reveal"
@@ -12,25 +13,24 @@ type FlowNode = {
   connector?: "arrow" | "both"
 }
 
-/** research bot の実アーキテクチャ（事実シート記載の構成） */
+/** このサイトで実際に動いている「AI市場調査ツール」の構成 */
 const flowNodes: FlowNode[] = [
-  { caption: "INPUT", name: "LINE", sub: "事業アイデアを送信" },
-  { caption: "VERCEL", name: "Webhook", sub: "署名検証", connector: "arrow" },
-  { caption: "DATABASE", name: "Neon (Postgres)", sub: "ジョブ・レポート管理", connector: "arrow" },
-  { caption: "AI WORKER", name: "Claude 調査ワーカー", sub: "市場調査・レポート生成", connector: "both" },
+  { caption: "INPUT", name: "このサイト", sub: "事業アイデアを入力" },
+  { caption: "SERVER", name: "Vercel / API", sub: "miitaso.com", connector: "arrow" },
+  { caption: "AI", name: "OpenAI", sub: "Web検索・分析", connector: "both" },
   {
     caption: "OUTPUT",
-    name: "自動公開 + LINE push通知",
-    sub: "miitaso.com/research",
+    name: "市場調査レポート",
+    sub: "その場で表示",
     connector: "arrow",
   },
 ]
 
 const notes = [
   {
-    title: "本番で動くAIエージェント",
+    title: "このサイトで動くAIツール",
     description:
-      "LINEのWebhook受信と署名検証、ジョブ管理、Claudeによる調査・執筆、レポートの自動公開まで。この図の構成は、実際に本番で運用しているものです。",
+      "上の図は、このページの『無料ツール』にある AI市場調査 の実際の構成です。私たちが作って動かしているものを、登録不要でその場で試せます——「作れる」を言葉でなく手触りで。",
   },
   {
     title: "課題定義が9割",
@@ -44,7 +44,7 @@ const notes = [
  */
 export function HowWeBuild() {
   return (
-    <Section variant="transparent" chapter="02 実装" decoration={<GridBackground fade />}>
+    <Section variant="transparent" chapter="02 考え方" decoration={<GridBackground fade />}>
       <SectionHeading
         label="OUR APPROACH"
         title={
@@ -56,15 +56,24 @@ export function HowWeBuild() {
             にすぎません
           </>
         }
-        lead="成果を分けるのは、どの業務に・何のために組み込むかという課題定義です。そのうえで、使い切る技術力は証拠でお見せします。LINEに事業アイデアを送るとAIエージェントが市場調査レポートを自動公開する自社bot『research』——本番運用中の構成です。"
+        lead="成果を分けるのは、どの業務に・何のために組み込むかという課題定義です。そのうえで、使い切る技術力は「実際に動くもの」で示します。下の図は、このサイトで動かしているAI市場調査ツールの構成です。今すぐ試せます。"
       />
 
       {/* アーキテクチャ図 */}
       <Reveal>
         <div className="rounded-2xl border border-white/10 bg-[#050a18]/70 p-5 backdrop-blur md:p-8">
-          <p className="mb-6 font-mono text-xs text-slate-400">
-            research — production architecture
-          </p>
+          <div className="mb-6 flex items-center justify-between gap-4">
+            <p className="font-mono text-xs text-slate-400">
+              ai market research — live architecture
+            </p>
+            <Link
+              href="/tools/research"
+              className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-sky-400/30 bg-sky-400/10 px-3 py-1 text-xs font-medium text-sky-300 transition hover:bg-sky-400/20"
+            >
+              実際に試す
+              <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
+          </div>
           <div className="flex flex-col gap-2 lg:flex-row lg:items-stretch lg:gap-3">
             {flowNodes.map((node) => (
               <Fragment key={node.name}>

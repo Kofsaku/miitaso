@@ -12,19 +12,13 @@ type Product = {
   linkLabel?: string
 }
 
-/** 事実シート「自社プロダクト」の4つ */
+/** 事実シート「自社プロダクト」。AIツール群は別セクション（無料ツール）に集約 */
 const products: Product[] = [
-  {
-    tag: "AI AGENT / LINE BOT",
-    name: "research",
-    description:
-      "LINEで事業アイデアを送ると、AIエージェント（Claude）が市場調査を行い、数分でレポートを自動生成して公開するbotです。LINE Webhook（署名検証）、Neon（Postgres）、Claude調査ワーカーで構成しています。",
-  },
   {
     tag: "REAL ESTATE / GLOBAL",
     name: "Japan Property",
     description:
-      "海外投資家向けに日本の温泉地物件を紹介する英語サイトです。多言語対応のLPと問い合わせ導線を備えています。",
+      "海外投資家に向けて、日本の温泉地の物件を英語で紹介するサイト。多言語のランディングページと、そのまま問い合わせにつながる導線をひとつに束ねています。",
     href: "/lp/japan-property",
     linkLabel: "サイトを見る",
   },
@@ -32,13 +26,13 @@ const products: Product[] = [
     tag: "AI / MUSIC",
     name: "compo-kun",
     description:
-      "AIで作曲から編集までできる音楽制作プロダクトです。楽譜の作成・取り込みにも対応しています。ご希望の方にはデモをご案内しています。",
+      "作曲から編集までをAIで行える音楽制作プロダクト。かんたんな指定から曲を組み立て、楽譜の作成・取り込みにも対応します。ご希望の方にはデモをご案内しています。",
   },
   {
     tag: "AI / PICTURE BOOK",
     name: "picture-book",
     description:
-      "AIでオリジナルの絵本を作れるプロダクトです。実際に動くプロダクトとして運用しています。",
+      "つくりたい物語を入れると、AIが文章と挿絵からオリジナルの絵本を組み立てるプロダクト。実際に動く形まで作り込んでいます。",
   },
 ]
 
@@ -50,7 +44,7 @@ export function Products() {
     <Section
       id="products"
       variant="transparent"
-      chapter="03 成果物"
+      chapter="03 プロダクト"
       className="scroll-mt-16"
       decoration={<Glow className="-top-24 left-0 bg-violet-500/15" />}
     >
@@ -64,9 +58,9 @@ export function Products() {
             </span>
           </>
         }
-        lead="助言だけで終わらない証拠に。自分たちでも事業とプロダクトを作り、本番で運用しています。その経験をクライアントワークに還元しています。"
+        lead="助言だけで終わらない証拠に。自分たちでも事業とプロダクトを作り、動かしています。そこで得た手触りを、そのままクライアントワークに還元しています。"
       />
-      <div className="grid gap-6 md:grid-cols-2">
+      <div className="grid gap-6 md:grid-cols-3">
         {products.map((product, i) => (
           <Reveal key={product.name} delay={i * 80} className="h-full">
             <div className="flex h-full flex-col rounded-2xl border border-white/10 bg-[#050a18]/70 p-8 backdrop-blur transition hover:-translate-y-1 hover:border-sky-400/40 hover:bg-[#0a1226]/70">

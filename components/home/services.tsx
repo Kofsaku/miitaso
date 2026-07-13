@@ -48,7 +48,7 @@ export function Services() {
     <Section
       id="services"
       variant="transparent"
-      chapter="01 設計"
+      chapter="01 サービス"
       className="scroll-mt-16"
       decoration={<Glow className="-top-24 right-0" />}
     >

@@ -28,49 +28,46 @@ const stats = [
   },
 ]
 
-/** 事実シート「匿名事例」から8件 */
+/**
+ * 匿名事例。case-library.md（公開可）由来。各件を「課題 → 打ち手 → 成果 → 私たちの価値」
+ * の物語で。数値成果は事実シートにある範囲のみ（捏造しない）。実名・生金額は出さない。
+ */
 const cases = [
   {
-    tag: "自治体",
-    title: "電子通貨アプリ",
-    description: "ITコンサルタントとして要件定義を担当しました。",
-  },
-  {
-    tag: "B2B繊維商社",
-    title: "ECサイト刷新",
-    description: "Shopify開発PMとして改修・新機能開発を推進しました。",
+    tag: "新規事業支援",
+    title: "事業仮説を60案から数案へ",
+    description:
+      "広いテーマだけがある状態から60案以上を生成し、1案ずつ市場規模・競合・規制を調査。“具体的な除外理由つき”で数案に絞り込み、「自分たちでは出ない視点」と評価されました。捨てた理由こそが、確度の証明になります。",
   },
   {
     tag: "運送・物流SaaS",
-    title: "データ連携基盤",
+    title: "データ連携基盤の構築",
     description:
-      "Salesforce API連携・スクレイピング基盤を単独構築。自社開発のマーケティングツールでサイトの検索順位を業界8位から2位に引き上げました。",
+      "在庫データが集まらず、プラットフォームが伸び悩んでいました。API連携とスクレイピングの基盤を要件定義から運用まで一人で構築し、サイトの検索順位を業界8位→2位へ。機能より“配管”が勝敗を分けました。",
+  },
+  {
+    tag: "ペットオーナー向けSNS",
+    title: "開発コストの再設計",
+    description:
+      "他社見積が過大だった案件。要件定義から実装までを分業せず一人で貫き、他社見積の25%のコストで実現しました。作れるコンサルは、見積もりそのものを設計し直せます。",
   },
   {
     tag: "中古車関連",
     title: "車両在庫管理DX",
-    description: "在庫管理システムをはじめ、業務システムを多数開発しました。",
+    description:
+      "在庫情報の管理・掲載が手作業のボトルネックでした。在庫管理システム・検索・管理画面を複数開発し、Webからの引き合いにつながる状態へ。同業の実績が積み上がり、紹介が業界内で回り始めています。",
+  },
+  {
+    tag: "自治体",
+    title: "電子通貨アプリの要件定義",
+    description:
+      "公共領域は、要件のあいまいさが後工程の手戻り・コストに直結します。ITコンサルタントとして上流の要件定義を担当。“作れる人間が上流を握る”ことの価値が、最も出る領域です。",
   },
   {
     tag: "マーケティング支援",
-    title: "SFA / CRMツール",
+    title: "分断された顧客管理の統合",
     description:
-      "LINE・Instagram DM・Outlook・Gmail連携の顧客管理・ステップ配信ツールを開発しました。",
-  },
-  {
-    tag: "ペットオーナー向けSNS",
-    title: "Flutterアプリ開発",
-    description: "他社見積の25%のコストで開発を実現しました。",
-  },
-  {
-    tag: "AIライブ配信",
-    title: "配信アプリ",
-    description: "配信中にAIが自動でコメントするライブ配信アプリを開発しました。",
-  },
-  {
-    tag: "動画",
-    title: "自動クリップ生成ツール",
-    description: "YouTubeのURLからショートクリップを自動生成するツールを開発しました。",
+      "LINE・Instagram DM・Outlook・Gmailと窓口が分かれ、顧客管理とステップ配信が回らない状態。各チャネルを統合するSFA / CRMツールを開発しました。非効率は“機能不足”より“分断”から生まれます。",
   },
 ]
 
@@ -112,7 +109,7 @@ export function TrackRecord() {
         <p className="font-mono text-xs uppercase tracking-[0.25em] text-slate-400">
           SELECTED WORK
         </p>
-        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {cases.map((item, i) => (
             <Reveal key={item.title} delay={i * 60} className="h-full">
               <div className="flex h-full flex-col rounded-xl border border-white/10 bg-[#050a18]/80 p-5 backdrop-blur-md transition hover:border-sky-400/40 hover:bg-[#0a1226]/80">
