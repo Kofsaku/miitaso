@@ -4,6 +4,7 @@ import { SiteFooter } from "@/components/corporate/site-footer"
 import { Hero } from "@/components/home/hero"
 import { TechMarquee } from "@/components/home/tech-marquee"
 import { PainPoints } from "@/components/home/pain-points"
+import { Tools } from "@/components/home/tools"
 import { Services } from "@/components/home/services"
 import { HowWeBuild } from "@/components/home/how-we-build"
 import { Products } from "@/components/home/products"
@@ -69,6 +70,7 @@ export default function Home() {
         <div data-story-chapter="3">
           <Products />
         </div>
+        <Tools />
         <div data-story-chapter="4">
           <TrackRecord />
         </div>

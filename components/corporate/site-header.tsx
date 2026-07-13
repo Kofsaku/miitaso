@@ -10,6 +10,7 @@ const navItems = [
   { label: "AI導入支援", href: "/services/ai" },
   { label: "ソフトウェア開発", href: "/services/development" },
   { label: "新規事業支援", href: "/services/new-business" },
+  { label: "無料ツール", href: "/tools" },
   { label: "会社概要", href: "/about" },
 ]
 

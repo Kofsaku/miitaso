@@ -82,6 +82,17 @@ const nextConfig = {
             key: 'Strict-Transport-Security',
             value: 'max-age=31536000; includeSubDomains; preload',
           },
+          // クリックジャッキング防止（自ドメイン埋め込みのみ許可）
+          { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
+          // MIMEスニッフィング防止
+          { key: 'X-Content-Type-Options', value: 'nosniff' },
+          // リファラのURL情報漏洩を抑制
+          { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+          // 使わない強権限を既定で無効化
+          {
+            key: 'Permissions-Policy',
+            value: 'camera=(), microphone=(), geolocation=(), interest-cohort=()',
+          },
         ],
       },
     ]
