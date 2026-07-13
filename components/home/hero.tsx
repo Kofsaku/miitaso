@@ -55,7 +55,7 @@ export function Hero() {
               className="corp-fade-in-up mt-6 max-w-xl leading-relaxed text-slate-300"
               style={{ animationDelay: "800ms" }}
             >
-              提案書で終わるコンサルと、言われた通りに作る開発会社。その間を埋めるのが私たちです。経営課題の定義から、システムの実装・運用まで、エンジニア出身のコンサルタントが一貫して成果に伴走します。
+              「AIで何かしたいが、何から手をつければいいか分からない」——いちばん多いご相談です。効く業務を見極めるところから、実装・運用まで。提案書で終わるコンサルでも、言われた通りに作る開発会社でもなく、エンジニア出身のコンサルタントが成果まで伴走します。
             </p>
             <div
               className="corp-fade-in-up mt-10 flex flex-col gap-4 sm:flex-row"
@@ -80,6 +80,13 @@ export function Hero() {
                 </Link>
               </Magnetic>
             </div>
+            <p
+              data-particle-avoid
+              className="corp-fade-in-up mt-5 text-sm text-slate-400"
+              style={{ animationDelay: "1150ms" }}
+            >
+              「何から始めればいいか分からない」段階でも大丈夫です。相談は無料です。
+            </p>
           </div>
 
           {/* research bot の実フロー再現ターミナル（粒子収束の着地点） */}

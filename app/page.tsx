@@ -3,6 +3,7 @@ import { SiteHeader } from "@/components/corporate/site-header"
 import { SiteFooter } from "@/components/corporate/site-footer"
 import { Hero } from "@/components/home/hero"
 import { TechMarquee } from "@/components/home/tech-marquee"
+import { PainPoints } from "@/components/home/pain-points"
 import { Services } from "@/components/home/services"
 import { HowWeBuild } from "@/components/home/how-we-build"
 import { Products } from "@/components/home/products"
@@ -58,6 +59,7 @@ export default function Home() {
           <Hero />
         </div>
         <TechMarquee />
+        <PainPoints />
         <div data-story-chapter="1">
           <Services />
         </div>

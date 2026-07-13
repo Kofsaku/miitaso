@@ -127,7 +127,7 @@ export function Contact() {
           <SectionHeading
             label="CONTACT"
             title="お問い合わせ"
-            lead="AI導入のご相談、アプリ開発のご依頼、新規事業のご相談など、お気軽にお問い合わせください。相談は無料です。"
+            lead="「何から始めればいいか分からない」段階・相談だけでも歓迎です。AI導入・アプリ開発・新規事業のご相談など、お気軽にお問い合わせください。相談は無料です。"
             align="center"
           />
 
