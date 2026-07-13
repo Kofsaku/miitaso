@@ -34,35 +34,32 @@ const tools: Tool[] = [
   },
 ]
 
-/** 実際に作って動かしているプロダクト（事実シート準拠） */
-type Product = { tag: string; name: string; description: string; href?: string; linkLabel?: string }
-const products: Product[] = [
+/** 受託・コンサルとは別に、自社で手がけている事業（AIプロダクトを自分たちで事業にしている） */
+type Venture = { tag: string; name: string; description: string }
+const ventures: Venture[] = [
   {
-    tag: "REAL ESTATE / GLOBAL",
-    name: "Japan Property",
+    tag: "EDUCATION",
+    name: "子ども向け 英語×プログラミング教育",
     description:
-      "海外投資家に向けて、日本の温泉地の物件を英語で紹介するサイト。多言語のLPと、そのまま問い合わせにつながる導線を束ねています。",
-    href: "/lp/japan-property",
-    linkLabel: "サイトを見る",
+      "マインクラフトを教材に、子どもが英語で試行錯誤しながらプログラミングを学ぶ教育事業。",
   },
   {
     tag: "AI / MUSIC",
-    name: "compo-kun",
+    name: "AI作曲・編曲・楽譜作成",
     description:
-      "作曲から編集までをAIで行える音楽制作プロダクト。かんたんな指定から曲を組み立て、楽譜の作成・取り込みにも対応します。ご希望の方にはデモをご案内しています。",
+      "自社のAIプロダクト『compo-kun』を使い、作曲から編曲・楽譜作成までを手がける音楽事業。",
   },
   {
     tag: "AI / PICTURE BOOK",
-    name: "picture-book",
+    name: "AIオリジナル絵本の制作",
     description:
-      "つくりたい物語を入れると、AIが文章と挿絵からオリジナルの絵本を組み立てるプロダクト。実際に動く形まで作り込んでいます。",
+      "自社のAIツール『picture-book』を使い、一人ひとりに合わせたオリジナル絵本をつくる事業。",
   },
 ]
 
 /**
- * 自社プロダクト＆ツール（旧Products＋旧無料ツールを統合）。
- * 「助言だけで終わらない証拠」＝自分たちで作って動かしているもの。
- * その場で試せるツールと、運用中のプロダクトを1セクションに。id="products"。
+ * 「助言だけで終わらない証拠」。自分たちでツールを作り、AIで自社の事業もやっている。
+ * その場で試せるツールと、自社で手がける事業を1セクションに。id="products"。
  */
 export function Products() {
   return (
@@ -74,16 +71,16 @@ export function Products() {
       decoration={<Glow className="-top-24 left-0 bg-violet-500/15" />}
     >
       <SectionHeading
-        label="PRODUCTS & TOOLS"
+        label="TOOLS & VENTURES"
         title={
           <>
-            自分たちで作って、
+            作る側であり、
             <span className="bg-gradient-to-r from-sky-400 via-blue-500 to-violet-500 bg-clip-text text-transparent">
-              動かしています
+              やる側でもある
             </span>
           </>
         }
-        lead="助言だけで終わらせない証拠に、自社でも事業とプロダクトを作り、運用しています。いくつかは、この場で試せます。"
+        lead="助言だけで終わらせない証拠に、自分たちでAIツールを作り、AIを使った事業も手がけています。ツールは、この場で試せます。"
       />
 
       {/* その場で試せるツール */}
@@ -115,31 +112,19 @@ export function Products() {
         ))}
       </div>
 
-      {/* 自社で作ったプロダクト */}
+      {/* 自社で手がける事業 */}
       <p className="mb-5 mt-14 font-mono text-xs uppercase tracking-[0.2em] text-slate-400">
-        自社プロダクト
+        自社で手がける事業
       </p>
       <div className="grid gap-6 md:grid-cols-3">
-        {products.map((product, i) => (
-          <Reveal key={product.name} delay={i * 80} className="h-full">
+        {ventures.map((v, i) => (
+          <Reveal key={v.name} delay={i * 80} className="h-full">
             <div className="flex h-full flex-col rounded-2xl border border-white/10 bg-[#050a18]/70 p-8 backdrop-blur transition hover:-translate-y-1 hover:border-sky-400/40 hover:bg-[#0a1226]/70">
               <span className="font-mono text-xs uppercase tracking-[0.2em] text-sky-400">
-                {product.tag}
+                {v.tag}
               </span>
-              <h3 className="mt-3 text-xl font-semibold text-white">{product.name}</h3>
-              <p className="mt-3 flex-1 text-sm leading-relaxed text-slate-400">
-                {product.description}
-              </p>
-              {product.href ? (
-                <Link
-                  href={product.href}
-                  data-cursor-label="VIEW"
-                  className="mt-6 inline-flex items-center text-sm font-medium text-sky-400 transition hover:text-sky-300"
-                >
-                  {product.linkLabel}
-                  <ArrowRight className="ml-1.5 h-4 w-4" />
-                </Link>
-              ) : null}
+              <h3 className="mt-3 text-xl font-semibold text-white">{v.name}</h3>
+              <p className="mt-3 flex-1 text-sm leading-relaxed text-slate-400">{v.description}</p>
             </div>
           </Reveal>
         ))}

@@ -6,10 +6,13 @@ export type Quality = {
   maxDpr: number
 }
 
+// high と mid は粒子数を揃える（count が同じなら key={quality.count} が変わらず
+// 劣化時に ParticleField を再マウントしない＝ガクつきが出ない）。
+// 最初の劣化は Bloom(postfx) を落とし DPR を下げるだけで大きく軽くなる。
 const TIERS: Record<Quality["tier"], Quality> = {
-  high: { tier: "high", count: 24000, postfx: true, maxDpr: 1.75 },
-  mid: { tier: "mid", count: 12000, postfx: false, maxDpr: 1.5 },
-  low: { tier: "low", count: 4500, postfx: false, maxDpr: 1.5 },
+  high: { tier: "high", count: 16000, postfx: true, maxDpr: 1.5 },
+  mid: { tier: "mid", count: 16000, postfx: false, maxDpr: 1.25 },
+  low: { tier: "low", count: 4500, postfx: false, maxDpr: 1.25 },
 }
 
 export function resolveQuality(env: {
