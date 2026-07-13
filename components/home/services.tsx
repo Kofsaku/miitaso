@@ -19,7 +19,7 @@ const services: ServiceItem[] = [
     label: "AI INTEGRATION",
     title: "AI導入支援",
     description:
-      "業務のどこにAIが効くのかの見極めから、Claude・OpenAIを使った機能実装、導入後の運用まで支援します。自社でAIプロダクトを開発・運用しているからこそ、できること・できないことを踏まえた現実的な提案をします。",
+      "業務のどこにAIが効くかの見極めから、Claude・OpenAIを使った機能実装、導入後の運用まで。自社でもAIを開発・運用しているからこそ、できること・できないことを踏まえた現実的な提案をします。",
     href: "/services/ai",
   },
   {

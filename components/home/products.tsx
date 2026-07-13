@@ -115,9 +115,9 @@ export function Products() {
         ))}
       </div>
 
-      {/* 運用中のプロダクト */}
+      {/* 自社で作ったプロダクト */}
       <p className="mb-5 mt-14 font-mono text-xs uppercase tracking-[0.2em] text-slate-400">
-        運用中のプロダクト
+        自社プロダクト
       </p>
       <div className="grid gap-6 md:grid-cols-3">
         {products.map((product, i) => (

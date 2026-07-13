@@ -85,7 +85,7 @@ export function Hero() {
               className="corp-fade-in-up mt-5 text-sm text-slate-400"
               style={{ animationDelay: "1150ms" }}
             >
-              「何から始めればいいか分からない」段階でも大丈夫です。相談は無料です。
+              アイデア段階・構想段階のご相談でも構いません。秘密は厳守します。
             </p>
           </div>
 

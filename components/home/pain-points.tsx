@@ -29,7 +29,7 @@ export function PainPoints() {
             </span>
           </>
         }
-        lead="ひとつでも当てはまれば、まずは頭の整理からご一緒します。相談は無料です。"
+        lead="ひとつでも当てはまれば、まずは頭の整理からご一緒します。"
       />
       <div data-particle-avoid className="grid gap-4 sm:grid-cols-2">
         {painPoints.map((text, i) => (
