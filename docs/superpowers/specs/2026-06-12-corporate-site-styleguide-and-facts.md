@@ -89,7 +89,7 @@ Next.js / React / TypeScript / Node.js / Python / Ruby / PHP / Flutter / Postgre
 
 ### 自社プロダクト（実在。アーキテクチャも公開可）
 
-1. **research** — LINEで事業アイデアを送ると、AIエージェント（Claude）が市場調査して数分でレポートを自動生成し miitaso.com/research/ に公開するbot。構成: LINE Webhook(Vercel・署名検証) → Neon(Postgres) → Claude調査ワーカー → LINE push通知
+1. **research（AI市場調査ツール）** — サイト内 /tools/research で事業アイデアを入力すると、AIがWeb検索で市場規模・競合・参入障壁・最初に確かめることを調べ、概算金額と出典つきの簡易レポートを即時生成。構成: Next.js APIルート(Vercel) → OpenAI(gpt-4o-search-preview・Web検索)を同期呼び出し、結果はインライン表示（DB保存なし）。濫用対策=Neonにツール別IP日次＋グローバル日次のアトミックなレート制限。同じ /tools 配下に「新規事業アイデア診断」「セキュリティ簡易チェック」も公開。※旧LINE bot版（LINE Webhook→Neon→Claudeワーカー→LINE push→miitaso.com/research/ 公開）は2026-07-13に廃止
 2. **Japan Property** — 海外投資家向け・日本の温泉地物件の英語サイト（多言語LP+問い合わせ）
 3. **compo-kun** — AIで作曲・編集ができる音楽制作プロダクト。楽譜の作成・取り込みに対応。ほぼ動作しており希望者にはデモ案内可（2026-07-10追加。本番運用とまでは言い切らない）
 4. **picture-book** — AIでオリジナル絵本を作れるプロダクト。実際に動いている・公開URLあり（2026-07-10追加。サイトからの動線は張らない方針）

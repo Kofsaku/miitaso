@@ -71,6 +71,18 @@ const nextConfig = {
         destination: '/#contact',
         permanent: true,
       },
+      // 旧LINE bot版の公開レポート /research/* は廃止。既存リンク（リードマグネット等）を
+      // 404にせず、実際に試せる新ツール /tools/research へ恒久リダイレクトして生かす。
+      {
+        source: '/research',
+        destination: '/tools/research',
+        permanent: true,
+      },
+      {
+        source: '/research/:slug*',
+        destination: '/tools/research',
+        permanent: true,
+      },
     ]
   },
   async headers() {
