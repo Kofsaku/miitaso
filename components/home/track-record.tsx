@@ -2,12 +2,13 @@ import { Reveal } from "@/components/corporate/reveal"
 import { Section, SectionHeading } from "@/components/corporate/section"
 import { Stat } from "@/components/corporate/stat"
 
-const statValueClass = "text-3xl font-bold tracking-tight text-white sm:text-4xl md:text-5xl"
+// 4列レイアウト用。狭い列で長い和文値（最短1週間 / 2,000万円+）が溢れないよう最大text-4xlに抑える
+const statValueClass = "text-3xl font-bold tracking-tight text-white sm:text-4xl"
 
 /**
- * 掲載する数値実績（3つ）。ターゲット（コンサル・受託開発会社の裏方）に刺さる「速さ」を主軸に。
- * 25%・8位→2位は個社（顧客）の成果なので見出しから外し、下のSELECTED WORKで見せる。
- * ※コストを載せる場合は「累計コスト削減 2,000万円以上」が安全に言える範囲（300万→100万×約10件）。
+ * 掲載する数値実績（4つ）。ターゲット（コンサル・受託の裏方）に刺さる「速さ」を軸に、規模・コストも。
+ * 25%・8位→2位は顧客(個社)の成果なので見出しから外し、下のSELECTED WORKで見せる。
+ * コスト削減額は「他社見積との差額の積み上げ（複数案件）」の安全域として2,000万円以上を掲載。
  */
 const stats = [
   {
@@ -25,6 +26,11 @@ const stats = [
     prefix: "約",
     suffix: "社",
     label: "新規事業から開発・改修まで、累計の支援実績。",
+  },
+  {
+    value: "2,000",
+    suffix: "万円+",
+    label: "累計コスト削減額。他社見積との差額を、複数の案件で積み上げた実績です。",
   },
 ]
 
@@ -91,7 +97,7 @@ export function TrackRecord() {
       />
 
       {/* スタッツ */}
-      <div data-particle-avoid className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-3">
+      <div data-particle-avoid className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat, i) => (
           <Reveal key={stat.label} delay={i * 80}>
             <Stat

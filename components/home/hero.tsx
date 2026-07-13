@@ -79,10 +79,31 @@ export function Hero() {
                 </Link>
               </Magnetic>
             </div>
+            <div
+              data-particle-avoid
+              className="corp-fade-in-up mt-6 flex flex-wrap items-center gap-x-3 gap-y-2 text-xs text-slate-400"
+              style={{ animationDelay: "1150ms" }}
+            >
+              <span>
+                モック・要件定義 <span className="font-semibold text-white">最短1週間</span>
+              </span>
+              <span aria-hidden className="text-slate-600">
+                /
+              </span>
+              <span>
+                発注から納品まで <span className="font-semibold text-white">最短1ヶ月</span>
+              </span>
+              <span aria-hidden className="text-slate-600">
+                /
+              </span>
+              <span>
+                累計 <span className="font-semibold text-white">約160社</span>
+              </span>
+            </div>
             <p
               data-particle-avoid
               className="corp-fade-in-up mt-5 text-sm text-slate-400"
-              style={{ animationDelay: "1150ms" }}
+              style={{ animationDelay: "1300ms" }}
             >
               アイデア段階・構想段階のご相談でも構いません。秘密は厳守します。
             </p>
