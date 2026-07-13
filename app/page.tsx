@@ -4,12 +4,10 @@ import { SiteFooter } from "@/components/corporate/site-footer"
 import { Hero } from "@/components/home/hero"
 import { TechMarquee } from "@/components/home/tech-marquee"
 import { PainPoints } from "@/components/home/pain-points"
-import { Tools } from "@/components/home/tools"
 import { Services } from "@/components/home/services"
-import { HowWeBuild } from "@/components/home/how-we-build"
-import { Products } from "@/components/home/products"
-import { TrackRecord } from "@/components/home/track-record"
 import { Process } from "@/components/home/process"
+import { TrackRecord } from "@/components/home/track-record"
+import { Products } from "@/components/home/products"
 import { Faq } from "@/components/home/faq"
 import { Contact } from "@/components/home/contact"
 import { StageLoader } from "@/components/webgl/stage-loader"
@@ -60,22 +58,20 @@ export default function Home() {
           <Hero />
         </div>
         <TechMarquee />
-        <PainPoints />
         <div data-story-chapter="1">
-          <Services />
+          <PainPoints />
         </div>
         <div data-story-chapter="2">
-          <HowWeBuild />
+          <Services />
         </div>
         <div data-story-chapter="3">
-          <Products />
+          <Process />
         </div>
-        <Tools />
         <div data-story-chapter="4">
           <TrackRecord />
         </div>
         <div data-story-chapter="5">
-          <Process />
+          <Products />
         </div>
         <div data-story-chapter="6">
           <Faq />

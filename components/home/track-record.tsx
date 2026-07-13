@@ -17,11 +17,6 @@ const stats = [
     label: "検索順位（自社開発のマーケティングツールでSEO改善を実現）",
   },
   {
-    value: "3",
-    suffix: "カ国",
-    label: "オフショア開発PM（ベトナム・バングラデシュ・シンガポール）",
-  },
-  {
     value: "160",
     prefix: "約",
     suffix: "社",
@@ -35,40 +30,40 @@ const stats = [
  */
 const cases = [
   {
-    tag: "新規事業支援",
-    title: "事業仮説を60案から数案へ",
-    description:
-      "広いテーマだけがある状態から60案以上を生成し、1案ずつ市場規模・競合・規制を調査。“具体的な除外理由つき”で数案に絞り込み、「自分たちでは出ない視点」と評価されました。捨てた理由こそが、確度の証明になります。",
-  },
-  {
     tag: "運送・物流SaaS",
-    title: "データ連携基盤の構築",
-    description:
-      "在庫データが集まらず、プラットフォームが伸び悩んでいました。API連携とスクレイピングの基盤を要件定義から運用まで一人で構築し、サイトの検索順位を業界8位→2位へ。機能より“配管”が勝敗を分けました。",
+    problem: "掲載される車両が集まらず、プラットフォームとしての厚みが出ない。",
+    action: "他社システムとのAPI連携とスクレイピングで、在庫データを自動で集める基盤を、要件定義から運用まで一人で構築。",
+    result: "サイトの検索順位を、業界8位から2位へ。",
   },
   {
     tag: "ペットオーナー向けSNS",
-    title: "開発コストの再設計",
-    description:
-      "他社見積が過大だった案件。要件定義から実装までを分業せず一人で貫き、他社見積の25%のコストで実現しました。作れるコンサルは、見積もりそのものを設計し直せます。",
+    problem: "作りたいアプリはあるが、他社の見積もりが高すぎて動けない。",
+    action: "要件定義から実装までを分業せず一人で担当。工程を分けないことで、伝達ロスも中間コストも削減。",
+    result: "他社見積の25%のコストで形にしました。",
   },
   {
-    tag: "中古車関連",
-    title: "車両在庫管理DX",
-    description:
-      "在庫情報の管理・掲載が手作業のボトルネックでした。在庫管理システム・検索・管理画面を複数開発し、Webからの引き合いにつながる状態へ。同業の実績が積み上がり、次の商談ではデモをすぐ見せられる状態になっています。",
+    tag: "中古車・中古トラック販売",
+    problem: "車両在庫を人手で管理・掲載していて、Webからの問い合わせにもつながらない。",
+    action: "在庫管理・検索・掲載を一つにしたシステムを複数開発。納品済みのコードは同業向けのデモにも転用。",
+    result: "手作業を減らし、ネット経由の引き合いを取れる状態に。",
   },
   {
     tag: "自治体",
-    title: "電子通貨アプリの要件定義",
-    description:
-      "公共領域は、要件のあいまいさが後工程の手戻り・コストに直結します。ITコンサルタントとして上流の要件定義を担当。“作れる人間が上流を握る”ことの価値が、最も出る領域です。",
+    problem: "電子通貨（地域通貨）アプリ。公共ゆえ、要件のあいまいさが手戻り・コストに直結する。",
+    action: "ITコンサルタントとして、上流の要件定義を担当。作る前に仕様を固める。",
+    result: "後工程の手戻りを抑える、上流の設計を担いました。",
   },
   {
     tag: "マーケティング支援",
-    title: "分断された顧客管理の統合",
-    description:
-      "LINE・Instagram DM・Outlook・Gmailと窓口が分かれ、顧客管理とステップ配信が回らない状態。各チャネルを統合するSFA / CRMツールを開発しました。非効率は“機能不足”より“分断”から生まれます。",
+    problem: "LINE・Instagram DM・Outlook・Gmailと問い合わせ窓口がバラバラで、顧客管理もフォローも回らない。",
+    action: "これらを1つに統合する顧客管理・ステップ配信ツール（SFA / CRM）を開発。",
+    result: "バラバラだった顧客接点が、ひとつの流れになりました。",
+  },
+  {
+    tag: "海外メーカー（新規事業）",
+    problem: "「移動を楽しくする」という広いテーマだけがあり、社内の意思決定を動かせない。",
+    action: "60以上の案を出し、1案ずつ市場・競合・規制を調べて“なぜ見送るか”まで提示しながら数案に絞り込み。",
+    result: "「自分たちでは出ない視点」と評価され、実行前提の相談へ。アイデアでなく“動ける判断”を渡します。",
   },
 ]
 
@@ -92,7 +87,7 @@ export function TrackRecord() {
       />
 
       {/* スタッツ */}
-      <div data-particle-avoid className="grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-4">
+      <div data-particle-avoid className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-3">
         {stats.map((stat, i) => (
           <Reveal key={stat.label} delay={i * 80}>
             <Stat
@@ -113,15 +108,25 @@ export function TrackRecord() {
         </p>
         <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {cases.map((item, i) => (
-            <Reveal key={item.title} delay={i * 60} className="h-full">
-              <div className="flex h-full flex-col rounded-xl border border-white/10 bg-[#050a18]/80 p-5 backdrop-blur-md transition hover:border-sky-400/40 hover:bg-[#0a1226]/80">
+            <Reveal key={item.tag} delay={i * 60} className="h-full">
+              <div className="flex h-full flex-col gap-4 rounded-xl border border-white/10 bg-[#050a18]/80 p-6 backdrop-blur-md transition hover:border-sky-400/40 hover:bg-[#0a1226]/80">
                 <span className="inline-flex w-fit items-center rounded-full border border-sky-400/20 bg-sky-400/10 px-2.5 py-0.5 text-xs text-sky-300">
                   {item.tag}
                 </span>
-                <h3 className="mt-3 text-base font-semibold text-white">{item.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-slate-400">
-                  {item.description}
-                </p>
+                <div className="space-y-3 text-sm leading-relaxed">
+                  <p className="text-slate-300">
+                    <span className="mr-2 font-mono text-[10px] uppercase tracking-wider text-slate-500">課題</span>
+                    {item.problem}
+                  </p>
+                  <p className="text-slate-300">
+                    <span className="mr-2 font-mono text-[10px] uppercase tracking-wider text-slate-500">対応</span>
+                    {item.action}
+                  </p>
+                  <p className="mt-auto border-t border-white/10 pt-3 font-medium text-white">
+                    <span className="mr-2 font-mono text-[10px] uppercase tracking-wider text-sky-400">成果</span>
+                    {item.result}
+                  </p>
+                </div>
               </div>
             </Reveal>
           ))}

@@ -40,7 +40,7 @@ export function Process() {
       lead="「作れます」で終わらせません。作る前に“何を作らないか”を見極め、要所は必ず人が握る——同じチームがヒアリングから運用まで一気通貫で担当するからこそできる進め方です。"
       steps={steps}
       variant="transparent"
-      chapter="05 進め方"
+      chapter="03 進め方"
     />
   )
 }

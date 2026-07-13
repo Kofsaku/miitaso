@@ -48,7 +48,7 @@ export function Services() {
     <Section
       id="services"
       variant="transparent"
-      chapter="01 サービス"
+      chapter="02 サービス"
       className="scroll-mt-16"
       decoration={<Glow className="-top-24 right-0" />}
     >
@@ -90,6 +90,24 @@ export function Services() {
           </Reveal>
         ))}
       </div>
+
+      {/* 立場（旧OUR APPROACHの思想をここに集約） */}
+      <Reveal>
+        <div className="mt-10 rounded-2xl border border-white/10 bg-[#050a18]/60 p-8 backdrop-blur">
+          <p className="text-lg font-semibold text-white sm:text-xl">
+            AIは、
+            <span className="bg-gradient-to-r from-sky-400 via-blue-500 to-violet-500 bg-clip-text text-transparent">
+              道具
+            </span>
+            にすぎません。
+          </p>
+          <p className="mt-3 max-w-3xl leading-relaxed text-slate-300">
+            成否を分けるのは、モデルの性能ではなく「どの業務に、何のために入れるか」という課題定義です。私たちは技術の手前にある業務分析から入り、
+            <span className="text-white">効かない場所には「AIを入れない」</span>
+            と正直にお伝えします。
+          </p>
+        </div>
+      </Reveal>
     </Section>
   )
 }

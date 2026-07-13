@@ -72,14 +72,15 @@ export function applyWordmarkTarget(count = 4000): void {
 }
 
 /** 章境界タイポグラフィ: 到達章(to)ごとに粒子が描く英単語 */
+// 章＝セクション＝背景ワードを一致させる。空文字の章はワードを出さない（＝中身とズレない）。
 export const CHAPTER_WORDS = [
-  "THINK", // 00 思考（toとしては未使用だが添字を揃える）
-  "DESIGN", // 01 設計
-  "BUILD", // 02 実装
-  "PRODUCT", // 03 成果物
+  "THINK", // 00 Hero（toとしては未使用）
+  "", // 01 こんなこと（課題）＝ワードなし
+  "SOLVE", // 02 サービス
+  "PROCESS", // 03 進め方
   "PROOF", // 04 実績
-  "PROCESS", // 05 進め方
-  "YOUR TURN", // 06 次はあなた
+  "PRODUCT", // 05 自社プロダクト＆ツール
+  "YOUR TURN", // 06 ご相談
 ] as const
 
 const wordCache = new Map<string, Float32Array>()

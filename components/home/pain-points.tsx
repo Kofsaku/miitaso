@@ -9,19 +9,21 @@ import { Section, SectionHeading } from "@/components/corporate/section"
  */
 const painPoints = [
   "AIで何かしたいが、自社の何に使えるか分からない",
-  "アイデアはあるが、本当に儲かるのか相談できる相手がいない",
-  "業者に頼むと、結局こちらが全部決めないといけない",
+  "ウチみたいな商売でも、AIは使えるのだろうか",
+  "アイデアはあるが、これでいいのか自信がない",
+  "相談できる相手がいない",
+  "業者に頼むと、結局こちらが全部決めることになる",
   "前に作ってもらったが、思っていたものと違った",
 ]
 
 export function PainPoints() {
   return (
-    <Section variant="transparent">
+    <Section variant="transparent" chapter="01 課題" className="scroll-mt-16">
       <SectionHeading
         label="CHECKLIST"
         title={
           <>
-            こんな状態、
+            こんなこと、
             <span className="bg-gradient-to-r from-sky-400 via-blue-500 to-violet-500 bg-clip-text text-transparent">
               ありませんか？
             </span>
