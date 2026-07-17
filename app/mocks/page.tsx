@@ -13,7 +13,7 @@ import { Section, SectionHeading } from "@/components/corporate/section"
 
 const MOCK_A_URL = "https://kuon-brewery.vercel.app"
 const MOCK_B_URL = "https://ruhe-skincare.vercel.app"
-const MOCK_C_URL = "https://tourism-matching-demo.vercel.app"
+const MOCK_C_URL = "https://tabiwa-shiomi.vercel.app"
 
 const CAL_URL = "https://cal.com/miitaso/10"
 const CONTACT_EMAIL = "kosaku.tsubata@miitaso.com"
@@ -129,9 +129,8 @@ const mocks: Mock[] = [
     segment: "新規事業 / 地域・観光",
     scenario:
       "地域の体験予約プラットフォーム新規事業。初回打ち合わせで、サービスの骨格を確定させる。",
-    highlight: "体験検索 → 詳細 → 予約の3クリック",
-    backstage: "運営・ガイド向けの予約管理ダッシュボードも",
-    buildTime: "制作 半日",
+    highlight: "港町の情景（スクロール演出）→ 体験を選ぶ → 予約の動線",
+    buildTime: "制作 1日",
     url: MOCK_C_URL,
     preview: {
       gradient:
